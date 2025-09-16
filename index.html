@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Artificial Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f8f9fa; /* Standaard achtergrondkleur voor fallback */
+        margin: 0;
+        padding: 0;
+        color: #333;
+        
+        min-height: 100vh; /* Zorg dat de body minimaal de viewport vult */
+        position: relative; /* Nodig voor positioning van het pseudo-element */
+        z-index: 1; /* Zorgt ervoor dat de content boven de achtergrond ligt */
+
+        /* SVG Achtergrond Instellen */
+        background-image: url('AIpic.png'); /* Verander dit pad indien nodig */
+        background-repeat: repeat; /* Herhaal de afbeelding */
+        background-size: auto; /* Of 'cover', 'contain', of specifieke afmetingen */
+        background-position: center center; /* Centreer de afbeelding */
+      }
+
+      /* Pseudo-element voor de lichtblauwe, doorschijnende overlay */
+      body::before {
+          content: '';
+          position: fixed; 
+          top: 0;
+          left: 0;
+          width: 100vw; 
+          height: 100vh; 
+          background-color: rgba(220, 240, 255, 0.7); /* VERANDERD: Heel lichtblauw (220, 240, 255) met 70% opaciteit */
+          z-index: -1; /* Plaats achter de body content, maar boven de background-image */
+      }
+
+      #sidebar, #right-sidebar {
+        width: 220px;
+        background-color: #e0e0e0;
+        padding: 16px;
+        font-size: 0.9em;
+        height: 100vh;
+        overflow-y: auto;
+        position: fixed; 
+        top: 0;
+      }
+
+      #sidebar {
+        left: 0;
+        border-right: 1px solid #ddd;
+      }
+      
+      #right-sidebar {
+        right: 0;
+        border-left: 1px solid #ddd;
+      }
+
+      #sidebar h2, #right-sidebar h2 {
+        font-size: 1.2rem;
+        margin-top: 0;
+      }
+
+      #sidebar ul, #right-sidebar ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      #sidebar ul li, #right-sidebar ul li {
+        margin: 10px 0;
+      }
+
+      #sidebar ul li a, #right-sidebar ul li a {
+        text-decoration: none;
+        color: #007acc;
+        display: inline-block;
+        padding: 4px 0;
+        cursor: pointer;
+      }
+
+      #sidebar ul li a:hover, #right-sidebar ul li a:hover {
+        text-decoration: underline;
+      }
+
+      #main-content {
+        margin-left: 250px; 
+        margin-right: 250px; 
+        padding: 2em;
+      }
+
+      /* Stijl voor de HOOFDTITEL van de pagina */
+      #main-content > h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 1.5em;
+        background-color: #e0e0e0;
+        padding: 0.5em;
+        border-radius: 5px;
+        border-bottom: 3px solid #007acc;
+      }
+      
+      /* Stijl voor H1-koppen BINNEN de geladen Markdown-content */
+      #markdown-display h1 {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        text-align: left;
+        color: #2c3e50;
+        margin-bottom: 1em;
+        font-size: 2em; /* Standaard H1-grootte */
+      }
+
+      #markdown-display {
+          border: 1px solid #007acc;
+          padding: 1.5em;
+          border-radius: 5px;
+          background-color: #ffffff;
+      }
+      
+      #main-content code {
+            font-family: 'Source Code Pro', monospace;
+            background-color: #f0f0f0;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+       }
+
+      #main-content pre code {
+            display: block;
+            padding: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
+       }
+    </style>
+</head>
+<body>
+  <div id="sidebar">
+    <button id="login-btn">Login met Google</button>
+    <button id="logout-btn" style="display:none;">Logout</button>
+    <p id="user-status">Je bent niet ingelogd.</p>
+    <h2>Presentaties</h2>
+    <ul>
+      <li>
+        <a href="./week%201/AI1.pdf">Week 1</a><a href="./week%201/AI1.pdf" download style="margin-left: 5px; vertical-align: middle;">
+          <img src="download-icon.jpg" alt="Download" width="16" height="16">
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div id="main-content">
+    <h1>Artificial Intelligence</h1>
+    <div id="markdown-display"></div>
+  </div>
+
+  <div id="right-sidebar">
+      <h2>Mededelingen</h2>
+      <ul id="markdown-list"></ul>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@2.0.0/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+    const markdownList = document.getElementById('markdown-list');
+    const markdownDisplay = document.getElementById('markdown-display');
+
+    // Functie om de inhoud van een Markdown-bestand te laden en weer te geven
+    function loadMarkdown(fileName) {
+        // We nemen aan dat de bestanden in een map 'mededelingen' staan
+        fetch(`mededelings/${fileName}.md`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Netwerk response was niet ok voor ${fileName}`);
+                }
+                return response.text();
+            })
+            .then(markdown => {
+                // Converteer Markdown naar HTML met marked.js
+                markdownDisplay.innerHTML = marked(markdown);
+                
+                // Pas syntax highlighting toe op alle codeblokken
+                const codeBlocks = markdownDisplay.querySelectorAll('pre code');
+                codeBlocks.forEach(hljs.highlightElement);
+            })
+            .catch(error => {
+                console.error('Fout bij het laden van het markdown-bestand:', error);
+                markdownDisplay.innerHTML = `<p>Kon het bestand '${fileName}.md' niet laden.</p>`;
+            });
+    }
+
+    // Functie om de lijst met bestanden te laden en de sidebar te vullen
+    function populateSidebar() {
+        // We nemen aan dat de lijst in 'mededelingen/list.txt' staat
+        fetch('mededelings/list.txt')
+            .then(response => response.text())
+            .then(text => {
+                const files = text.trim().split('\n').filter(file => file); // Filter lege regels
+                markdownList.innerHTML = ''; // Maak de lijst leeg
+
+                files.forEach(fileName => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.textContent = fileName.replace(/\.md$/, ''); // Toon naam zonder extensie
+                    a.onclick = () => loadMarkdown(fileName);
+                    li.appendChild(a);
+                    markdownList.appendChild(li);
+                });
+
+                // Laad het eerste bestand uit de lijst standaard
+                if (files.length > 0) {
+                    loadMarkdown(files[0]);
+                }
+            })
+            .catch(error => {
+                console.error('Fout bij het laden van list.txt:', error);
+                markdownList.innerHTML = '<li>Kon bestandslijst niet laden.</li>';
+            });
+    }
+
+    // Start het proces wanneer de pagina geladen is
+    document.addEventListener('DOMContentLoaded', populateSidebar);
+  </script>
+  
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDiFKn-cEt4P1fcCQ-CRM4LmbhpZ_Wzk6c",
+    authDomain: "tvit-opslag.firebaseapp.com",
+    projectId: "tvit-opslag",
+    storageBucket: "tvit-opslag.firebasestorage.app",
+    messagingSenderId: "829713718534",
+    appId: "1:829713718534:web:8edfca67c1cc20e418d287",
+    measurementId: "G-N8F083N3R4"
+  };
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  export const auth = getAuth(app);
+  export const db = getFirestore(app);
+  const loginBtn = document.getElementById('login-btn');
+  const logoutBtn = document.getElementById('logout-btn');
+  const userStatus = document.getElementById('user-status');
+
+// Login met Google
+loginBtn.addEventListener('click', () => {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      console.log("Succesvol ingelogd!", result.user);
+    })
+    .catch((error) => {
+      console.error("Login mislukt:", error);
+    });
+});
+
+// Logout
+logoutBtn.addEventListener('click', () => {
+  signOut(auth)
+    .then(() => {
+      console.log("Succesvol uitgelogd");
+    })
+    .catch((error) => {
+      console.error("Logout mislukt:", error);
+    });
+});
+
+// Luister naar veranderingen in de login-status
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Gebruiker is ingelogd
+    userStatus.textContent = `Ingelogd als: ${user.email}`;
+    loginBtn.style.display = 'none';
+    logoutBtn.style.display = 'block';
+  } else {
+    // Gebruiker is uitgelogd
+    userStatus.textContent = 'Je bent niet ingelogd.';
+    loginBtn.style.display = 'block';
+    logoutBtn.style.display = 'none';
+  }
+});
+  console.log("Firebase is succesvol geladen!");
+
+</script>
+</body>
+</html>
