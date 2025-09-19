@@ -1,7 +1,7 @@
 # Welkom bij Artificial Intelligence
 
 
-Dit is de leeromgeving voor de cursus Artificial Intelligence.
+Dit is de cursusomgeving voor de cursus Artificial Intelligence.
 Hier komen de presentaties en andere documenten van deze cursus te staan.
 
 De presentaties staan aan de linkerkant. Klik op 'Week ' om de presentatie direct te bekijken en op het download icoon ernaast om deze op te slaan.

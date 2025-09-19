@@ -1,7 +1,7 @@
 # Leerdoelen
 
-Het doel van de cursus is de cursist kennis laten maken rond de belangrijkste concepten rond AI.
-Hierbij komt zowel de geschiendeis aan de orde, de moderne ontwikkelingen rond taalmodellen en de implicaties hiervan voor de nabije toekomst.
+Het doel van de cursus is de cursist kennis te laten maken met de belangrijkste concepten rondom Kunstmatige Intelleigentie (AI).
+Hierbij komen de geschiedenis van AI, de moderne ontwikkelingen van taalmodellen en de implicaties hiervan voor de nabije toekomst, aan de orde.
 
 
 Na afloop van de cursus kan de cursist:
