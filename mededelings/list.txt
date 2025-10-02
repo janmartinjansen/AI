@@ -2,3 +2,4 @@ Welkom bij Artificial Intelligence
 Schema lessen
 Leerdoelen
 Links
+Cijfer herkenning
