@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>De Geboorte van de Moderne Wetenschap - Cursus Presentatie (Open Dag)</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #070b14 0%, #0d1527 40%, #171638 75%, #231942 100%);
+      --accent-gold: #fbbf24;
+      --accent-amber: #f59e0b;
+      --accent-cyan: #38bdf8;
+      --accent-indigo: #818cf8;
+      --accent-emerald: #34d399;
+      --accent-rose: #fb7185;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+    }
+
+    /* Ambient celestial glows */
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatOrbit 16s ease-in-out infinite alternate;
+    }
+    .glow-1 { width: 500px; height: 500px; background: #3b82f6; top: -120px; left: -100px; }
+    .glow-2 { width: 550px; height: 550px; background: #d97706; bottom: -120px; right: -120px; animation-delay: -6s; }
+    .glow-3 { width: 400px; height: 400px; background: #8b5cf6; top: 35%; left: 55%; animation-delay: -11s; }
+
+    @keyframes floatOrbit {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(45px, -30px) scale(1.08); }
+      100% { transform: translate(-30px, 35px) scale(0.95); }
+    }
+
+    /* Background starry grid pattern */
+    .star-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(251, 191, 36, 0.2) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 50% 75%, rgba(56, 189, 248, 0.2) 1.2px, transparent 1.2px),
+        radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 10% 85%, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+      background-size: 350px 350px;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Slider layout */
+    #slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 2.6rem 4.5rem 4.8rem 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.97) translateY(18px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.65s;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+    }
+
+    /* 2-Column layout */
+    .slide-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+      width: 100%;
+      max-width: 1400px;
+      height: 100%;
+      max-height: 800px;
+    }
+
+    .slide-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .slide-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      height: 100%;
+    }
+
+    .image-frame {
+      position: relative;
+      width: 100%;
+      max-width: 530px;
+      aspect-ratio: 4 / 3;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 45px rgba(251, 191, 36, 0.25);
+      background: #0f172a;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+
+    .slide.active .image-frame img {
+      transform: scale(1.02);
+    }
+
+    .image-overlay-badge {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      backdrop-filter: blur(12px);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fef08a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Tags */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 0.9rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+    }
+
+    .tag-gold { color: var(--accent-gold); border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.1); }
+    .tag-cyan { color: var(--accent-cyan); border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.1); }
+    .tag-indigo { color: var(--accent-indigo); border-color: rgba(129, 140, 248, 0.4); background: rgba(129, 140, 248, 0.1); }
+    .tag-emerald { color: var(--accent-emerald); border-color: rgba(52, 211, 153, 0.4); background: rgba(52, 211, 153, 0.1); }
+
+    /* Headers */
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 3.1rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 0.7rem;
+      background: linear-gradient(to right, #ffffff, #fef08a, #fed7aa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.01em;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.35rem;
+      font-weight: 700;
+      line-height: 1.18;
+      margin-bottom: 0.7rem;
+      color: #ffffff;
+      letter-spacing: 0.01em;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      line-height: 1.45;
+      margin-bottom: 1.4rem;
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 0.9rem 1.3rem;
+      backdrop-filter: blur(12px);
+    }
+
+    .feature-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .feature-content h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.15rem;
+    }
+
+    .feature-content p {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      line-height: 1.38;
+    }
+
+    .feature-content p strong {
+      color: #fef08a;
+    }
+
+    /* Quote Box */
+    .quote-box {
+      border-left: 4px solid var(--accent-gold);
+      padding: 0.9rem 1.4rem;
+      background: rgba(251, 191, 36, 0.08);
+      border-radius: 0 14px 14px 0;
+      margin-top: 1.1rem;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: #fef08a;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Progress bar */
+    #progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      z-index: 100;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-cyan), var(--accent-indigo));
+      transition: width 0.05s linear;
+    }
+
+    /* HUD */
+    .hud {
+      position: fixed;
+      bottom: 18px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4.5rem;
+      z-index: 100;
+    }
+
+    .slide-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: var(--accent-gold);
+      width: 32px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.8);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      transition: background 0.2s;
+    }
+
+    .btn:hover, .btn:active {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .autorun-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--accent-emerald);
+      font-weight: 600;
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.7; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+      70% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 8px rgba(52, 211, 153, 0); }
+      100% { transform: scale(0.9); opacity: 0.7; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1080px) {
+      .slide { padding: 2rem 2.5rem 4.5rem 2.5rem; }
+      .slide-layout { gap: 2rem; grid-template-columns: 1.1fr 0.9fr; }
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 2rem; }
+      .subtitle { font-size: 1.1rem; margin-bottom: 1rem; }
+      .hud { padding: 0 2.5rem; bottom: 14px; }
+    }
+
+    @media (max-width: 768px) {
+      .slide-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+      .slide-visual { display: none; }
+      h1 { font-size: 2.1rem; }
+      h2 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow Backgrounds -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+  <div class="star-grid"></div>
+
+  <!-- Progress Bar for AutoRun -->
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+
+  <!-- Slides Container -->
+  <div id="slider">
+
+    <!-- SLIDE 1: Titel & Introductie -->
+    <div class="slide active" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-gold">🌌 Open Dag 2026 • Wetenschapsfilosofie</div>
+          <h1>De Geboorte van de Wetenschap</h1>
+          <p class="subtitle">Van de Griekse abstractie naar het mathematische 'Uurwerk' van Newton (Blok 1: 3 lessen).</p>
+          
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fbbf24;">🏛️</div>
+              <div class="feature-content">
+                <h3>Ideeëngeschiedenis</h3>
+                <p>Hoe ons menselijk wereldbeeld in twee eeuwen tijd radicaal kantelde.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #38bdf8;">🔭</div>
+              <div class="feature-content">
+                <h3>De Grote Denkers</h3>
+                <p>Aristoteles, Copernicus, Kepler, Galilei, Descartes en Newton.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #818cf8;">💡</div>
+              <div class="feature-content">
+                <h3>Toegankelijk & Meeslepend</h3>
+                <p>Geschiedenis vol verhalen; geen zware wiskunde vereist!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.65), 0 0 45px rgba(251, 191, 36, 0.35);">
+            <img src="images/sci_slide1_hero.jpg" alt="De Geboorte van de Moderne Wetenschap">
+            <div class="image-overlay-badge">🔭 Telescoop & Uurwerk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Waarom deze cyclus? -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-cyan">⚡ Paradigmaverschuivingen</div>
+          <h2>Hoe de Wereld een Machine Werd</h2>
+          <p class="subtitle">Ontdek hoe observatie en wiskunde de plaats innamen van eeuwenoude dogma's.</p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fbbf24;">📜</div>
+              <div class="feature-content">
+                <h3>Van Dogma naar Meting</h3>
+                <p>Waarom het 2000 jaar duurde voordat autoriteit plaatsmaakte voor feiten.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #38bdf8;">🪐</div>
+              <div class="feature-content">
+                <h3>De Kosmische Schok</h3>
+                <p>De Aarde verliest haar unieke centrumpositie in het heelal.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #818cf8;">⚙️</div>
+              <div class="feature-content">
+                <h3>Het Kosmische Uurwerk</h3>
+                <p>Universele wetten verenigen de vallende appel en de planetenbanen.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote-box">
+            <span>🔭</span>
+            <span>"Als ik verder heb gezien, was dat door op de schouders van reuzen te staan." — Isaac Newton</span>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.65), 0 0 45px rgba(56, 189, 248, 0.35);">
+            <img src="images/sci_slide2_paradigm.jpg" alt="Zonnestelsel en Kosmisch Uurwerk">
+            <div class="image-overlay-badge">🪐 Planetenstelsel & Uurwerk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Les 1 -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-gold">🏛️ Les 1 van Blok 1</div>
+          <h2>De Griekse Erfenis & Het Dogma</h2>
+          <p class="subtitle">Pure logica, meetkunde en het onwrikbare geocentrische universum.</p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fbbf24;">📐</div>
+              <div class="feature-content">
+                <h3>De Griekse Paradox</h3>
+                <p>Sublieme wiskunde en deductie, maar geen systematische experimenten.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #f59e0b;">🌍</div>
+              <div class="feature-content">
+                <h3>Aristoteles & Geocentrisme</h3>
+                <p>Doelgerichtheid (teleologie) en de aarde als stilstaand middelpunt.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fbbf24;">⛪</div>
+              <div class="feature-content">
+                <h3>Scholastiek & Dogma</h3>
+                <p>Klassieke teksten werden heilig verklaard; twijfelen werd ketterij.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.65), 0 0 45px rgba(251, 191, 36, 0.35);">
+            <img src="images/sci_slide3_aristotle.jpg" alt="Portret van Aristoteles en Geocentrisch Model">
+            <div class="image-overlay-badge">🏛️ Aristoteles & Geocentrisme</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Les 2 -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-cyan">🔭 Les 2 van Blok 1</div>
+          <h2>De Breuk met het Geocentrisme</h2>
+          <p class="subtitle">Copernicus, Kepler en Galilei zetten de aarde in beweging.</p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #38bdf8;">☀️</div>
+              <div class="feature-content">
+                <h3>Copernicus (1543)</h3>
+                <p>De Zon in het midden: het begin van een intellectuele revolutie.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #818cf8;">🪐</div>
+              <div class="feature-content">
+                <h3>Kepler & De Ellips</h3>
+                <p>Weg met de 'volmaakte cirkel'; 3 wetten die planeetbanen verklaren.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #38bdf8;">🔍</div>
+              <div class="feature-content">
+                <h3>Galilei & De Telescoop</h3>
+                <p>Manen rond Jupiter, kraters op de maan en het conflict met de kerk.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.65), 0 0 45px rgba(56, 189, 248, 0.35);">
+            <img src="images/sci_slide4_galileo.jpg" alt="Galilei, Copernicus en Kepler">
+            <div class="image-overlay-badge">🔭 Galilei, Copernicus & Kepler</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Les 3 -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-indigo">⚙️ Les 3 van Blok 1</div>
+          <h2>De Mechanisering van de Kosmos</h2>
+          <p class="subtitle">Descartes, Newton en de triomf van het deterministische universum.</p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #818cf8;">🧠</div>
+              <div class="feature-content">
+                <h3>Descartes: Twijfel & Machine</h3>
+                <p>De natuur als rationele machine van bewegende materiedeeltjes.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fb7185;">🍎</div>
+              <div class="feature-content">
+                <h3>Newton: De Grote Synthese</h3>
+                <p><strong>Principia (1687):</strong> Drie bewegingswetten & universele gravitatie.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fbbf24;">⏱️</div>
+              <div class="feature-content">
+                <h3>Calculus & Het Slingeruurwerk</h3>
+                <p>Het heelal als een perfect voorspelbaar, mathematisch mechaniek.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.65), 0 0 45px rgba(129, 140, 248, 0.35);">
+            <img src="images/sci_slide5_newton.jpg" alt="Isaac Newton en René Descartes">
+            <div class="image-overlay-badge">🍎 Newton, Descartes & Prisma</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Praktische Informatie & Aanmelden -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-gold">📋 Praktische Informatie</div>
+          <h2>Aanmelden & Meedoen</h2>
+          <p class="subtitle">Alles over deze inspirerende cyclus in het najaar:</p>
+
+          <div class="feature-list" style="margin-bottom: 1.1rem;">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fbbf24;">👥</div>
+              <div class="feature-content">
+                <h3>Voor Wie?</h3>
+                <p>Voor iedereen geïnteresseerd in wetenschap en filosofie. Geen voorkennis vereist.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #f59e0b;">📚</div>
+              <div class="feature-content">
+                <h3>Opzet van Blok 1</h3>
+                <p>3 bijeenkomsten vol historische context, visuele verhalen en discussie.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item" style="border: 2px solid rgba(251, 191, 36, 0.5); background: rgba(251, 191, 36, 0.1);">
+            <div class="feature-icon-badge" style="background: var(--accent-gold); color: #000;">💬</div>
+            <div class="feature-content">
+              <h3 style="color: var(--accent-gold); font-size: 1.25rem;">Spreek mij gerust aan bij de stand!</h3>
+              <p style="font-size: 1.05rem; color: #fff;">Wil je meer weten over de data of direct inschrijven? Ik vertel je graag meer!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.65), 0 0 45px rgba(251, 191, 36, 0.35);">
+            <img src="images/sci_slide6_opendag.jpg" alt="Welkom bij de Open Dag Wetenschapsgeschiedenis">
+            <div class="image-overlay-badge">✨ Meld je aan!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HUD Controls -->
+  <div class="hud">
+    <div class="slide-dots" id="dots-container"></div>
+
+    <div class="controls">
+      <div class="autorun-indicator" id="autorun-badge">
+        <div class="pulse"></div>
+        <span>AutoRun Actief</span>
+      </div>
+      <button class="btn" id="btn-toggle-play" title="Pauzeer / Start autorun">⏸️ Pauze</button>
+      <button class="btn" id="btn-prev">◀</button>
+      <button class="btn" id="btn-next">▶</button>
+      <button class="btn" id="btn-fullscreen">⛶ Volledig Scherm</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dots-container');
+    const progressBar = document.getElementById('progress-bar');
+    const btnTogglePlay = document.getElementById('btn-toggle-play');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+    const autorunBadge = document.getElementById('autorun-badge');
+
+    let currentSlide = 0;
+    let isPlaying = true;
+    let progressInterval = null;
+    let progressStartTime = 0;
+    let currentSlideDuration = 15000;
+
+    // Generate indicator dots
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (idx === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => {
+        goToSlide(idx);
+        resetTimer();
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      currentSlide = index;
+      currentSlideDuration = parseInt(slides[currentSlide].getAttribute('data-duration')) || 8500;
+    }
+
+    function nextSlide() {
+      let next = (currentSlide + 1) % slides.length;
+      goToSlide(next);
+    }
+
+    function prevSlide() {
+      let prev = (currentSlide - 1 + slides.length) % slides.length;
+      goToSlide(prev);
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+      resetTimer();
+    }
+
+    function startProgress() {
+      clearInterval(progressInterval);
+      progressStartTime = Date.now();
+      
+      progressInterval = setInterval(() => {
+        if (!isPlaying) return;
+        const elapsed = Date.now() - progressStartTime;
+        const percentage = Math.min((elapsed / currentSlideDuration) * 100, 100);
+        progressBar.style.width = percentage + '%';
+
+        if (elapsed >= currentSlideDuration) {
+          nextSlide();
+        }
+      }, 40);
+    }
+
+    function resetTimer() {
+      progressBar.style.width = '0%';
+      progressStartTime = Date.now();
+      if (isPlaying) {
+        startProgress();
+      }
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        btnTogglePlay.innerHTML = '⏸️ Pauze';
+        autorunBadge.style.display = 'flex';
+        progressStartTime = Date.now() - (parseFloat(progressBar.style.width) / 100 * currentSlideDuration);
+        startProgress();
+      } else {
+        btnTogglePlay.innerHTML = '▶️ Start';
+        autorunBadge.style.display = 'none';
+        clearInterval(progressInterval);
+      }
+    }
+
+    btnTogglePlay.addEventListener('click', togglePlay);
+    btnNext.addEventListener('click', () => { nextSlide(); });
+    btnPrev.addEventListener('click', () => { prevSlide(); });
+
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log(err);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    // Touch swipe handling for iPad
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) {
+        nextSlide();
+      }
+      if (touchEndX > touchStartX + 50) {
+        prevSlide();
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Initial start
+    showSlide(0);
+    startProgress();
+  </script>
+</body>
+</html>

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Aan de slag met AI - Praktijkcursus (Open Dag)</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 40%, #1e1b4b 100%);
+      --accent-blue: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-pink: #f472b6;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+    }
+
+    /* Ambient background glow */
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 1;
+      animation: float 14s ease-in-out infinite alternate;
+    }
+    .glow-1 { width: 500px; height: 500px; background: #4f46e5; top: -120px; left: -100px; }
+    .glow-2 { width: 550px; height: 550px; background: #c026d3; bottom: -120px; right: -100px; animation-delay: -5s; }
+    .glow-3 { width: 400px; height: 400px; background: #0284c7; top: 40%; left: 55%; animation-delay: -9s; }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.1); }
+    }
+
+    /* Slide container */
+    #slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 2.8rem 4.5rem 5rem 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.97) translateY(15px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.65s;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Slide 2-column layout */
+    .slide-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+      width: 100%;
+      max-width: 1400px;
+      height: 100%;
+      max-height: 800px;
+    }
+
+    .slide-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .slide-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      height: 100%;
+    }
+
+    .image-frame {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+      aspect-ratio: 4 / 3;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(99, 102, 241, 0.2);
+      background: #0f172a;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+
+    .slide.active .image-frame img {
+      transform: scale(1.02);
+    }
+
+    .image-overlay-badge {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Tag & Header */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .tag-blue { color: var(--accent-blue); border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.1); }
+    .tag-purple { color: var(--accent-purple); border-color: rgba(192, 132, 252, 0.4); background: rgba(192, 132, 252, 0.1); }
+    .tag-pink { color: var(--accent-pink); border-color: rgba(244, 114, 182, 0.4); background: rgba(244, 114, 182, 0.1); }
+    .tag-green { color: var(--accent-green); border-color: rgba(52, 211, 153, 0.4); background: rgba(52, 211, 153, 0.1); }
+    .tag-amber { color: var(--accent-amber); border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.1); }
+
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(to right, #ffffff, #e2e8f0, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
+      color: #ffffff;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      line-height: 1.45;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 1.2rem;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      color: #ffffff;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+
+    /* Feature vertical list */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 0.9rem 1.3rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .feature-icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .feature-content h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.15rem;
+    }
+
+    .feature-content p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Highlight quote box */
+    .quote-box {
+      border-left: 4px solid var(--accent-purple);
+      padding: 1rem 1.4rem;
+      background: rgba(192, 132, 252, 0.1);
+      border-radius: 0 14px 14px 0;
+      margin-top: 1.2rem;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    /* Top progress bar */
+    #progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 100;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+      transition: width 0.05s linear;
+    }
+
+    /* Bottom HUD / Indicators */
+    .hud {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4.5rem;
+      z-index: 100;
+    }
+
+    .slide-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: #ffffff;
+      width: 32px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      transition: background 0.2s;
+    }
+
+    .btn:hover, .btn:active {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .autorun-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--accent-green);
+      font-weight: 600;
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.7; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+      70% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 8px rgba(52, 211, 153, 0); }
+      100% { transform: scale(0.9); opacity: 0.7; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+    }
+
+    /* Responsive adjustments for iPad Landscape & Portrait */
+    @media (max-width: 1080px) {
+      .slide { padding: 2rem 2.5rem 4.5rem 2.5rem; }
+      .slide-layout { gap: 2rem; grid-template-columns: 1.1fr 0.9fr; }
+      h1 { font-size: 2.6rem; }
+      h2 { font-size: 2.1rem; }
+      .subtitle { font-size: 1.1rem; margin-bottom: 1rem; }
+      .cards-grid { grid-template-columns: 1fr; gap: 0.6rem; }
+      .card { padding: 0.9rem 1.1rem; }
+      .hud { padding: 0 2.5rem; bottom: 14px; }
+    }
+
+    @media (max-width: 768px) {
+      .slide-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+      .slide-visual { display: none; }
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow Backgrounds -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+
+  <!-- Progress Bar for AutoRun -->
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+
+  <!-- Slides Container -->
+  <div id="slider">
+
+    <!-- SLIDE 1: Titel & Welkom -->
+    <div class="slide active" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-blue">✨ Open Dag 2026 • Praktijkcursus</div>
+          <h1>Aan de slag met AI</h1>
+          <p class="subtitle">Ontdek hoe je de slimste AI-tools zélf toepast voor alledaags gemak, werk en creativiteit.</p>
+          
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #38bdf8;">🚀</div>
+              <div class="feature-content">
+                <h3>100% Praktijk & Zelf Doen</h3>
+                <p>Geen saaie theorie of geschiedenis, direct aan de slag.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #c084fc;">🗓️</div>
+              <div class="feature-content">
+                <h3>3 Compacte Bijeenkomsten</h3>
+                <p>Van nieuwsgierige beginner naar zelfverzekerde gebruiker.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #34d399;">💻</div>
+              <div class="feature-content">
+                <h3>Neem je eigen laptop of tablet mee</h3>
+                <p>Tijdens elke bijeenkomst gaan we actief 'hands-on' oefenen.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 45px rgba(56, 189, 248, 0.35);">
+            <img src="images/slide1_hero_ai.jpg" alt="Aan de slag met AI - Praktijkcursus">
+            <div class="image-overlay-badge">⚡ Hands-on Workshop</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Waarom meedoen? -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-purple">💡 Ontdek de mogelijkheden</div>
+          <h2>Waarom deze cursus?</h2>
+          <p class="subtitle">ChatGPT, Gemini en Copilot veranderen de wereld. Leer ze slim voor jóu werken!</p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #38bdf8;">⚡</div>
+              <div class="feature-content">
+                <h3>Tijdwinst & Gemak</h3>
+                <p>Laat AI brieven schrijven, dikke stukken samenvatten en plannen.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #c084fc;">🎨</div>
+              <div class="feature-content">
+                <h3>Creatieve Superkracht</h3>
+                <p>Genereer unieke beelden, brainstorm en ontwerp in seconden.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #34d399;">👌</div>
+              <div class="feature-content">
+                <h3>Voor Iedereen Toegankelijk</h3>
+                <p>Geen technische IT-kennis nodig. Alleen nieuwsgierigheid!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote-box">
+            "De beperkende factor bij AI is vaak enkel je eigen fantasie. Wij leren je hoe je die werkelijkheid maakt!"
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 45px rgba(192, 132, 252, 0.35);">
+            <img src="images/slide2_why_ai.jpg" alt="Creativiteit en mogelijkheden met AI">
+            <div class="image-overlay-badge">💡 Doen i.p.v. Praten</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Les 1 -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-blue">📚 Les 1 van 3</div>
+          <h2>De Slimme Schrijver & Samenvatter</h2>
+          <p class="subtitle">De kunst van het vragen stellen (Prompting) & Tekstgeneratie</p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #38bdf8;">✍️</div>
+              <div class="feature-content">
+                <h3>Brieven & Mails op Maat</h3>
+                <p>Foutloze, professionele of persoonlijke teksten in seconden opstellen.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #60a5fa;">🎯</div>
+              <div class="feature-content">
+                <h3>Effectief Prompten & Rollen</h3>
+                <p>Gebruik de <i>Persona-techniek</i> (bv. "reageer als kritische redacteur").</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #93c5fd;">📑</div>
+              <div class="feature-content">
+                <h3>Informatie Temmen</h3>
+                <p>Dikke rapporten, taaie beleidsstukken of artikelen vlijmscherp samenvatten.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 45px rgba(56, 189, 248, 0.35);">
+            <img src="images/slide3_smart_writer.jpg" alt="Slimme teksten en prompting met AI">
+            <div class="image-overlay-badge">✍️ Prompting Technieken</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Les 2 -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-pink">🎨 Les 2 van 3</div>
+          <h2>Beeld, Ontwerp & 'Kijken' met AI</h2>
+          <p class="subtitle">Creativiteit, beeldgeneratie & Multimodale AI (Vision)</p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #f472b6;">🖼️</div>
+              <div class="feature-content">
+                <h3>Beeldgeneratie vanuit Tekst</h3>
+                <p>Creëer verbluffende illustraties en foto's vanuit eenvoudige beschrijvingen.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fb7185;">🖌️</div>
+              <div class="feature-content">
+                <h3>Beeldbewerking & Stijlen</h3>
+                <p>Achtergronden wissen, elementen vervangen en foto's transformeren.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fda4af;">👁️</div>
+              <div class="feature-content">
+                <h3>AI laten 'Kijken' (Vision)</h3>
+                <p>Upload een foto van een plant of ingrediënten en laat AI het direct analyseren!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 45px rgba(244, 114, 182, 0.35);">
+            <img src="images/slide4_vision_art.jpg" alt="Beeldgeneratie en Vision met AI">
+            <div class="image-overlay-badge">🎨 Beeld & Vision AI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Les 3 -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-green">🛡️ Les 3 van 3</div>
+          <h2>Persoonlijke Assistent & Veiligheid</h2>
+          <p class="subtitle">Plannen, brainstormen, factchecking & betrouwbaarheid</p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #34d399;">🗓️</div>
+              <div class="feature-content">
+                <h3>Slimme Planningen & Coach</h3>
+                <p>Maak reisroutes, weekschema's, oefen talen en spar over projecten.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #6ee7b7;">🔍</div>
+              <div class="feature-content">
+                <h3>Feiten vs. Hallucinaties</h3>
+                <p>Hoe controleer je of de uitkomst klopt en bronnen betrouwbaar zijn?</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #a7f3d0;">🔒</div>
+              <div class="feature-content">
+                <h3>Privacy & Deepfakes Herkennen</h3>
+                <p>Veilig omgaan met data en het herkennen van gemanipuleerde content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 45px rgba(52, 211, 153, 0.35);">
+            <img src="images/slide5_assistant_security.jpg" alt="AI Assistent en Digitale Veiligheid">
+            <div class="image-overlay-badge">🛡️ Betrouwbaar & Veilig</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Praktische Informatie & Contact -->
+    <div class="slide" data-duration="15000">
+      <div class="slide-layout">
+        <div class="slide-content">
+          <div class="tag tag-amber">📋 Praktische Informatie</div>
+          <h2>Klaar om mee te doen?</h2>
+          <p class="subtitle">Alles wat je moet weten over deelname aan deze najaarscursus:</p>
+
+          <div class="feature-list" style="margin-bottom: 1.2rem;">
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fbbf24;">👥</div>
+              <div class="feature-content">
+                <h3>Voor Wie?</h3>
+                <p>Iedereen met interesse in AI. Digitale basiskennis is voldoende.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon-badge" style="color: #fcd34d;">💻</div>
+              <div class="feature-content">
+                <h3>Wat neem je mee?</h3>
+                <p>Een eigen laptop of tablet (iPad/Android). We gaan elke les zelf doen.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-item" style="border: 2px solid rgba(251, 191, 36, 0.5); background: rgba(251, 191, 36, 0.1);">
+            <div class="feature-icon-badge" style="background: var(--accent-amber); color: #000;">💬</div>
+            <div class="feature-content">
+              <h3 style="color: var(--accent-amber); font-size: 1.25rem;">Spreek mij gerust aan!</h3>
+              <p style="font-size: 1.05rem; color: #fff;">Vragen of direct inschrijven? Ik vertel je graag alles over de data en het programma!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual">
+          <div class="image-frame" style="box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 45px rgba(251, 191, 36, 0.35);">
+            <img src="images/slide6_welcome_opendag.jpg" alt="Welkom bij de Open Dag Aan de slag met AI">
+            <div class="image-overlay-badge">✨ Meld je aan!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HUD Controls -->
+  <div class="hud">
+    <div class="slide-dots" id="dots-container"></div>
+
+    <div class="controls">
+      <div class="autorun-indicator" id="autorun-badge">
+        <div class="pulse"></div>
+        <span>AutoRun Actief</span>
+      </div>
+      <button class="btn" id="btn-toggle-play" title="Pauzeer / Start autorun">⏸️ Pauze</button>
+      <button class="btn" id="btn-prev">◀</button>
+      <button class="btn" id="btn-next">▶</button>
+      <button class="btn" id="btn-fullscreen">⛶ Volledig Scherm</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dots-container');
+    const progressBar = document.getElementById('progress-bar');
+    const btnTogglePlay = document.getElementById('btn-toggle-play');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+    const autorunBadge = document.getElementById('autorun-badge');
+
+    let currentSlide = 0;
+    let isPlaying = true;
+    let progressInterval = null;
+    let progressStartTime = 0;
+    let currentSlideDuration = 15000;
+
+    // Generate indicator dots
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (idx === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => {
+        goToSlide(idx);
+        resetTimer();
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      currentSlide = index;
+      currentSlideDuration = parseInt(slides[currentSlide].getAttribute('data-duration')) || 15000;
+    }
+
+    function nextSlide() {
+      let next = (currentSlide + 1) % slides.length;
+      goToSlide(next);
+    }
+
+    function prevSlide() {
+      let prev = (currentSlide - 1 + slides.length) % slides.length;
+      goToSlide(prev);
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+      resetTimer();
+    }
+
+    function startProgress() {
+      clearInterval(progressInterval);
+      progressStartTime = Date.now();
+      
+      progressInterval = setInterval(() => {
+        if (!isPlaying) return;
+        const elapsed = Date.now() - progressStartTime;
+        const percentage = Math.min((elapsed / currentSlideDuration) * 100, 100);
+        progressBar.style.width = percentage + '%';
+
+        if (elapsed >= currentSlideDuration) {
+          nextSlide();
+        }
+      }, 40);
+    }
+
+    function resetTimer() {
+      progressBar.style.width = '0%';
+      progressStartTime = Date.now();
+      if (isPlaying) {
+        startProgress();
+      }
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        btnTogglePlay.innerHTML = '⏸️ Pauze';
+        autorunBadge.style.display = 'flex';
+        progressStartTime = Date.now() - (parseFloat(progressBar.style.width) / 100 * currentSlideDuration);
+        startProgress();
+      } else {
+        btnTogglePlay.innerHTML = '▶️ Start';
+        autorunBadge.style.display = 'none';
+        clearInterval(progressInterval);
+      }
+    }
+
+    btnTogglePlay.addEventListener('click', togglePlay);
+    btnNext.addEventListener('click', () => { nextSlide(); });
+    btnPrev.addEventListener('click', () => { prevSlide(); });
+
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log(err);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    // Touch swipe handling for iPad
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) {
+        nextSlide();
+      }
+      if (touchEndX > touchStartX + 50) {
+        prevSlide();
+      }
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Initial start
+    showSlide(0);
+    startProgress();
+  </script>
+</body>
+</html>

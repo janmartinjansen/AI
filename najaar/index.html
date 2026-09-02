@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Open Dag 2026 - Cursussen Hub</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 45%, #1e1b4b 100%);
+      --accent-blue: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-gold: #fbbf24;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 255, 255, 0.14);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 960px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--accent-blue);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(to right, #ffffff, #e2e8f0, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      text-align: left;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(14px);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-blue);
+      box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+    }
+
+    .card-ai:hover { border-color: var(--accent-blue); }
+    .card-sci:hover { border-color: var(--accent-gold); box-shadow: 0 20px 40px rgba(251, 191, 36, 0.2); }
+    .card-viewer:hover { border-color: var(--accent-purple); box-shadow: 0 20px 40px rgba(192, 132, 252, 0.2); }
+
+    .card-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-top: auto;
+    }
+
+    .card-sci .card-btn { color: var(--accent-gold); }
+    .card-viewer .card-btn { color: var(--accent-purple); }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="tag">✨ Open Dag 2026 • Presentaties</div>
+    <h1>Kies een Cursus Presentatie</h1>
+    <p class="subtitle">Zelf-uitleggende interactieve diashows (15s autorun) en documenten voor de Open Dag.</p>
+
+    <div class="grid">
+      
+      <!-- AI Presentatie -->
+      <a href="presentatie_opendag.html" class="card card-ai">
+        <div>
+          <div class="card-icon">🤖</div>
+          <h2>Aan de slag met AI</h2>
+          <p>Praktijkcursus in 3 bijeenkomsten: ChatGPT, prompting, beeldgeneratie & persoonlijke assistent.</p>
+        </div>
+        <div class="card-btn">Start AI Presentatie ▶</div>
+      </a>
+
+      <!-- Wetenschap Presentatie -->
+      <a href="wetenschap/presentatie_opendag_wetenschap.html" class="card card-sci">
+        <div>
+          <div class="card-icon">🪐</div>
+          <h2>Moderne Wetenschap</h2>
+          <p>Wetenschapsgeschiedenis & Filosofie (Blok 1): Van Griekse dogma's naar Copernicus, Galilei & Newton.</p>
+        </div>
+        <div class="card-btn">Start Wetenschap Presentatie ▶</div>
+      </a>
+
+      <!-- Document Viewer -->
+      <a href="md_viewer.html" class="card card-viewer">
+        <div>
+          <div class="card-icon">📖</div>
+          <h2>Document Viewer</h2>
+          <p>Bekijk alle cursusdocumenten en handleidingen in de interactieve Markdown viewer.</p>
+        </div>
+        <div class="card-btn">Open Document Viewer ➔</div>
+      </a>
+
+    </div>
+
+    <footer>
+      <span>💡 Tip voor iPad: Tik in Safari op <strong>Deel ➔ Zet op beginscherm</strong> voor een schermvullende app zonder browserbalken!</span>
+    </footer>
+  </div>
+
+</body>
+</html>

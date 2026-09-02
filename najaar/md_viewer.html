@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cursus Documenten Viewer (Markdown)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  
+  <!-- Embedded Marked.js for fast, secure, offline markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Fallback simple parser if CDN is offline -->
+  <script>
+    if (typeof marked === 'undefined') {
+      window.marked = {
+        parse: function(md) {
+          return md
+            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+            .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+            .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+            .replace(/\*(.*)\*/gim, '<em>$1</em>')
+            .replace(/`([^`]+)`/gim, '<code>$1</code>')
+            .replace(/\n\n/gim, '<p></p>')
+            .replace(/\n/gim, '<br>');
+        }
+      };
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-app: #0f172a;
+      --bg-sidebar: #1e293b;
+      --bg-main: #0b0f19;
+      --bg-card: #1e293b;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-gold: #fbbf24;
+      --accent-emerald: #34d399;
+      --code-bg: #090d16;
+      --sidebar-width: 310px;
+      --toc-width: 260px;
+    }
+
+    body.light-mode {
+      --bg-app: #f1f5f9;
+      --bg-sidebar: #ffffff;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent-blue: #0284c7;
+      --accent-purple: #9333ea;
+      --accent-gold: #d97706;
+      --accent-emerald: #059669;
+      --code-bg: #f1f5f9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      height: 60px;
+      background-color: var(--bg-sidebar);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      z-index: 10;
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      font-size: 1.4rem;
+    }
+
+    .doc-pill {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-blue);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      max-width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #ffffff !important;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    /* Main App Layout */
+    .app-body {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+
+    /* Sidebar - File Browser */
+    aside.sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header {
+      padding: 1rem 1rem 0.6rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-box {
+      width: 100%;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .file-tree {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .folder-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .folder-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: 1px solid transparent;
+    }
+
+    .file-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .file-item.active {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .file-item .file-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .file-item .file-name {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .drop-zone {
+      margin: 0.75rem;
+      padding: 0.9rem;
+      border: 2px dashed var(--border-color);
+      border-radius: 10px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.15);
+      transition: all 0.2s;
+    }
+
+    .drop-zone:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    /* Content Area */
+    main.content-area {
+      flex: 1;
+      overflow-y: auto;
+      background-color: var(--bg-main);
+      padding: 2.5rem 3.5rem;
+      scroll-behavior: smooth;
+    }
+
+    .markdown-container {
+      max-width: 860px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* Markdown Styling */
+    .markdown-container h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1.4rem;
+      margin-top: 1rem;
+      line-height: 1.25;
+    }
+
+    .markdown-container h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.4rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .markdown-container h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-top: 1.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .markdown-container p {
+      margin-bottom: 1.1rem;
+      color: var(--text-main);
+      font-size: 1.02rem;
+    }
+
+    .markdown-container ul, .markdown-container ol {
+      margin-bottom: 1.2rem;
+      padding-left: 1.5rem;
+    }
+
+    .markdown-container li {
+      margin-bottom: 0.4rem;
+    }
+
+    .markdown-container blockquote {
+      border-left: 4px solid var(--accent-purple);
+      background: rgba(192, 132, 252, 0.08);
+      padding: 0.9rem 1.4rem;
+      border-radius: 0 10px 10px 0;
+      margin: 1.2rem 0;
+      font-style: italic;
+      color: var(--text-main);
+    }
+
+    .markdown-container code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9em;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+      color: #38bdf8;
+    }
+
+    .markdown-container pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.1rem;
+      overflow-x: auto;
+      margin: 1.2rem 0;
+    }
+
+    .markdown-container pre code {
+      background: transparent;
+      padding: 0;
+      border: none;
+      color: #e2e8f0;
+    }
+
+    .markdown-container hr {
+      border: none;
+      height: 1px;
+      background-color: var(--border-color);
+      margin: 2rem 0;
+    }
+
+    .markdown-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .markdown-container th, .markdown-container td {
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .markdown-container th {
+      background: var(--bg-sidebar);
+      font-weight: 700;
+      color: var(--accent-blue);
+    }
+
+    .markdown-container tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Right Sidebar - TOC (Outline) */
+    aside.toc-sidebar {
+      width: var(--toc-width);
+      background-color: var(--bg-sidebar);
+      border-left: 1px solid var(--border-color);
+      padding: 1.25rem 1rem;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .toc-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .toc-item a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      line-height: 1.35;
+      display: block;
+      padding: 4px 6px;
+      border-radius: 5px;
+      transition: all 0.15s;
+    }
+
+    .toc-item a:hover {
+      color: var(--accent-blue);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .toc-item.h3 a {
+      padding-left: 14px;
+      font-size: 0.78rem;
+    }
+
+    /* Presentation Quick Launcher Banner */
+    .banner-launcher {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(192, 132, 252, 0.12));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .banner-launcher-text h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+
+    .banner-launcher-text p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      aside.toc-sidebar { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      aside.sidebar { width: 240px; }
+      main.content-area { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="header-left">
+      <a href="#" class="brand">
+        <span class="brand-icon">📖</span>
+        <span>Cursus Documenten</span>
+      </a>
+      <span class="doc-pill" id="current-doc-pill">Aan_de_slag_met_AI_Cursusdocument.md</span>
+    </div>
+
+    <div class="header-actions">
+      <a href="presentatie_opendag.html" target="_blank" class="btn btn-primary" title="Open de interactieve presentatie">
+        <span>🎬 Start AI Presentatie</span>
+      </a>
+      <a href="wetenschap/presentatie_opendag_wetenschap.html" target="_blank" class="btn" title="Open wetenschapspresentatie">
+        <span>🪐 Wetenschap Presentatie</span>
+      </a>
+      <button class="btn" id="btn-theme" title="Wissel Donker / Licht thema">🌗</button>
+      <button class="btn" id="btn-print" title="Printen of Opslaan als PDF">🖨️ Print</button>
+    </div>
+  </header>
+
+  <!-- App Body -->
+  <div class="app-body">
+    
+    <!-- Sidebar: Mini File Browser -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <span>Bestanden & Mappen</span>
+          <span id="file-count-badge" style="font-size: 0.75rem; color: var(--accent-blue);">4 bestanden</span>
+        </div>
+        <input type="text" id="filter-input" class="search-box" placeholder="Zoek in bestanden...">
+      </div>
+
+      <div class="file-tree" id="file-tree">
+        
+        <!-- Folder AI -->
+        <div class="folder-group">
+          <div class="folder-label">🤖 Aan de slag met AI</div>
+          <div class="file-item active" data-file-id="ai_cursus">
+            <span class="file-icon">📄</span>
+            <span class="file-name">Aan_de_slag_met_AI_Cursusdocument.md</span>
+          </div>
+          <div class="file-item" data-file-id="ai_handleiding">
+            <span class="file-icon">📋</span>
+            <span class="file-name">Open_Dag_Presentatie_Handleiding.md</span>
+          </div>
+        </div>
+
+        <!-- Folder Wetenschap -->
+        <div class="folder-group">
+          <div class="folder-label">🌌 Wetenschapsgeschiedenis</div>
+          <div class="file-item" data-file-id="sci_blok1">
+            <span class="file-icon">📄</span>
+            <span class="file-name">De_Geboorte_van_de_Moderne_Wetenschap_Blok_1.md</span>
+          </div>
+          <div class="file-item" data-file-id="sci_handleiding">
+            <span class="file-icon">📋</span>
+            <span class="file-name">Open_Dag_Presentatie_Handleiding_Wetenschap.md</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Drag and drop zone for any custom MD file -->
+      <label class="drop-zone" id="drop-zone">
+        <span>📥 <strong>Open eigen .md bestand</strong><br>Klik of sleep bestand hierheen</span>
+        <input type="file" id="file-input" accept=".md,.markdown,.txt" style="display: none;">
+      </label>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area" id="content-area">
+      
+      <!-- Quick Presentation Launcher Banner -->
+      <div class="banner-launcher" id="banner-launcher">
+        <div class="banner-launcher-text">
+          <h4 id="banner-title">✨ Interactieve Open Dag Presentatie beschikbaar</h4>
+          <p id="banner-desc">Bekijk de bijbehorende zelf-uitleggende diashow (met beelden en autorun timer).</p>
+        </div>
+        <a href="presentatie_opendag.html" target="_blank" class="btn btn-primary" id="banner-btn">Open Presentatie ▶</a>
+      </div>
+
+      <article class="markdown-container" id="markdown-render-target">
+        <!-- Rendered markdown appears here -->
+      </article>
+    </main>
+
+    <!-- Right Sidebar: Table of Contents -->
+    <aside class="toc-sidebar">
+      <div class="toc-title">Inhoudsopgave</div>
+      <ul class="toc-list" id="toc-list">
+        <!-- TOC items dynamically generated -->
+      </ul>
+    </aside>
+
+  </div>
+
+  <script>
+    // Embedded Catalog of all local Markdown documents
+    const DOCS_CATALOG = {
+      ai_cursus: {
+        title: "Aan_de_slag_met_AI_Cursusdocument.md",
+        folder: "AI",
+        presUrl: "presentatie_opendag.html",
+        presTitle: "Start AI Presentatie ▶",
+        content: `# Cursusontwikkeling: Aan de slag met AI (Praktijkcursus)
+
+Dit document bevat de samenvatting, opbouw, definitieve wervingsteksten en cursusstructuur van de brainstormsessie over de praktijkcursus **"Aan de slag met AI"** (3 lessen).
+
+---
+
+## 1. Cursusprofiel & Uitgangspunten
+
+* **Titel:** Aan de slag met AI (Praktijkcursus)
+* **Duur:** 3 bijeenkomsten / lessen
+* **Doelgroep:** Iedereen met belangstelling / een brede doelgroep (geen programmeer- of diepe IT-kennis vereist, wel digitale basisvaardigheden).
+* **Vereiste:** Cursisten nemen een eigen laptop of tablet mee; er wordt actief 'hands-on' gewerkt tijdens de bijeenkomsten.
+* **Insteek & Onderscheid:** In tegenstelling tot theoretische cursussen over de geschiedenis, werking en maatschappelijke impact van AI, ligt de nadruk hier 100% op de **praktische toepassing** van moderne LLM- en AI-tools in het dagelijks leven en werk.
+
+---
+
+## 2. Kernonderwerpen per Les
+
+### Les 1: De Slimme Schrijver, Samenvatter & Prompting
+* **Basisprincipes & LLM-tools:** ChatGPT, Google Gemini, Microsoft Copilot, Claude.
+* **Prompting technieken:**
+  * Context meegeven en instructies verfijnen.
+  * De *Persona*-techniek (bv. "Reageer als kritische redacteur" of "Leg uit aan een beginner").
+* **Praktische toepassingen:**
+  * Opstellen en verbeteren van e-mails, brieven en verslagen.
+  * Creatief schrijven: verhalen, toespraken, brainstormen over ideeën.
+  * Informatie temmen: samenvatten van lange artikelen, beleidsstukken of transcripties.
+
+### Les 2: Beeld, Ontwerp & 'Kijken' met AI (Vision)
+* **Beeldgeneratie:** Afbeeldingen en illustraties genereren vanuit prompts (beschrijvingen).
+* **Beeldbewerking:** Foto's aanpassen, achtergronden wijzigen of stijlen toepassen.
+* **Multimodale AI / Vision:**
+  * Foto's uploaden en analyseren (bv. een plant herkennen, ingrediënten in de koelkast omzetten naar recepten).
+  * Werken met diagrammen en visuele documenten.
+
+### Les 3: Persoonlijke Assistent, Planning & Betrouwbaarheid
+* **AI als assistent & coach:**
+  * Maken van dag-, week- of vakantieplanningen.
+  * Brainstormpartner en taalcoach (oefenen in vreemde talen, toonaanpassing).
+* **Kritische blik & Veiligheid:**
+  * Omgaan met hallucinaties (feiten vs. fictie) en methoden om bronnen te verifiëren.
+  * Privacy en omgang met persoonlijke data.
+  * Herkennen van AI-gegenereerde content en deepfakes.
+
+---
+
+## 3. Definitieve Wervingstekst (Compacte versie)
+
+> ### **Aan de slag met AI (Praktijkcursus)**
+>
+> AI-producten zoals ChatGPT, Gemini en Copilot zijn inmiddels voor iedereen beschikbaar. De ontwikkelingen gaan razendsnel en zullen onze wereld blijvend veranderen. In deze cursus van drie lessen laten we de theorie achter ons en gaan we **zelf aan de slag**. Het doel is om te laten zien hoe je AI laagdrempelig kunt inzetten als creatieve en praktische assistent.
+>
+> **Wat komt er aan de orde?**  
+> In de lessen ontdek je een breed scala aan toepassingen:
+> * **Slimme tekst:** het opstellen van brieven en mails, of het genereren van verhalen;
+> * **Informatie temmen:** het razendsnel samenvatten van lange teksten of video's;
+> * **Beeld & Vision:** het maken van afbeeldingen en het laten analyseren van foto’s;
+> * **Persoonlijke assistent:** hulp bij planningen, ontwerpen en brainstormen;
+> * **Kritische blik:** hoe ga je om met de betrouwbaarheid en veiligheid van de resultaten?
+>
+> **Praktische opzet**  
+> De insteek van deze cursus is anders dan de eerdere reeks waarin de theorie en maatschappelijke gevolgen centraal stonden. We gaan nu echt doen. Voor deze cursus is het dan ook nodig dat je een **eigen laptop of tablet** meeneemt naar de lessen.
+>
+> De beperkende factor bij AI is vaak enkel je eigen fantasie. Na deze drie lessen heb je de tools in handen om die fantasie werkelijkheid te maken!
+
+---
+
+## 4. Uitgebreide Variant (Optioneel voor webpagina / brochure)
+
+> ### **Cursus: Aan de slag met AI – Ontdek de magie in 3 lessen**
+>
+> **Heb je al eens geëxperimenteerd met ChatGPT of Gemini, maar wil je nu echt weten hoe je deze tools slim voor je laat werken? Of ben je gewoon nieuwsgierig naar wat er allemaal mogelijk is? In deze praktische cursus laten we de theorie achter ons en gaan we zelf aan de knoppen zitten!**
+>
+> De ontwikkelingen op het gebied van AI gaan razendsnel. Waar we vorig jaar nog verbaasd waren over een simpel tekstje, kunnen deze tools nu beelden maken, foto’s analyseren en zelfs optreden als je persoonlijke assistent. In drie lessen leer je hoe je deze technologie op een laagdrempelige manier inzet voor je dagelijkse leven.
+>
+> #### **Wat gaan we doen?**
+> De insteek is simpel: **doen!** In tegenstelling tot eerdere cursussen over de maatschappelijke gevolgen van AI, ligt de focus nu volledig op de praktijk.
+>
+> * **Les 1: De Slimme Schrijver & Samenvatter**  
+>   Je leert de 'kunst van het vragenstellen' (prompting). Hoe zorg je dat AI precies schrijft wat jij bedoelt? We maken vlijmscherpe brieven, vatten lange teksten of video's samen en gebruiken AI als creatieve brainstormpartner.
+> * **Les 2: Beeld, Ontwerp & 'Kijken' met AI**  
+>   We gaan de visuele kant op. Je leert hoe je prachtige afbeeldingen vanuit het niets creëert en foto’s bewerkt. Ook ontdek je hoe AI kan 'kijken': maak een foto van een ingrediënt of een onbekende plant en laat de computer vertellen wat het is.
+> * **Les 3: Je Persoonlijke Assistent & Veiligheid**  
+>   Hoe maak je een complexe planning in enkele seconden? We kijken naar handige toepassingen voor je agenda en huishouden. Ook staan we stil bij een stukje veiligheid: wat is echt, wat is nep en hoe controleer je of de AI de waarheid spreekt?
+>
+> #### **Praktische Informatie**
+> * **Zelf doen:** We gaan in de les direct aan de slag. Het meenemen van een eigen **laptop of tablet** is daarom noodzakelijk.
+> * **Voor wie:** Iedereen met belangstelling voor AI. Je hoeft geen computergenie te zijn; nieuwsgierigheid is de enige vereiste!
+> * **De essentie:** De beperkende factor van AI is vaak je eigen fantasie. Na deze drie lessen heb je de tools in handen om die fantasie werkelijkheid te maken.`
+      },
+
+      ai_handleiding: {
+        title: "Open_Dag_Presentatie_Handleiding.md",
+        folder: "AI",
+        presUrl: "presentatie_opendag.html",
+        presTitle: "Start AI Presentatie ▶",
+        content: `# Handleiding: "Aan de slag met AI" (Open Dag)
+
+Dit document bevat de documentatie en instructies voor de zelf-uitleggende interactieve mini-presentatie voor de open dag.
+
+---
+
+## 📸 Geïntegreerde Illustraties per Dia
+
+1. **Dia 1 (Titel & Welkom):** \`images/slide1_hero_ai.jpg\` (Moderne werkplek met laptop, neurale netwerk visualisaties)
+2. **Dia 2 (Waarom meedoen?):** \`images/slide2_why_ai.jpg\` (Gloeilamp/brein symbool voor creativiteit en tijdwinst)
+3. **Dia 3 (Les 1 - Schrijver & Prompting):** \`images/slide3_smart_writer.jpg\` (Futuristische digitale stylus en oplichtende samenvattingen)
+4. **Dia 4 (Les 2 - Beeld & Vision):** \`images/slide4_vision_art.jpg\` (Digitaal schildersezel met AI beeldgeneratie en camera)
+5. **Dia 5 (Les 3 - Assistent & Veiligheid):** \`images/slide5_assistant_security.jpg\` (AI assistent met agenda en groen cyber-schild)
+6. **Dia 6 (Praktische Informatie):** \`images/slide6_welcome_opendag.jpg\` (Open Dag registratiebalie)
+
+---
+
+## 🖥️ Kiosk Mode & iPad Tips
+
+* **Duur per dia:** 15 seconden per dia (automatisch doordraaiend).
+* **Volledig scherm:** Tik op de knop **⛶ Volledig Scherm** in Safari op de iPad.
+* **Begeleide Toegang:** Gebruik iOS Begeleide Toegang (Guided Access) om de iPad te vergrendelen op de presentatie.`
+      },
+
+      sci_blok1: {
+        title: "De_Geboorte_van_de_Moderne_Wetenschap_Blok_1.md",
+        folder: "Wetenschap",
+        presUrl: "wetenschap/presentatie_opendag_wetenschap.html",
+        presTitle: "Start Wetenschap Presentatie ▶",
+        content: `# De Geboorte van de Moderne Wetenschap
+### Blok 1: Van de Griekse abstractie naar het 'Uurwerk' van Newton
+
+---
+
+## Overzicht van Blok 1
+
+1. **Les 1:** De Griekse Erfenis & Het Dogma
+2. **Les 2:** De Breuk met het Geocentrisme (Copernicus t/m Galilei)
+3. **Les 3:** De Mechanisering van het Wereldbeeld (Descartes & Newton)
+
+---
+
+## Les 1: De Griekse Erfenis & Het Dogma
+
+### 1.1 De Griekse Paradox
+* **Hoogontwikkelde wiskunde:** Deductieve logica en axioma's (Euclides), zuivere meetkunde als ideaal.
+* **Achterblijvende natuurwetenschap:** Gebrek aan systematische experimenten; primaat van de zuivere rede boven observatie.
+
+### 1.2 Aristoteles vs. De Natuurwetenschap
+* **Teleologie (doelgerichtheid):** Waarom vallen voorwerpen? *Ze zoeken hun 'natuurlijke plaats'.* Alles streeft naar rust en vervolmaking.
+* **Geocentrisch model:** De aarde als onbeweeglijk middelpunt; rigide scheiding tussen ondermaanse en bovenmaanse sferen.
+
+### 1.3 De Invloed van Religie & Filosofie
+* **Scholastiek:** Samensmelten van christelijke theologie met het wereldbeeld van Aristoteles.
+* **Kennis als dogma:** Waarheid ligt vast in openbaring en klassieke teksten. Afwijken geldt als ketterij.
+
+---
+
+## Les 2: De Grote Breuk met het Verleden
+
+### 2.1 Copernicus: De Aarde Gaat Draaien
+* **1543:** Publicatie van *De revolutionibus orbium coelestium*.
+* **De shift:** Van geocentrisme naar heliocentrisme. Wiskundige vereenvoudiging: verdwijnen van complexe epicycli.
+* **Impact:** De aarde verliest haar unieke, centrale plaats in de kosmos.
+
+### 2.2 Kepler: De Cirkel Doorbijten
+* **Weg met de 'volmaakte cirkel':** Introductie van de ellips als planeetbaan.
+* **Empirische wiskunde:** Gebaseerd op de ongekend nauwkeurige data van Tycho Brahe. Drie wetten die planeetbewegingen kwantitatief vastleggen.
+
+### 2.3 Galilei: Het Experiment en de Telescoop
+* **Nieuwe waarnemingen:** Manen van Jupiter, kraters op de maan, zonnevlekken. Bewijs dat hemellichamen niet 'volmaakt' en onveranderlijk zijn.
+* **De Wetenschappelijke Methode:** Metingen verrichten, hypotheses toetsen, data verzamelen. Het dramatische conflict met de Inquisitie.
+
+---
+
+## Les 3: De Mechanisering van het Wereldbeeld
+
+### 3.1 Descartes: De Wereld als Machine
+* **Methodische twijfel:** Niets aannemen op autoriteit; alleen wat helder en onderscheiden is.
+* **Mechanicisme:** Natuurfenomenen verklaren via botsende deeltjes en materie in beweging. Analytische meetkunde als brug tussen algebra en geometrie.
+
+### 3.2 Newton: De Grote Synthese
+* **1687:** *Philosophiae Naturalis Principia Mathematica*.
+* **Universele Wetten:** Drie wetten van beweging ($F = m \\cdot a$) en universele zwaartekracht ($F = G \\frac{m_1 m_2}{r^2}$).
+* **Hemel en aarde verenigd:** Dezelfde kracht verklaart de vallende appel en de baan van de maan.
+
+### 3.3 De Nieuwe Wiskunde & Het Determinisme
+* **Calculus:** De noodzaak om verandering en versnelling mathematisch te vangen.
+* **Het Uurwerkwil-universum:** Als positie en snelheid van alle deeltjes bekend zijn, ligt het verloop van de wereld vast.`
+      },
+
+      sci_handleiding: {
+        title: "Open_Dag_Presentatie_Handleiding_Wetenschap.md",
+        folder: "Wetenschap",
+        presUrl: "wetenschap/presentatie_opendag_wetenschap.html",
+        presTitle: "Start Wetenschap Presentatie ▶",
+        content: `# Handleiding: "De Geboorte van de Moderne Wetenschap" (Open Dag)
+
+Dit document bevat de documentatie en instructies voor de interactieve mini-presentatie over Wetenschapsgeschiedenis & Filosofie.
+
+---
+
+## 📸 Geïntegreerde Beelden per Dia
+
+1. **Dia 1 (Titel & Introductie):** \`wetenschap/images/sci_slide1_hero.jpg\` (Studeerkamer met telescoop, armillarium en slingeruurwerk)
+2. **Dia 2 (Hoe de Wereld een Machine Werd):** \`wetenschap/images/sci_slide2_paradigm.jpg\` (Zonnestelsel en kosmische tandwielen)
+3. **Dia 3 (Les 1 - Aristoteles & Dogma):** \`wetenschap/images/sci_slide3_aristotle.jpg\` (Aristoteles in Griekse academie met geocentrisch model)
+4. **Dia 4 (Les 2 - Breuk met Geocentrisme):** \`wetenschap/images/sci_slide4_galileo.jpg\` (Galilei door telescoop, Copernicus & Kepler)
+5. **Dia 5 (Les 3 - Mechanisering van de Kosmos):** \`wetenschap/images/sci_slide5_newton.jpg\` (Newton met prisma/kleurenspectrum, Descartes, appel & klok)
+6. **Dia 6 (Aanmelden & Vragen):** \`wetenschap/images/sci_slide6_opendag.jpg\` (Historische bibliotheek met inschrijfregister)
+
+---
+
+## 🖥️ Kiosk Mode & Instellingen
+
+* **Duur per dia:** 15 seconden per dia in oneindige lus.
+* **Volledig scherm:** Knop **⛶ Volledig Scherm** voor afleidingsvrije kiosk-weergave.`
+      }
+    };
+
+    let activeDocId = 'ai_cursus';
+    const renderTarget = document.getElementById('markdown-render-target');
+    const tocList = document.getElementById('toc-list');
+    const currentDocPill = document.getElementById('current-doc-pill');
+    const bannerLauncher = document.getElementById('banner-launcher');
+    const bannerBtn = document.getElementById('banner-btn');
+    const fileItems = document.querySelectorAll('.file-item');
+    const filterInput = document.getElementById('filter-input');
+    const btnTheme = document.getElementById('btn-theme');
+    const btnPrint = document.getElementById('btn-print');
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+
+    function renderDoc(docId, customContent = null, customTitle = null) {
+      let doc = DOCS_CATALOG[docId];
+      let mdText = customContent || (doc ? doc.content : '');
+      let title = customTitle || (doc ? doc.title : 'Document');
+
+      currentDocPill.innerText = title;
+
+      // Update banner link
+      if (doc && doc.presUrl) {
+        bannerLauncher.style.display = 'flex';
+        bannerBtn.href = doc.presUrl;
+        bannerBtn.innerText = doc.presTitle;
+      } else {
+        bannerLauncher.style.display = 'none';
+      }
+
+      // Parse markdown to HTML
+      renderTarget.innerHTML = marked.parse(mdText);
+
+      // Generate Table of Contents
+      generateTOC();
+
+      // Scroll to top
+      document.getElementById('content-area').scrollTop = 0;
+    }
+
+    function generateTOC() {
+      tocList.innerHTML = '';
+      const headings = renderTarget.querySelectorAll('h1, h2, h3');
+      
+      headings.forEach((heading, index) => {
+        const id = 'heading-' + index;
+        heading.id = id;
+
+        const li = document.createElement('li');
+        li.classList.add('toc-item');
+        if (heading.tagName.toLowerCase() === 'h3') li.classList.add('h3');
+
+        const a = document.createElement('a');
+        a.href = '#' + id;
+        a.innerText = heading.innerText;
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          heading.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+    }
+
+    // Sidebar navigation click
+    fileItems.forEach(item => {
+      item.addEventListener('click', () => {
+        fileItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        const fileId = item.getAttribute('data-file-id');
+        activeDocId = fileId;
+        renderDoc(fileId);
+      });
+    });
+
+    // Filter file list
+    filterInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      fileItems.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    });
+
+    // Theme toggle
+    btnTheme.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+    });
+
+    // Print
+    btnPrint.addEventListener('click', () => {
+      window.print();
+    });
+
+    // File input / drag & drop handler
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          fileItems.forEach(i => i.classList.remove('active'));
+          renderDoc(null, event.target.result, file.name);
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    // Drag and drop events
+    window.addEventListener('dragover', (e) => { e.preventDefault(); }, false);
+    window.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          fileItems.forEach(i => i.classList.remove('active'));
+          renderDoc(null, event.target.result, file.name);
+        };
+        reader.readAsText(file);
+      }
+    }, false);
+
+    // Initial render
+    renderDoc(activeDocId);
+  </script>
+</body>
+</html>
