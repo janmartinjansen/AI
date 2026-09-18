@@ -12,47 +12,67 @@
  * 1. Open je Google Sheet "Deelnemerslijst - Aan de slag met AI".
  * 2. Klik in het bovenmenu op "Extensies" > "Apps Script".
  * 3. Vervang alle tekst in de editor door onderstaande code en klik op "Opslaan" (💾).
- * 4. Sluit het script-tabblad en herlaad je Google Sheet.
+ * 4. Sluit het script-tabblad en herlaad je Google Sheet (Cmd+R).
  * 5. Bovenin verschijnt nu het menu: "🤖 AI Cursus Menu"!
- * 
- * VOOR HET ONTVANGEN VAN ANTWOORDEN VANAF DE WEBSITE (Web App):
- * 1. Klik in Apps Script rechtsboven op "Implementeren" (Deploy) > "Nieuwe implementatie" (New deployment).
- * 2. Type selecteren: "Web-app" (Web app).
- * 3. Uitvoeren als: "Mijzelf" (Me).
- * 4. Toegang: "Iedereen" (Anyone) -> Zodat het webformulier antwoorden kan insturen.
- * 5. Klik op "Implementeren" en kopieer de Web-app URL.
- * 6. Plak deze URL in het bestand intake.html bij APPS_SCRIPT_WEBAPP_URL.
  */
 
 // Basisinformatie en URL van het intakeformulier
 const BASE_INTAKE_URL = "https://janmartinjansen.github.io/AI/najaar/intake.html";
 const SHEET_NAME_DEELNEMERS = "Deelnemers";
 const SHEET_NAME_ANTWOORDEN = "Intake Antwoorden";
-
-// Kolomnummers op tabblad "Deelnemers" (1-based: A=1, B=2, etc.)
-const COL_INSCHRIJFNUMMER = 1; // Kolom A
-const COL_DEELNEMER = 2;        // Kolom B
-const COL_VOORNAAM = 3;         // Kolom C
-const COL_TELEFOON = 4;         // Kolom D
-const COL_EMAIL = 5;            // Kolom E
-const COL_PERSOONLIJKE_LINK = 6;// Kolom F
-const COL_VERZENDSTATUS = 7;    // Kolom G
-const START_ROW = 9;            // Data begint op rij 9
+const START_ROW = 9; // Data van de cursisten begint op rij 9
+const HEADER_ROW = 8; // Kolomkopteksten staan op rij 8
 
 /**
- * Voegt automatisch het menu toe aan de Google Sheet
+ * Zoekt automatisch de juiste kolommen op basis van de kolomkopteksten in rij 8.
+ * Hierdoor werkt het script altijd, zelfs als kolommen worden verplaatst of toegevoegd!
+ */
+function getColumnMapping(sheet) {
+  const maxCol = Math.max(sheet.getLastColumn(), 12);
+  const headers = sheet.getRange(HEADER_ROW, 1, 1, maxCol).getValues()[0];
+  
+  // Standaard posities (fallback)
+  const map = {
+    inschrijfnummer: 1, // Kolom A
+    deelnemer: 2,        // Kolom B
+    voornaam: 3,         // Kolom C
+    telefoon: 4,         // Kolom D
+    email: 6,            // Kolom F (of E)
+    link: 7,             // Kolom G (of F)
+    status: 8            // Kolom H (of G)
+  };
+
+  headers.forEach((h, index) => {
+    const col = index + 1;
+    const text = String(h).toLowerCase().trim();
+    if (text.includes("inschrijf")) map.inschrijfnummer = col;
+    else if (text.includes("voornaam")) map.voornaam = col;
+    else if (text.includes("deelnemer") || text.includes("achternaam")) {
+      if (!text.includes("voornaam")) map.deelnemer = col;
+    }
+    else if (text.includes("telefoon") || text.includes("tel")) map.telefoon = col;
+    else if (text.includes("mail")) map.email = col;
+    else if (text.includes("link") || text.includes("url")) map.link = col;
+    else if (text.includes("status")) map.status = col;
+  });
+
+  return map;
+}
+
+/**
+ * Voegt automatisch het menu toe aan de Google Sheet bij openen
  */
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
-  ui.createMenu('🤖 AI Cursus Menu')
-    .addItem('🧪 0. TEST: Maak Concept Mail voor Geselecteerde Rij', 'testSingleRowDraft')
+  ui.createMenu("🤖 AI Cursus Menu")
+    .addItem("🧪 0. TEST: Maak Concept Mail voor Geselecteerde Rij", "testSingleRowDraft")
     .addSeparator()
-    .addItem('🔗 1. Genereer Persoonlijke Links (Alles)', 'generatePersonalLinks')
+    .addItem("🔗 1. Genereer Persoonlijke Links (Alles)", "generatePersonalLinks")
     .addSeparator()
-    .addItem('✉️ 2. Zet Concept Mails klaar in Gmail (Alles)', 'createGmailDrafts')
-    .addItem('🚀 3. Verstuur Mails Direct (Alles)', 'sendEmailsDirectly')
+    .addItem("✉️ 2. Zet Concept Mails klaar in Gmail (Alles)", "createGmailDrafts")
+    .addItem("🚀 3. Verstuur Mails Direct (Alles)", "sendEmailsDirectly")
     .addSeparator()
-    .addItem('📊 4. Maak / Open Tab "Intake Antwoorden"', 'setupAnswersSheet')
+    .addItem("📊 4. Maak / Open Tab \"Intake Antwoorden\"", "setupAnswersSheet")
     .addToUi();
 }
 
@@ -68,25 +88,34 @@ function testSingleRowDraft() {
 
   const activeRow = sheet.getActiveCell().getRow();
   if (activeRow < START_ROW) {
-    SpreadsheetApp.getUi().alert(`Selecteer eerst een cursist-rij (vanaf rij ${START_ROW}, bijv. je testrij)!`);
+    SpreadsheetApp.getUi().alert(`Selecteer eerst een cursist-rij (vanaf rij ${START_ROW}, bijv. je testrij op rij 22)!`);
     return;
   }
 
-  const rowData = sheet.getRange(activeRow, 1, 1, 7).getValues()[0];
-  const inschrijfnummer = String(rowData[COL_INSCHRIJFNUMMER - 1]).trim();
-  const voornaam = String(rowData[COL_VOORNAAM - 1]).trim() || "Testgebruiker";
-  const email = String(rowData[COL_EMAIL - 1]).trim();
-  let link = String(rowData[COL_PERSOONLIJKE_LINK - 1]).trim();
+  const map = getColumnMapping(sheet);
+  const maxCol = Math.max(sheet.getLastColumn(), 12);
+  const rowData = sheet.getRange(activeRow, 1, 1, maxCol).getValues()[0];
 
-  if (!email || !email.includes('@')) {
-    SpreadsheetApp.getUi().alert(`Rij ${activeRow} heeft geen geldig e-mailadres in kolom E!`);
+  const inschrijfnummer = String(rowData[map.inschrijfnummer - 1] || "").trim();
+  const voornaam = String(rowData[map.voornaam - 1] || "").trim() || "Testgebruiker";
+  const email = String(rowData[map.email - 1] || "").trim();
+  let link = String(rowData[map.link - 1] || "").trim();
+
+  const colLetterEmail = String.fromCharCode(64 + map.email);
+
+  if (!email || !email.includes("@")) {
+    SpreadsheetApp.getUi().alert(
+      `Geen geldig e-mailadres gevonden op rij ${activeRow} in kolom ${colLetterEmail}!\n` +
+      `Gevonden waarde: "${email}"\n\n` +
+      `Controleer of het e-mailadres in kolom ${colLetterEmail} staat.`
+    );
     return;
   }
 
   // Genereer link voor deze specifieke testrij als die er nog niet staat
   if (!link) {
     link = `${BASE_INTAKE_URL}?id=${encodeURIComponent(inschrijfnummer || "TEST-01")}&naam=${encodeURIComponent(voornaam)}`;
-    sheet.getRange(activeRow, COL_PERSOONLIJKE_LINK).setValue(link);
+    sheet.getRange(activeRow, map.link).setValue(link);
   }
 
   // Maak de concept-mail aan
@@ -94,16 +123,21 @@ function testSingleRowDraft() {
   const emailContent = buildEmailHtml(voornaam, link);
 
   GmailApp.createDraft(email, subject, emailContent.plainBody, { htmlBody: emailContent.htmlBody });
-  sheet.getRange(activeRow, COL_VERZENDSTATUS).setValue("Test concept klaar in Gmail");
+  sheet.getRange(activeRow, map.status).setValue("Test concept klaar in Gmail");
 
   SpreadsheetApp.getUi().alert(
-    `✅ Test geslaagd!\n\nEr is een concept-mail klaargezet in jouw Gmail voor:\n${voornaam} (${email})\n\nOpen Gmail > Concepten om de mail te openen en de link te testen!`
+    `✅ Test geslaagd!\n\n` +
+    `Voor rij ${activeRow} (${voornaam}):\n` +
+    `1. E-mailadres gelezen uit kolom ${colLetterEmail}: ${email}\n` +
+    `2. Persoonlijke link geplaatst in kolom ${String.fromCharCode(64 + map.link)}\n` +
+    `3. Concept-mail klaargezet in jouw Gmail!\n\n` +
+    `Open nu Gmail > Concepten om de mail te openen en de link te testen!`
   );
 }
 
 /**
  * 1. GENEREER PERSOONLIJKE LINKS
- * Vult kolom F ("Persoonlijke Link") met de unieke URL per cursist
+ * Vult de kolom "Persoonlijke Link" met de unieke URL per cursist
  */
 function generatePersonalLinks() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME_DEELNEMERS);
@@ -114,18 +148,20 @@ function generatePersonalLinks() {
 
   const lastRow = sheet.getLastRow();
   if (lastRow < START_ROW) {
-    SpreadsheetApp.getUi().alert('Geen cursisten gevonden vanaf rij 9.');
+    SpreadsheetApp.getUi().alert(`Geen cursisten gevonden vanaf rij ${START_ROW}.`);
     return;
   }
 
+  const map = getColumnMapping(sheet);
+  const maxCol = Math.max(sheet.getLastColumn(), 12);
   const numRows = lastRow - START_ROW + 1;
-  const data = sheet.getRange(START_ROW, 1, numRows, 7).getValues();
+  const data = sheet.getRange(START_ROW, 1, numRows, maxCol).getValues();
   const links = [];
   let count = 0;
 
   for (let i = 0; i < data.length; i++) {
-    const inschrijfnummer = String(data[i][COL_INSCHRIJFNUMMER - 1]).trim();
-    const voornaam = String(data[i][COL_VOORNAAM - 1]).trim();
+    const inschrijfnummer = String(data[i][map.inschrijfnummer - 1] || "").trim();
+    const voornaam = String(data[i][map.voornaam - 1] || "").trim();
 
     if (inschrijfnummer || voornaam) {
       const paramId = encodeURIComponent(inschrijfnummer);
@@ -134,14 +170,14 @@ function generatePersonalLinks() {
       links.push([fullUrl]);
       count++;
     } else {
-      links.push(['']);
+      links.push([""]);
     }
   }
 
-  // Schrijf de links in kolom F
-  sheet.getRange(START_ROW, COL_PERSOONLIJKE_LINK, numRows, 1).setValues(links);
+  // Schrijf de links in de juiste link-kolom
+  sheet.getRange(START_ROW, map.link, numRows, 1).setValues(links);
   
-  SpreadsheetApp.getUi().alert(`Succes! Er zijn ${count} persoonlijke links gegenereerd in kolom F.`);
+  SpreadsheetApp.getUi().alert(`Succes! Er zijn ${count} persoonlijke links gegenereerd in kolom ${String.fromCharCode(64 + map.link)}.`);
 }
 
 /**
@@ -159,8 +195,8 @@ function createGmailDrafts() {
 function sendEmailsDirectly() {
   const ui = SpreadsheetApp.getUi();
   const response = ui.alert(
-    'Mails Direct Verzenden',
-    'Weet je zeker dat je de welkomstmails direct wilt verzenden naar alle cursisten?',
+    "Mails Direct Verzenden",
+    "Weet je zeker dat je de welkomstmails direct wilt verzenden naar alle cursisten?",
     ui.ButtonSet.YES_NO
   );
 
@@ -179,8 +215,10 @@ function processEmails(isDraftOnly) {
   const lastRow = sheet.getLastRow();
   if (lastRow < START_ROW) return;
 
+  const map = getColumnMapping(sheet);
+  const maxCol = Math.max(sheet.getLastColumn(), 12);
   const numRows = lastRow - START_ROW + 1;
-  const range = sheet.getRange(START_ROW, 1, numRows, 7);
+  const range = sheet.getRange(START_ROW, 1, numRows, maxCol);
   const data = range.getValues();
 
   let count = 0;
@@ -188,27 +226,27 @@ function processEmails(isDraftOnly) {
 
   for (let i = 0; i < data.length; i++) {
     const rowNum = START_ROW + i;
-    const voornaam = String(data[i][COL_VOORNAAM - 1]).trim();
-    const email = String(data[i][COL_EMAIL - 1]).trim();
-    let link = String(data[i][COL_PERSOONLIJKE_LINK - 1]).trim();
-    const status = String(data[i][COL_VERZENDSTATUS - 1]).trim();
+    const voornaam = String(data[i][map.voornaam - 1] || "").trim();
+    const email = String(data[i][map.email - 1] || "").trim();
+    let link = String(data[i][map.link - 1] || "").trim();
+    const status = String(data[i][map.status - 1] || "").trim();
 
     // Sla over als al verzonden of geen email
-    if (!email || !email.includes('@')) {
+    if (!email || !email.includes("@")) {
       skipped++;
       continue;
     }
 
-    if (status === 'Verzonden') {
+    if (status === "Verzonden") {
       skipped++;
       continue;
     }
 
     // Genereer link als deze nog ontbrak
     if (!link) {
-      const inschrijfnummer = String(data[i][COL_INSCHRIJFNUMMER - 1]).trim();
+      const inschrijfnummer = String(data[i][map.inschrijfnummer - 1] || "").trim();
       link = `${BASE_INTAKE_URL}?id=${encodeURIComponent(inschrijfnummer)}&naam=${encodeURIComponent(voornaam)}`;
-      sheet.getRange(rowNum, COL_PERSOONLIJKE_LINK).setValue(link);
+      sheet.getRange(rowNum, map.link).setValue(link);
     }
 
     const subject = `Praktijkcursus "Aan de slag met AI" - Welkom & Korte Vragenlijst`;
@@ -216,10 +254,10 @@ function processEmails(isDraftOnly) {
 
     if (isDraftOnly) {
       GmailApp.createDraft(email, subject, emailContent.plainBody, { htmlBody: emailContent.htmlBody });
-      sheet.getRange(rowNum, COL_VERZENDSTATUS).setValue("Concept klaar in Gmail");
+      sheet.getRange(rowNum, map.status).setValue("Concept klaar in Gmail");
     } else {
       GmailApp.sendEmail(email, subject, emailContent.plainBody, { htmlBody: emailContent.htmlBody });
-      sheet.getRange(rowNum, COL_VERZENDSTATUS).setValue("Verzonden");
+      sheet.getRange(rowNum, map.status).setValue("Verzonden");
     }
 
     count++;
