@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Open Dag 2026 - Cursussen Hub</title>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Aan de slag met AI • Praktijkcursus School 7</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 45%, #1e1b4b 100%);
+      --bg-gradient: linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e1b4b 100%);
       --accent-blue: #38bdf8;
+      --accent-blue-hover: #0284c7;
       --accent-purple: #c084fc;
       --accent-gold: #fbbf24;
-      --card-bg: rgba(255, 255, 255, 0.06);
-      --card-border: rgba(255, 255, 255, 0.14);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.12);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --radius: 18px;
     }
 
     * {
@@ -32,21 +32,28 @@
       background: var(--bg-gradient);
       color: var(--text-main);
       min-height: 100vh;
+      line-height: 1.6;
+      padding: 3rem 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 2rem;
     }
 
     .container {
-      max-width: 960px;
+      max-width: 920px;
       width: 100%;
+    }
+
+    /* Header */
+    header {
       text-align: center;
+      margin-bottom: 2.5rem;
     }
 
     .tag {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       padding: 6px 16px;
       background: rgba(56, 189, 248, 0.12);
       border: 1px solid rgba(56, 189, 248, 0.35);
@@ -60,141 +67,346 @@
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: 900;
-      line-height: 1.15;
+      line-height: 1.2;
       margin-bottom: 0.8rem;
       background: linear-gradient(to right, #ffffff, #e2e8f0, #93c5fd);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    p.subtitle {
+    .subtitle {
       font-size: 1.2rem;
       color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 680px;
+      margin: 0 auto 1.5rem auto;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      text-align: left;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2rem;
-      backdrop-filter: blur(14px);
-      text-decoration: none;
-      color: inherit;
+    .meta-bar {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.25s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent-blue);
-      box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
-    }
-
-    .card-ai:hover { border-color: var(--accent-blue); }
-    .card-sci:hover { border-color: var(--accent-gold); box-shadow: 0 20px 40px rgba(251, 191, 36, 0.2); }
-    .card-viewer:hover { border-color: var(--accent-purple); box-shadow: 0 20px 40px rgba(192, 132, 252, 0.2); }
-
-    .card-icon {
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .card h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: #ffffff;
-    }
-
-    .card p {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
       font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-      margin-bottom: 1.5rem;
+      color: #cbd5e1;
     }
 
-    .card-btn {
+    .meta-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: 999px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--accent-blue);
-      margin-top: auto;
     }
 
-    .card-sci .card-btn { color: var(--accent-gold); }
-    .card-viewer .card-btn { color: var(--accent-purple); }
+    /* Intake Banner Callout */
+    .intake-banner {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(147, 51, 234, 0.25) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
 
-    footer {
-      margin-top: 3rem;
-      font-size: 0.85rem;
+    .intake-banner-text h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+    }
+
+    .intake-banner-text p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      margin: 0;
+    }
+
+    .btn-intake {
+      background: #2563eb;
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-intake:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Lessons Grid */
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.4rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .lesson-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .lesson-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-blue);
+      margin-bottom: 0.6rem;
+    }
+
+    .lesson-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+
+    .lesson-card p {
+      font-size: 0.92rem;
       color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .lesson-card ul {
+      margin-top: 0.8rem;
+      padding-left: 1.2rem;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    .lesson-card li {
+      margin-bottom: 0.35rem;
+    }
+
+    /* Info & Resources Bar */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.4rem;
+      margin-bottom: 3rem;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .info-card h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 1rem;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: gap 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      gap: 10px;
+      color: #7dd3fc;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 2rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-blue);
+    }
+
+    @media (max-width: 680px) {
+      h1 { font-size: 2.1rem; }
+      .intake-banner { flex-direction: column; align-items: flex-start; }
+      .btn-intake { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="tag">✨ Open Dag 2026 • Presentaties</div>
-    <h1>Kies een Cursus Presentatie</h1>
-    <p class="subtitle">Zelf-uitleggende interactieve diashows (15s autorun) en documenten voor de Open Dag.</p>
-
-    <div class="grid">
+    
+    <!-- Header -->
+    <header>
+      <div class="tag">🤖 Praktijkcursus • Najaar 2026</div>
+      <h1>Aan de slag met AI</h1>
+      <p class="subtitle">Ontdek de kracht van moderne slimme tools (ChatGPT, Gemini, Copilot) in het dagelijks leven en werk.</p>
       
-      <!-- AI Presentatie -->
-      <a href="presentatie_opendag.html" class="card card-ai">
-        <div>
-          <div class="card-icon">🤖</div>
-          <h2>Aan de slag met AI</h2>
-          <p>Praktijkcursus in 3 bijeenkomsten: ChatGPT, prompting, beeldgeneratie & persoonlijke assistent.</p>
-        </div>
-        <div class="card-btn">Start AI Presentatie ▶</div>
-      </a>
+      <div class="meta-bar">
+        <div class="meta-pill">👨‍🏫 Docent: Jan Martin Jansen</div>
+        <div class="meta-pill">📍 School 7, Den Helder</div>
+        <div class="meta-pill">💻 Eigen laptop of tablet meenemen</div>
+      </div>
+    </header>
 
-      <!-- Wetenschap Presentatie -->
-      <a href="wetenschap/presentatie_opendag_wetenschap.html" class="card card-sci">
-        <div>
-          <div class="card-icon">🪐</div>
-          <h2>Moderne Wetenschap</h2>
-          <p>Wetenschapsgeschiedenis & Filosofie (Blok 1): Van Griekse dogma's naar Copernicus, Galilei & Newton.</p>
-        </div>
-        <div class="card-btn">Start Wetenschap Presentatie ▶</div>
+    <!-- Intake Callout Banner -->
+    <div class="intake-banner">
+      <div class="intake-banner-text">
+        <h3>📋 Intake Vragenlijst voor Deelnemers</h3>
+        <p>Ben je ingeschreven? Vul vooraf even de korte vragenlijst in (3 minuten) zodat we de oefeningen optimaal afstemmen.</p>
+      </div>
+      <a href="intake.html" class="btn-intake">
+        <span>Vragenlijst invullen</span>
+        <span>➔</span>
       </a>
+    </div>
 
-      <!-- Document Viewer -->
-      <a href="md_viewer.html" class="card card-viewer">
-        <div>
-          <div class="card-icon">📖</div>
-          <h2>Document Viewer</h2>
-          <p>Bekijk alle cursusdocumenten en handleidingen in de interactieve Markdown viewer.</p>
-        </div>
-        <div class="card-btn">Open Document Viewer ➔</div>
-      </a>
+    <!-- Cursusprogramma -->
+    <h2 class="section-title">📚 Cursusopzet (3 Bijeenkomsten)</h2>
+    <div class="lessons-grid">
+      
+      <!-- Les 1 -->
+      <div class="lesson-card">
+        <div class="lesson-badge">Les 1</div>
+        <h3>✍️ De Slimme Schrijver & Prompting</h3>
+        <p>We starten met de basisprincipes van grote taalmodellen en ontdekken de kunst van effectief vragen stellen (prompting).</p>
+        <ul>
+          <li>Werken met ChatGPT, Gemini en Copilot</li>
+          <li>Brieven, e-mails en teksten redigeren</li>
+          <li>Lange artikelen en verslagen samenvatten</li>
+          <li>Creatief brainstormen & persona-prompts</li>
+        </ul>
+      </div>
+
+      <!-- Les 2 -->
+      <div class="lesson-card">
+        <div class="lesson-badge">Les 2</div>
+        <h3>🎨 Beeld, Ontwerp & Kijken met AI</h3>
+        <p>Ontdek de visuele en multimodale mogelijkheden van moderne AI-systemen.</p>
+        <ul>
+          <li>Afbeeldingen genereren vanuit tekst</li>
+          <li>Foto's bewerken en stijlen toepassen</li>
+          <li>Vision: foto's uploaden en laten analyseren</li>
+          <li>Herkennen van planten, objecten & documenten</li>
+        </ul>
+      </div>
+
+      <!-- Les 3 -->
+      <div class="lesson-card">
+        <div class="lesson-badge">Les 3</div>
+        <h3>🤖 Persoonlijke Assistent & Betrouwbaarheid</h3>
+        <p>Laat AI voor je plannen en ontdek hoe je veilig en kritisch omgaat met de resultaten.</p>
+        <ul>
+          <li>Dag-, week- en vakantieplanningen maken</li>
+          <li>AI als sparringpartner en denk-assistent</li>
+          <li>Factchecken & omgaan met hallucinaties</li>
+          <li>Privacy, veiligheid & deepfakes herkennen</li>
+        </ul>
+      </div>
 
     </div>
 
+    <!-- Extra Informatie & Documenten -->
+    <h2 class="section-title">📂 Cursusmateriaal & Links</h2>
+    <div class="info-grid">
+      
+      <div class="info-card">
+        <h4>📖 Document Viewer</h4>
+        <p>Raadpleeg de cursusdocumenten, samenvattingen, introductielessen en handleidingen in de interactieve lezer.</p>
+        <a href="md_viewer.html" class="btn-secondary">Open Document Viewer ➔</a>
+      </div>
+
+      <div class="info-card">
+        <h4>💡 Praktische Voorbereiding</h4>
+        <p>We gaan tijdens de lessen direct zelf aan de slag. Zorg ervoor dat je apparaat is opgeladen en neem eventueel een oplader mee.</p>
+        <a href="intake.html" class="btn-secondary">Naar het intakeformulier ➔</a>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
     <footer>
-      <span>💡 Tip voor iPad: Tik in Safari op <strong>Deel ➔ Zet op beginscherm</strong> voor een schermvullende app zonder browserbalken!</span>
+      <div class="footer-links">
+        <a href="intake.html">Intake Vragenlijst</a>
+        <span>•</span>
+        <a href="md_viewer.html">Document Viewer</a>
+        <span>•</span>
+        <a href="presentatie_opendag.html" title="Open Dag AI Presentatie">AI Presentatie</a>
+        <span>•</span>
+        <a href="wetenschap/presentatie_opendag_wetenschap.html" title="Open Dag Wetenschap Presentatie">Wetenschap Presentatie</a>
+      </div>
+      <p>© 2026 Jan Martin Jansen • Cursus "Aan de slag met AI" (MM2704) • School 7</p>
     </footer>
+
   </div>
 
 </body>
