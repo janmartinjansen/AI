@@ -275,7 +275,7 @@ function buildEmailHtml(voornaam, link) {
     <div style="font-family: Arial, sans-serif; font-size: 15px; color: #1e293b; line-height: 1.6; max-width: 600px;">
       <p>Beste ${voornaam},</p>
       
-      <p>Binnenkort gaan we van start met de praktijkcursus <strong>"Aan de slag met AI: ontdek de kracht van slimme tools"</strong> in School 7. Ik kijk er erg naar uit om je te ontmoeten!</p>
+      <p>Binnenkort gaan we van start met de praktijkcursus <strong>"Aan de slag met AI: ontdek de kracht van slimme tools"</strong> in School 7. </p>
       
       <p>In 3 interactieve bijeenkomsten gaan we zelf actief aan de knoppen zitten met moderne AI-tools (zoals ChatGPT en Google Gemini) voor o.a. het schrijven van brieven en e-mails, razendsnel samenvatten, beeldgeneratie en praktische assistentie.</p>
       
@@ -355,10 +355,17 @@ function setupAnswersSheet() {
     sheet.setColumnWidth(8, 250); // Geslaagd
     sheet.setColumnWidth(9, 250); // Vragen
 
-    SpreadsheetApp.getUi().alert(`Tabblad "${SHEET_NAME_ANTWOORDEN}" is aangemaakt!`);
+    try {
+      SpreadsheetApp.getUi().alert(`Tabblad "${SHEET_NAME_ANTWOORDEN}" is aangemaakt!`);
+    } catch (err) {
+      // Uitgevoerd via Web App (geen UI context nodig)
+    }
   } else {
-    ss.setActiveSheet(sheet);
+    try {
+      ss.setActiveSheet(sheet);
+    } catch (err) {}
   }
+  return sheet;
 }
 
 /**

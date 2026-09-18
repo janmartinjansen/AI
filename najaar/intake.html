@@ -628,11 +628,11 @@
     const successScreen = document.getElementById('success-screen');
     const btnSubmit = document.getElementById('btn-submit');
 
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
       btnSubmit.disabled = true;
-      btnSubmit.innerHTML = '<span>Bezig met opslaan...</span>';
+      btnSubmit.innerHTML = '<span>Verzonden!</span>';
 
       // Verzamel antwoorden
       const formData = new FormData(form);
@@ -648,30 +648,22 @@
         specifieke_vragen: formData.get('specifieke_vragen') || ''
       };
 
-      try {
-        if (APPS_SCRIPT_WEBAPP_URL && !APPS_SCRIPT_WEBAPP_URL.includes("HIER_KOMT")) {
-          await fetch(APPS_SCRIPT_WEBAPP_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-        } else {
-          // Demo / lokaal opslaan in sessionStorage als backup
-          sessionStorage.setItem('intake_submission', JSON.stringify(data));
-          console.log("Antwoorden opgeslagen (lokaal):", data);
-        }
+      // Toon direct het bedankscherm voor snelle responsiviteit
+      formWrapper.style.display = 'none';
+      successScreen.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Toon succes scherm
-        formWrapper.style.display = 'none';
-        successScreen.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      } catch (err) {
-        console.error("Fout bij verzenden:", err);
-        alert("Er is een fout opgetreden bij het verzenden. Probeer het opnieuw of stuur een bericht naar de docent.");
-        btnSubmit.disabled = false;
-        btnSubmit.innerHTML = '<span>Verstuur Antwoorden</span><span>➔</span>';
+      // Verstuur naar Google Apps Script Web App
+      if (APPS_SCRIPT_WEBAPP_URL && !APPS_SCRIPT_WEBAPP_URL.includes("HIER_KOMT")) {
+        fetch(APPS_SCRIPT_WEBAPP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data),
+          keepalive: true
+        }).catch(err => console.error("Fout bij achtergrond opslaan:", err));
+      } else {
+        sessionStorage.setItem('intake_submission', JSON.stringify(data));
       }
     });
   </script>
