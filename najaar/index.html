@@ -11,9 +11,7 @@
     :root {
       --bg-gradient: linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e1b4b 100%);
       --accent-blue: #38bdf8;
-      --accent-blue-hover: #0284c7;
       --accent-purple: #c084fc;
-      --accent-gold: #fbbf24;
       --card-bg: rgba(30, 41, 59, 0.7);
       --card-border: rgba(255, 255, 255, 0.12);
       --text-main: #f8fafc;
@@ -33,21 +31,21 @@
       color: var(--text-main);
       min-height: 100vh;
       line-height: 1.6;
-      padding: 3rem 1.5rem;
+      padding: 3.5rem 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
     .container {
-      max-width: 920px;
+      max-width: 860px;
       width: 100%;
     }
 
     /* Header */
     header {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 3rem;
     }
 
     .tag {
@@ -67,7 +65,7 @@
     }
 
     h1 {
-      font-size: 2.8rem;
+      font-size: 2.9rem;
       font-weight: 900;
       line-height: 1.2;
       margin-bottom: 0.8rem;
@@ -80,7 +78,7 @@
       font-size: 1.2rem;
       color: var(--text-muted);
       max-width: 680px;
-      margin: 0 auto 1.5rem auto;
+      margin: 0 auto 1.6rem auto;
     }
 
     .meta-bar {
@@ -102,59 +100,9 @@
       gap: 6px;
     }
 
-    /* Intake Banner Callout */
-    .intake-banner {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(147, 51, 234, 0.25) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      border-radius: var(--radius);
-      padding: 1.8rem 2rem;
-      margin-bottom: 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    }
-
-    .intake-banner-text h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 0.35rem;
-    }
-
-    .intake-banner-text p {
-      font-size: 0.95rem;
-      color: #cbd5e1;
-      margin: 0;
-    }
-
-    .btn-intake {
-      background: #2563eb;
-      color: #ffffff;
-      padding: 12px 22px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-decoration: none;
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
-    }
-
-    .btn-intake:hover {
-      background: #1d4ed8;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
-    }
-
     /* Section Headings */
     .section-title {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 800;
       color: #ffffff;
       margin-bottom: 1.2rem;
@@ -166,7 +114,7 @@
     /* Lessons Grid */
     .lessons-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.4rem;
       margin-bottom: 2.5rem;
     }
@@ -179,12 +127,6 @@
       backdrop-filter: blur(14px);
       display: flex;
       flex-direction: column;
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-
-    .lesson-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(56, 189, 248, 0.5);
     }
 
     .lesson-badge {
@@ -220,51 +162,34 @@
       margin-bottom: 0.35rem;
     }
 
-    /* Info & Resources Bar */
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.4rem;
-      margin-bottom: 3rem;
-    }
-
-    .info-card {
+    /* Practical Info Card */
+    .practical-card {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--card-border);
       border-radius: var(--radius);
-      padding: 1.5rem;
+      padding: 1.8rem 2rem;
+      margin-bottom: 3.5rem;
+      backdrop-filter: blur(10px);
     }
 
-    .info-card h4 {
-      font-size: 1.1rem;
+    .practical-card h3 {
+      font-size: 1.2rem;
       font-weight: 700;
       color: #ffffff;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.8rem;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .info-card p {
-      font-size: 0.92rem;
-      color: var(--text-muted);
+    .practical-card p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      margin-bottom: 0.8rem;
     }
 
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 1rem;
-      color: var(--accent-blue);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: gap 0.2s ease;
-    }
-
-    .btn-secondary:hover {
-      gap: 10px;
-      color: #7dd3fc;
+    .practical-card p:last-child {
+      margin-bottom: 0;
     }
 
     /* Footer */
@@ -276,28 +201,9 @@
       color: var(--text-muted);
     }
 
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 0.8rem;
-    }
-
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.15s ease;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent-blue);
-    }
-
     @media (max-width: 680px) {
       h1 { font-size: 2.1rem; }
-      .intake-banner { flex-direction: column; align-items: flex-start; }
-      .btn-intake { width: 100%; justify-content: center; }
+      body { padding: 2rem 1rem; }
     }
   </style>
 </head>
@@ -318,20 +224,8 @@
       </div>
     </header>
 
-    <!-- Intake Callout Banner -->
-    <div class="intake-banner">
-      <div class="intake-banner-text">
-        <h3>📋 Intake Vragenlijst voor Deelnemers</h3>
-        <p>Ben je ingeschreven? Vul vooraf even de korte vragenlijst in (3 minuten) zodat we de oefeningen optimaal afstemmen.</p>
-      </div>
-      <a href="intake.html" class="btn-intake">
-        <span>Vragenlijst invullen</span>
-        <span>➔</span>
-      </a>
-    </div>
-
     <!-- Cursusprogramma -->
-    <h2 class="section-title">📚 Cursusopzet (3 Bijeenkomsten)</h2>
+    <h2 class="section-title">📚 Programma per Bijeenkomst</h2>
     <div class="lessons-grid">
       
       <!-- Les 1 -->
@@ -375,36 +269,16 @@
 
     </div>
 
-    <!-- Extra Informatie & Documenten -->
-    <h2 class="section-title">📂 Cursusmateriaal & Links</h2>
-    <div class="info-grid">
-      
-      <div class="info-card">
-        <h4>📖 Document Viewer</h4>
-        <p>Raadpleeg de cursusdocumenten, samenvattingen, introductielessen en handleidingen in de interactieve lezer.</p>
-        <a href="md_viewer.html" class="btn-secondary">Open Document Viewer ➔</a>
-      </div>
-
-      <div class="info-card">
-        <h4>💡 Praktische Voorbereiding</h4>
-        <p>We gaan tijdens de lessen direct zelf aan de slag. Zorg ervoor dat je apparaat is opgeladen en neem eventueel een oplader mee.</p>
-        <a href="intake.html" class="btn-secondary">Naar het intakeformulier ➔</a>
-      </div>
-
+    <!-- Praktische Informatie -->
+    <div class="practical-card">
+      <h3>💡 Praktische Informatie & Voorbereiding</h3>
+      <p>In tegenstelling tot puur theoretische lezingen gaan we tijdens deze cursus <strong>actief zelf aan de slag</strong> met de tools. Neem daarom naar elke bijeenkomst je <strong>eigen laptop of tablet</strong> mee (en zorg dat deze opgeladen is).</p>
+      <p>Je hebt geen technische voorkennis of programmeervaardigheden nodig. Een nieuwsgierige houding en digitale basisvaardigheden zijn voldoende!</p>
     </div>
 
     <!-- Footer -->
     <footer>
-      <div class="footer-links">
-        <a href="intake.html">Intake Vragenlijst</a>
-        <span>•</span>
-        <a href="md_viewer.html">Document Viewer</a>
-        <span>•</span>
-        <a href="presentatie_opendag.html" title="Open Dag AI Presentatie">AI Presentatie</a>
-        <span>•</span>
-        <a href="wetenschap/presentatie_opendag_wetenschap.html" title="Open Dag Wetenschap Presentatie">Wetenschap Presentatie</a>
-      </div>
-      <p>© 2026 Jan Martin Jansen • Cursus "Aan de slag met AI" (MM2704) • School 7</p>
+      <p>© 2026 Jan Martin Jansen • Cursus "Aan de slag met AI" (MM2704) • School 7, Den Helder</p>
     </footer>
 
   </div>
