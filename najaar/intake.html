@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Intake Vragenlijst • Aan de slag met AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --border-focus: #3b82f6;
+      --radius: 14px;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header Card */
+    .header-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 2.2rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+
+    .header-card h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+
+    .header-card .welcome-text {
+      font-size: 1.15rem;
+      color: #93c5fd;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-card p {
+      color: #cbd5e1;
+      font-size: 0.98rem;
+    }
+
+    /* Form Section Cards */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s;
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .question-number {
+      background: var(--primary-light);
+      color: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .question-help {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+      margin-left: 38px;
+    }
+
+    /* Options List (Radio & Checkbox cards) */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-left: 38px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 0.9rem 1.1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #fafbfc;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .option-label:hover {
+      border-color: #cbd5e1;
+      background: #f1f5f9;
+    }
+
+    .option-label input[type="radio"],
+    .option-label input[type="checkbox"] {
+      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .option-label.checked {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+    }
+
+    .option-text strong {
+      display: block;
+      color: var(--text-main);
+      font-size: 0.98rem;
+    }
+
+    .option-text span {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Text Inputs & Textareas */
+    .text-input-wrap {
+      margin-left: 38px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.98rem;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--text-main);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    /* Privacy Banner */
+    .privacy-box {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .privacy-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: -1px;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 1.1rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.99);
+    }
+
+    .submit-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Success state */
+    #success-screen {
+      display: none;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3.5rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: #dcfce7;
+      color: #16a34a;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    #success-screen h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    #success-screen p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 480px;
+      margin: 0 auto 1.8rem auto;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 1rem 0.5rem; }
+      .header-card { padding: 1.6rem 1.4rem; }
+      .form-card { padding: 1.4rem 1.2rem; }
+      .question-help, .options-list, .text-input-wrap { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- INTAKE FORMULIER -->
+    <div id="form-wrapper">
+
+      <div class="header-card">
+        <div class="badge">Aan de slag met AI • School 7</div>
+        <div class="welcome-text" id="greeting-box">Welkom bij de cursus!</div>
+        <h1>Korte Intake Vragenlijst</h1>
+        <p>Fijn dat je meedoet! Met deze korte vragenlijst (duurt ~3 minuten) stemmen we de praktische oefeningen in de lessen optimaal af op jouw achtergrond, wensen en het apparaat dat je meeneemt.</p>
+      </div>
+
+      <form id="intake-form">
+        <input type="hidden" id="student-id" name="student_id" value="">
+        <input type="hidden" id="student-name" name="student_name" value="">
+
+        <!-- VRAAG 1: Apparaat -->
+        <div class="form-card">
+          <div class="question-title">
+            <span class="question-number">1</span>
+            <span>Welk apparaat neem je mee naar de lessen?</span>
+          </div>
+          <div class="question-help">Tijdens elke les gaan we actief zelf oefenen.</div>
+
+          <div class="options-list">
+            <label class="option-label">
+              <input type="radio" name="apparaat" value="Windows laptop" required>
+              <div class="option-text">
+                <strong>💻 Windows laptop</strong>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="apparaat" value="Apple MacBook">
+              <div class="option-text">
+                <strong>💻 Apple MacBook (Mac laptop)</strong>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="apparaat" value="iPad / Apple tablet">
+              <div class="option-text">
+                <strong>📱 iPad (Apple tablet)</strong>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="apparaat" value="Android tablet / Chromebook">
+              <div class="option-text">
+                <strong>📱 Android tablet of Chromebook</strong>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="apparaat" value="Anders">
+              <div class="option-text">
+                <strong>Anders / Weet ik nog niet</strong>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- VRAAG 2: Huidige ervaring -->
+        <div class="form-card">
+          <div class="question-title">
+            <span class="question-number">2</span>
+            <span>Wat is jouw huidige ervaring met AI-tools?</span>
+          </div>
+          <div class="question-help">Bijvoorbeeld met ChatGPT, Microsoft Copilot of Google Gemini.</div>
+
+          <div class="options-list">
+            <label class="option-label">
+              <input type="radio" name="ervaring" value="Nog nooit gebruikt" required>
+              <div class="option-text">
+                <strong>Nog nooit gebruikt</strong>
+                <span>Ik heb er veel over gehoord of gelezen, maar er zelf nog niet mee gewerkt.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="ervaring" value="Enkele keren geprobeerd">
+              <div class="option-text">
+                <strong>Enkele keren geprobeerd</strong>
+                <span>Ik heb weleens een vraag gesteld of een tekstje laten maken, maar weet niet goed hoe ik verder moet.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="ervaring" value="Regelmatig gebruikt">
+              <div class="option-text">
+                <strong>Regelmatig gebruikt</strong>
+                <span>Ik gebruik AI al af en toe, maar wil er veel handiger, creatiever en vaardiger in worden.</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- VRAAG 3: Waarom doe je mee? -->
+        <div class="form-card">
+          <div class="question-title">
+            <span class="question-number">3</span>
+            <span>Wat zijn voor jou de belangrijkste redenen om mee te doen?</span>
+          </div>
+          <div class="question-help">Je mag meerdere opties aanvinken.</div>
+
+          <div class="options-list">
+            <label class="option-label">
+              <input type="checkbox" name="redenen" value="Begrijpen en nieuwsgierigheid">
+              <div class="option-text">
+                <strong>Nieuwsgierigheid & Begrip</strong>
+                <span>Ik wil begrijpen wat AI nu écht is en hoe het werkt (en de ontwikkelingen bijbenen).</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="redenen" value="Praktisch gemak in het dagelijks leven">
+              <div class="option-text">
+                <strong>Praktisch gemak in het dagelijks leven</strong>
+                <span>Hulp bij het opstellen van brieven, e-mails, planningen en sneller samenvatten.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="redenen" value="Creativiteit en beelden">
+              <div class="option-text">
+                <strong>Creatieve mogelijkheden</strong>
+                <span>Brainstormen over ideeën, afbeeldingen genereren of foto's laten analyseren.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="redenen" value="Vrijwilligerswerk of vereniging">
+              <div class="option-text">
+                <strong>Vrijwilligerswerk, club of vereniging</strong>
+                <span>Notulen verwerken, nieuwsbrieven schrijven of beleidsstukken samenvatten.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="redenen" value="Veiligheid en betrouwbaarheid">
+              <div class="option-text">
+                <strong>Kritische blik & Veiligheid</strong>
+                <span>Weten hoe je omgaat met privacy, betrouwbaarheid en het herkennen van deepfakes.</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- VRAAG 4: Toepassingen -->
+        <div class="form-card">
+          <div class="question-title">
+            <span class="question-number">4</span>
+            <span>Waar heb je in je dagelijks leven of hobby's het meeste mee te maken?</span>
+          </div>
+          <div class="question-help">Dit helpt de docent om herkenbare praktijkvoorbeelden te kiezen.</div>
+
+          <div class="options-list">
+            <label class="option-label">
+              <input type="checkbox" name="toepassingen" value="Schrijven en correspondentie">
+              <div class="option-text">
+                <strong>Correspondentie & Teksten</strong>
+                <span>E-mails, officiële brieven, verslagen, toespraken of artikelen.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="toepassingen" value="Veel leeswerk en documenten">
+              <div class="option-text">
+                <strong>Leeswerk & Informatie temmen</strong>
+                <span>Lange artikelen, rapporten, taaie stukken of boeken snel tot de kern brengen.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="toepassingen" value="Beeld, kunst en fotografie">
+              <div class="option-text">
+                <strong>Beeld, fotografie & vormgeving</strong>
+                <span>Foto's bewerken, illustraties maken, tuin- of interieurideeën.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="toepassingen" value="Reizen, cultuur en talen">
+              <div class="option-text">
+                <strong>Reizen, cultuur & talen</strong>
+                <span>Vakantieplanningen, reisroutes, vertalingen of taalcoaching.</span>
+              </div>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="toepassingen" value="Bestuur en verenigingsleven">
+              <div class="option-text">
+                <strong>Bestuur, commissies of verenigingsleven</strong>
+                <span>Vergaderstukken, penningmeesterstaken of beleid.</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- VRAAG 5: Wanneer geslaagd -->
+        <div class="form-card">
+          <div class="question-title">
+            <span class="question-number">5</span>
+            <span>Wanneer is deze cursus na 3 lessen voor jou écht geslaagd?</span>
+          </div>
+          <div class="question-help">Wat hoop je straks zelfstandig te kunnen of te weten?</div>
+          <div class="text-input-wrap">
+            <textarea name="geslaagd" placeholder="Bijvoorbeeld: 'Als ik zonder twijfel ChatGPT kan inzetten om een lastige brief of toespraak te perfectioneren.'"></textarea>
+          </div>
+        </div>
+
+        <!-- VRAAG 6: Vragen of wensen -->
+        <div class="form-card">
+          <div class="question-title">
+            <span class="question-number">6</span>
+            <span>Heb je nog een specifieke vraag of een specifiek onderwerp dat je wilt leren?</span>
+          </div>
+          <div class="question-help">Optioneel, maar heel waardevol voor de voorbereiding.</div>
+          <div class="text-input-wrap">
+            <textarea name="specifieke_vragen" placeholder="Eventuele vragen of speciale onderwerpen..."></textarea>
+          </div>
+        </div>
+
+        <!-- Privacy Box -->
+        <div class="privacy-box">
+          <div class="privacy-icon">🔒</div>
+          <div>
+            <strong>Vertrouwelijk & Privacy:</strong><br>
+            Je antwoorden zijn uitsluitend bestemd voor docent Jan Martin Jansen ter voorbereiding van de lessen. Ze worden niet gedeeld met medecursisten (tenzij als anoniem totaalaantal tijdens de les).
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="submit-btn" id="btn-submit">
+          <span>Verstuur Antwoorden</span>
+          <span>➔</span>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- SUCCES SCHERM (na verzenden) -->
+    <div id="success-screen">
+      <div class="success-icon">✓</div>
+      <h2>Hartelijk dank, <span id="success-name">cursist</span>!</h2>
+      <p>Je antwoorden zijn succesvol ontvangen en opgeslagen. Ik neem je wensen en achtergrond mee in de voorbereiding van de lessen.</p>
+      <p style="font-size: 0.95rem; color: #64748b;">Tot ziens bij de eerste les in School 7!</p>
+      <a href="https://janmartinjansen.github.io/AI/najaar" class="back-link">← Terug naar de cursuswebsite</a>
+    </div>
+
+  </div>
+
+  <script>
+    // 1. Lees parameters uit URL (?id=...&naam=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentId = urlParams.get('id') || '';
+    const studentName = urlParams.get('naam') || '';
+
+    const greetingBox = document.getElementById('greeting-box');
+    const studentIdInput = document.getElementById('student-id');
+    const studentNameInput = document.getElementById('student-name');
+    const successName = document.getElementById('success-name');
+
+    if (studentId) {
+      studentIdInput.value = studentId;
+    }
+
+    if (studentName) {
+      studentNameInput.value = studentName;
+      greetingBox.innerHTML = `Welkom <strong>${studentName}</strong>!`;
+      successName.textContent = studentName;
+    } else {
+      successName.textContent = 'beste cursist';
+    }
+
+    // 2. Styling voor geselecteerde labels
+    document.querySelectorAll('.option-label').forEach(label => {
+      const input = label.querySelector('input');
+      
+      input.addEventListener('change', () => {
+        if (input.type === 'radio') {
+          document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
+            r.closest('.option-label').classList.remove('checked');
+          });
+        }
+        if (input.checked) {
+          label.classList.add('checked');
+        } else {
+          label.classList.remove('checked');
+        }
+      });
+    });
+
+    // 3. Formulier verzending naar Google Apps Script Web App
+    // LET OP: Vervang onderstaande URL met de Web App URL van je Google Apps Script!
+    const APPS_SCRIPT_WEBAPP_URL = "HIER_KOMT_DE_GOOGLE_APPS_SCRIPT_WEBAPP_URL";
+
+    const form = document.getElementById('intake-form');
+    const formWrapper = document.getElementById('form-wrapper');
+    const successScreen = document.getElementById('success-screen');
+    const btnSubmit = document.getElementById('btn-submit');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = '<span>Bezig met opslaan...</span>';
+
+      // Verzamel antwoorden
+      const formData = new FormData(form);
+      const data = {
+        timestamp: new Date().toISOString(),
+        student_id: formData.get('student_id') || 'Onbekend',
+        student_name: formData.get('student_name') || 'Onbekend',
+        apparaat: formData.get('apparaat') || '',
+        ervaring: formData.get('ervaring') || '',
+        redenen: formData.getAll('redenen').join(', '),
+        toepassingen: formData.getAll('toepassingen').join(', '),
+        geslaagd: formData.get('geslaagd') || '',
+        specifieke_vragen: formData.get('specifieke_vragen') || ''
+      };
+
+      try {
+        if (APPS_SCRIPT_WEBAPP_URL && !APPS_SCRIPT_WEBAPP_URL.includes("HIER_KOMT")) {
+          await fetch(APPS_SCRIPT_WEBAPP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+        } else {
+          // Demo / lokaal opslaan in sessionStorage als backup
+          sessionStorage.setItem('intake_submission', JSON.stringify(data));
+          console.log("Antwoorden opgeslagen (lokaal):", data);
+        }
+
+        // Toon succes scherm
+        formWrapper.style.display = 'none';
+        successScreen.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      } catch (err) {
+        console.error("Fout bij verzenden:", err);
+        alert("Er is een fout opgetreden bij het verzenden. Probeer het opnieuw of stuur een bericht naar de docent.");
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = '<span>Verstuur Antwoorden</span><span>➔</span>';
+      }
+    });
+  </script>
+</body>
+</html>

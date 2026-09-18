@@ -518,7 +518,7 @@
         <span class="brand-icon">📖</span>
         <span>Cursus Documenten</span>
       </a>
-      <span class="doc-pill" id="current-doc-pill">Aan_de_slag_met_AI_Cursusdocument.md</span>
+      <span class="doc-pill" id="current-doc-pill">Handleiding_Intake_en_Mailversturing.md</span>
     </div>
 
     <div class="header-actions">
@@ -541,7 +541,7 @@
       <div class="sidebar-header">
         <div class="sidebar-title">
           <span>Bestanden & Mappen</span>
-          <span id="file-count-badge" style="font-size: 0.75rem; color: var(--accent-blue);">4 bestanden</span>
+          <span id="file-count-badge" style="font-size: 0.75rem; color: var(--accent-blue);">6 bestanden</span>
         </div>
         <input type="text" id="filter-input" class="search-box" placeholder="Zoek in bestanden...">
       </div>
@@ -551,7 +551,15 @@
         <!-- Folder AI -->
         <div class="folder-group">
           <div class="folder-label">🤖 Aan de slag met AI</div>
-          <div class="file-item active" data-file-id="ai_cursus">
+          <div class="file-item active" data-file-id="ai_handleiding_intake">
+            <span class="file-icon">⚙️</span>
+            <span class="file-name">Handleiding_Intake_en_Mailversturing.md</span>
+          </div>
+          <div class="file-item" data-file-id="ai_introductie">
+            <span class="file-icon">🧠</span>
+            <span class="file-name">AI_Introductie_Geschiedenis_en_Werking.md</span>
+          </div>
+          <div class="file-item" data-file-id="ai_cursus">
             <span class="file-icon">📄</span>
             <span class="file-name">Aan_de_slag_met_AI_Cursusdocument.md</span>
           </div>
@@ -613,228 +621,51 @@
   <script>
     // Embedded Catalog of all local Markdown documents
     const DOCS_CATALOG = {
-      ai_cursus: {
-        title: "Aan_de_slag_met_AI_Cursusdocument.md",
-        folder: "AI",
-        presUrl: "presentatie_opendag.html",
-        presTitle: "Start AI Presentatie ▶",
-        content: `# Cursusontwikkeling: Aan de slag met AI (Praktijkcursus)
+  "ai_handleiding_intake": {
+    "title": "Handleiding_Intake_en_Mailversturing.md",
+    "folder": "AI",
+    "presUrl": "intake.html",
+    "presTitle": "🌐 Open Intake Formulier ▶",
+    "content": "# Handleiding: Cursus Intake & Mail-automatisering\n\nDeze handleiding legt uit hoe de intake-vragenlijst en het bijbehorende Google Apps Script werken voor de cursus **\"MM2704 - Aan de slag met AI: ontdek de kracht van slimme tools\"** (School 7).\n\n---\n\n## 📦 Wat is er klaargezet?\n\n1. 📄 **[`intake.html`](file:///Users/janmartinjansen/Library/Mobile%20Documents/com~apple~CloudDocs/AI/2026%20najaar/intake.html)**  \n   * De stijlvolle, mobielvriendelijke intake-webpagina voor op:  \n     `https://janmartinjansen.github.io/AI/najaar/intake.html`\n   * Begroet cursisten persoonlijk (*\"Welkom Yvonne!\"*), bevat de 6 afgestemde vragen en stuurt antwoorden direct door naar jouw Google Sheet.\n2. ⚙️ **[`google_apps_script_cursus.js`](file:///Users/janmartinjansen/Library/Mobile%20Documents/com~apple~CloudDocs/AI/2026%20najaar/google_apps_script_cursus.js)**  \n   * Het complete automatiseringsscript dat rechtstreeks in je Google Sheet draait.\n\n---\n\n## 🚀 Stappenplan: In 4 stappen alles werkend\n\n### Stap 1: Plak het script in je Google Sheet\n1. Open je Google Sheet **\"Deelnemerslijst - Aan de slag met AI\"** in je browser.\n2. Klik in het bovenmenu op **Extensies** (Extensions) → **Apps Script**.\n3. Selecteer eventuele standaardtekst in de editor, verwijder deze en plak de inhoud van [`google_apps_script_cursus.js`](file:///Users/janmartinjansen/Library/Mobile%20Documents/com~apple~CloudDocs/AI/2026%20najaar/google_apps_script_cursus.js) erin.\n4. Klik op **Opslaan** (💾).\n\n---\n\n### Stap 2: Activeer de Web-app (Verbindt de website met jouw Sheet)\n*Dit zorgt ervoor dat de antwoorden van de website direct in jouw Sheet belanden:*\n1. Klik in het Apps Script-scherm rechtsboven op de blauwe knop **Implementeren** (Deploy) → **Nieuwe implementatie**.\n2. Klik op het tandwieltje ⚙️ naast *Type selecteren* en kies: **Web-app**.\n3. Vul in:\n   * *Beschrijving:* `Intake Webhook`\n   * *Uitvoeren als:* **Mijzelf** (`janmartinjansen@...`)\n   * *Wie heeft toegang:* **Iedereen** (*Anyone* — zodat het webformulier antwoorden kan insturen).\n4. Klik op **Implementeren** en geef eenmalig toestemming aan Google.\n5. Kopieer de getoonde **Web-app URL** (begint met `https://script.google.com/macros/s/.../exec`).\n6. Plak deze URL in `intake.html` op regel 624 bij:  \n   `const APPS_SCRIPT_WEBAPP_URL = \"JOUW_GEKOPIEERDE_URL\";`\n7. Sla `intake.html` op en commit & push naar GitHub (`janmartinjansen.github.io/AI/najaar/`).\n\n---\n\n### Stap 3: Test eerst met 1 testregel (Aanbevolen!)\n1. Voeg in je Google Sheet op **rij 22** even een testregel toe:\n   * *Inschrijfnummer:* `TEST-01`\n   * *Deelnemer:* `Jansen, Jan Martin`\n   * *Voornaam:* `Jan Martin`\n   * *E-mailadres:* `jouw.eigen.email@gmail.com`\n2. Klik op die rij 22 om hem te selecteren.\n3. Klik in het bovenmenu op **`🤖 AI Cursus Menu`** → **`🧪 0. TEST: Maak Concept Mail voor Geselecteerde Rij`**.\n4. Het script genereert alleen voor die testrij de link en zet direct een test-conceptmail klaar in jouw Gmail!\n5. Open Gmail > Concepten, klik op de link, vul het formulier in op je site en klik op 'Verzenden'.\n6. Controleer in je Google Sheet of het nieuwe tabblad **`\"Intake Antwoorden\"`** is aangemaakt en jouw testantwoorden netjes in de rij staan!\n\n---\n\n### Stap 4: Genereer alle links & concept-mails voor de cursisten\nAls de test naar wens is verlopen (je kunt rij 22 nu verwijderen of laten staan):\n1. Klik op **`🤖 AI Cursus Menu`** → **`🔗 1. Genereer Persoonlijke Links (Alles)`** (vult kolom F voor alle 13 cursisten).\n2. Klik op **`🤖 AI Cursus Menu`** → **`✉️ 2. Zet Concept Mails klaar in Gmail (Alles)`**.\n3. Open [Gmail](https://mail.google.com) onder **Concepten**.\n4. Bekijk de 13 mails rustig na en klik op **Verzenden** wanneer je wilt!\n\n---\n\n## 📊 Resultaten bekijken\nZodra cursisten het formulier invullen:\n* Maakt het script automatisch het tabblad **`\"Intake Antwoorden\"`** aan in jouw Google Sheet (of klik op menuoptie **`📊 4. Maak / Open Tab \"Intake Antwoorden\"`**).\n* Hier komen alle antwoorden (welk apparaat, ervaring, wensen, motivatie) overzichtelijk per rij binnen!\n"
+  },
+  "ai_introductie": {
+    "title": "AI_Introductie_Geschiedenis_en_Werking.md",
+    "folder": "AI",
+    "presUrl": "presentatie_opendag.html",
+    "presTitle": "Start AI Presentatie ▶",
+    "content": "# Les 1 (Deel 1): Wat is AI écht?\n### Geschiedenis, werking van neurale netwerken & grote taalmodellen (LLM's)\n**Docent:** Jan Martin Jansen  \n**Doel:** Een toegankelijke, inspirerende introductie van 15 à 20 minuten aan de start van de cursus. Het ontkracht de mythe van 'magie' en legt het fundament voor effectief prompten en kritisch gebruik.\n\n---\n\n## 🎯 De Rode Draad & Kernboodschap\n\n> ### De Kernstelling:\n> **AI is geen toverdoos of bewuste machine, maar de wiskundige evolutie van ideeën die al in de jaren '50 ontstonden.**  \n> Het fundamentele verschil met traditionele computers: **AI wordt niet geprogrammeerd met menselijke regels, maar leert zelf patronen herkennen uit gigantische hoeveelheden data.**\n\n```\n[ Jaren '50 - '90 ]        [ Jaren '80 - 2012 ]        [ 2017 - 2023 ]             [ 2024 - 2026 ]\n  Klassieke AI               Neurale Netwerken           De LLM Revolutie            Redeneren & Multimodaal\n  (Regels & Grammatica)      (Leren van Data)            (Transformers & GPT)        (o1, DeepSeek, Nobelprijzen)\n```\n\n---\n\n## 🏛️ Hoofdstuk 1: De Illusie van de Regels (Klassieke AI, 1950–1990)\n\n### 1.1 Het oorspronkelijke idee: Alles in regels vangen\n* Rond de geboorte van de computer (Alan Turing, Dartmouth-conferentie 1956) dachten wetenschappers dat menselijk denken gelijkstond aan formele logica.\n* De gedachte was: *\"Als we alle grammaticaregels en feiten van de wereld in een programma uitschrijven (`ALS... DAN...`), hebben we binnen tien jaar een denkende machine.\"*\n\n### 1.2 Het succes bij gesloten systemen (Bordspellen)\n* Bij spellen met harde, vaste regels werkte dit fantastisch:\n  * Boter-kaas-en-eieren, dammen en schaken (het *Minimax-algoritme*).\n  * In **1997** versloeg de computer **IBM Deep Blue** de regerend wereldkampioen Garry Kasparov door 200 miljoen stellingen per seconde vooruit te rekenen.\n* **De bottleneck:** Deep Blue was nog steeds een pure rekenmachine. Alle schaakkennis en waarderingsfuncties waren er door menselijke schaakgrootmeesters en programmeurs expliciet in gestopt. Het systeem kon niet zélf leren.\n\n### 1.3 Waarom de regel-aanpak strandde bij taal en waarneming\n* In de jaren '80 en '90 probeerden techbedrijven (zoals het bekende *Philips Rosetta*-vertaalproject) talen te vertalen met enorme digitale woordenboeken en ontleedgrammatica's.\n* **Waarom dit faalde:**\n  * **Ambiguïteit:** Woorden en zinnen hebben meerdere betekenissen afhankelijk van context:\n    * *\"De man lichtte de bank op.\"* (Financiële fraude of een meubelstuk optillen?)\n    * *\"Zij zagen het meisje met de kijker.\"* (Wie heeft de verrekijker vast?)\n  * **Eindeloze uitzonderingen:** Taal en beelden laten zich niet vangen in een sluitend regelsysteem. Voor elke grammaticaregel (zoals *'t kofschip*) zijn er tientallen uitzonderingen en contextuele nuances.\n\n---\n\n## 🧬 Hoofdstuk 2: De Biologische Ommekeer – Leren van Data\n\n### 2.1 Hoe leert een mens?\n* Een klein kind leert een hond of kat niet herkennen aan de hand van een biologisch regelboek met oordimensies en pootlengtes.\n* Een kind leert doordat ouders duizenden keren voorbeelden aanwijzen: *\"Kijk, een poes!\"* of *\"Nee, dat is een hondje.\"* Het brein past onbewust zijn interne verbindingen aan.\n\n### 2.2 Het Wiskundig Neuraal Netwerk\n* Geïnspireerd op biologische hersencellen (**neuronen**):\n  * Een neuraal netwerk bestaat uit lagen van wiskundige knooppunten die met elkaar zijn verbonden via **gewichten** (getallen).\n  * **Het leerproces (Training):**\n    1. **Blanco start:** Het netwerk begint met willekeurige gewichten (het gokt maar wat).\n    2. **Voorbeeld invoeren:** We voeren een afbeelding in (bv. een handgeschreven cijfer '8' van $28 \\times 28$ pixels).\n    3. **Fout berekenen:** Het netwerk voorspelt een '3'. We vergelijken dit met het juiste label ('8').\n    4. **Backpropagation:** Via wiskundige optimalisatie (*de kettingregel, mede ontwikkeld door Geoffrey Hinton in 1986*) worden alle miljoenen gewichtjes een fractie bijgesteld zodat de fout kleiner wordt.\n    5. **Herhaling:** Na miljoenen voorbeelden 'herkent' het netwerk zelfstandig de essentie van een '8', een kat of een handschrift, zónder dat iemand de regels heeft geprogrammeerd.\n\n---\n\n## 🚀 Hoofdstuk 3: De Grote Sprong – Transformers & LLM's (2017–2023)\n\n### 3.1 Waarom lukte de grote doorbraak pas recent?\nDe explosie van AI rond 2022/2023 werd mogelijk door de samenloop van drie factoren:\n1. **Gigantische Data:** Het volledige gedigitaliseerde internet (Wikipedia, boeken, wetenschappelijke papers, nieuws, fora).\n2. **Rekenkracht (GPU's & TPU's):** Serverparken die miljarden matrixvermenigvuldigingen tegelijkertijd uitvoeren.\n3. **De Transformer-architectuur (Google Brain, 2017 – *\"Attention Is All You Need\"*):**  \n   Oude netwerken lazen tekst woord voor woord en vergaten het begin van de zin. De *Transformer* kan via een **aandachtsmechanisme (Self-Attention)** verbanden leggen tussen alle woorden in een document tegelijk.\n\n### 3.2 Hoe werkt een Large Language Model (LLM) echt?\n* **Next-Token Prediction (Het meest waarschijnlijke volgende woord voorspellen):**  \n  In de basis doet een taalmodel één ding extreem goed: op basis van alle voorafgaande tekst voorspellen wat de meest logische volgende lettergreep/woord is.\n* **Betekenis als Coördinaten (Embeddings):**  \n  Woorden worden omgezet in getallenreeksen (vectoren) in een ruimte met duizenden dimensies. \n  * Zoals de filosoof **Ludwig Wittgenstein** al schreef: *\"De betekenis van een woord is het gebruik ervan in de taal.\"*\n  * Concepten die bij elkaar horen clusteren wiskundig samen. Zo geldt letterlijk: $\\text{Koning} - \\text{Man} + \\text{Vrouw} \\approx \\text{Koningin}$.\n\n### 3.3 De Twee Trainingsfasen (Cruciaal voor de cursist)\n```\n[ Fase 1: Pre-training ]                          [ Fase 2: Fine-Tuning & RLHF ]\nRuwe tekst van het hele internet        --->      Menselijke instructies & dialoog\nLeert taal, grammatica & feitenkennis            Leert behulpzaam, beleefd & veilig antwoorden\n(Kosten: tientallen miljoenen euro's)             (Maakt er ChatGPT/Gemini/Copilot van)\n```\n1. **Pre-training:** Het model leest onbewaakt petabytes aan ruwe tekst. Het leert hoe taal in elkaar zit, maar is nog onbehouwen (het maakt zinnen gewoon af zoals het internet dat zou doen).\n2. **Fine-tuning & RLHF (Reinforcement Learning from Human Feedback):** Menselijke trainers beoordelen antwoorden en sturen het model bij om een behulpzame, empathische en veilige gesprekspartner te worden.\n\n---\n\n## ⚡ Hoofdstuk 4: De Nieuwste Ontwikkelingen (2024–2026)\n\n### 4.1 Van alleen tekst naar Multimodaliteit (GPT-4o, Gemini)\n* Taalmodellen zijn niet langer beperkt tot letters. Ze worden vanaf de basis getraind op **tekst, spraak, foto's en video tegelijk**. Hierdoor kunnen ze een foto van een meterkast 'zien' en direct mondeling uitleggen welke schakelaar om moet.\n\n### 4.2 Redeneermodellen: Eerst 'denken', dan antwoorden (OpenAI o1/o3 & DeepSeek-R1)\n* Waar klassieke LLM's direct beginnen te typen, gebruiken de nieuwste *redeneermodellen* **Chain-of-Thought**:\n  * Het model voert intern een reeks logische tussenstappen uit voordat het antwoord geeft.\n  * Hierdoor kunnen ze complexe wiskundige bewijzen leveren, programmeren op expertniveau en diepe logica ontrafelen.\n\n### 4.3 De Nobelprijzen van 2024: De ultieme erkenning\n* **Nobelprijs voor de Natuurkunde:** Toegewezen aan **Geoffrey Hinton** en **John Hopfield** voor het leggen van de fundamenten van neurale netwerken en machine learning.\n* **Nobelprijs voor de Scheikunde:** Toegewezen aan **Demis Hassabis** en **John Jumper** van Google DeepMind voor **AlphaFold** (het AI-systeem dat de 3D-vouwstructuur van vrijwel alle 200 miljoen bekende eiwitten oploste — een biologisch mysterie van 50 jaar).\n\n### 4.4 Efficiëntie en Distillatie (o.a. DeepSeek)\n* Modellen hoeven niet meer per se honderden miljoenen euro's aan stroom te kosten. Door slimmere architecturen en *Knowledge Distillation* (kleinere modellen die doelgericht leren van grotere modellen) wordt topklasse AI steeds sneller, goedkoper en lokaal bruikbaar.\n\n---\n\n## 🌉 De Praktische Brug naar de Les (Waarom moet de cursist dit weten?)\n\nSluit de introductie af met deze **3 vuistregels** die cursisten direct meenemen naar de oefeningen:\n\n| Inzicht uit de theorie | Gevolg in de praktijk voor de cursist |\n|---|---|\n| **1. AI is géén database met vaste feiten** | AI zoekt niet in een tabel met 'waarheden', maar berekent wat statistisch waarschijnlijk is. Vraag je naar obscure details, dan verzint het een aannemelijk klinkend sprookje (**hallucinatie**). Verifieer feiten altijd! |\n| **2. Context bepaalt alles (Prompting)** | Omdat het model reageert op voorgaande tokens, stuurt jouw prompt het model naar het juiste 'kennisdomein'. Geef je context en een rol (*Persona: \"Reageer als senior redacteur\"*), dan activeer je die specifieke stijl in het netwerk. |\n| **3. Menselijke regie blijft noodzakelijk** | AI levert ongekende creativiteit, denksnelheid en samenvatkracht. De mens levert het doel, het oordeel en de eindverantwoordelijkheid. |\n\n---\n\n## 📋 Samenvattend Slide-schema (voor de latere presentatie)\n\nAls we dit omzetten naar slides voor Les 1, is dit de optimale verdeling van 6 slides:\n\n1. **Slide 1: De Mythe vs. De Werkelijkheid** — AI is geen magie, maar leren van data (1950 vs. nu).\n2. **Slide 2: Klassieke AI (Regels)** — Schaakcomputers (Deep Blue) vs. waarom taal en beelden vastliepen (ambiguïteit).\n3. **Slide 3: Neurale Netwerken** — Hoe hersencellen en gewichten leren door duizenden voorbeelden en feedback (backpropagation).\n4. **Slide 4: De LLM & Transformer Revolutie** — Next-token prediction, taal begrijpen als wiskundige coördinaten (Wittgenstein) en pre-training vs fine-tuning.\n5. **Slide 5: De Stand van Zaken Vandaag** — Multimodaal (kijken & luisteren), redeneermodellen (*o1, DeepSeek-R1*) en de Nobelprijzen 2024 (AlphaFold & Hinton).\n6. **Slide 6: De 3 Gouden Lessen voor Vandaag** — Niet blind vertrouwen (hallucinaties), context meegeven (prompting) en jij houdt de regie!\n"
+  },
+  "ai_cursus": {
+    "title": "Aan_de_slag_met_AI_Cursusdocument.md",
+    "folder": "AI",
+    "presUrl": "presentatie_opendag.html",
+    "presTitle": "Start AI Presentatie ▶",
+    "content": "# Cursusontwikkeling: Aan de slag met AI (Praktijkcursus)\n\nDit document bevat de samenvatting, opbouw, definitieve wervingsteksten en cursusstructuur van de brainstormsessie over de praktijkcursus **\"Aan de slag met AI\"** (3 lessen). Dit Markdown-bestand kan direct worden ingeladen in een Antigravity-sessie voor verdere uitwerking van lesmateriaal, hand-outs en presentaties.\n\n---\n\n## 1. Cursusprofiel & Uitgangspunten\n\n* **Titel:** Aan de slag met AI (Praktijkcursus)\n* **Duur:** 3 bijeenkomsten / lessen\n* **Doelgroep:** Iedereen met belangstelling / een brede doelgroep (geen programmeer- of diepe IT-kennis vereist, wel digitale basisvaardigheden).\n* **Vereiste:** Cursisten nemen een eigen laptop of tablet mee; er wordt actief 'hands-on' gewerkt tijdens de bijeenkomsten.\n* **Insteek & Onderscheid:** In tegenstelling tot theoretische cursussen over de geschiedenis, werking en maatschappelijke impact van AI, ligt de nadruk hier 100% op de **praktische toepassing** van moderne LLM- en AI-tools in het dagelijks leven en werk.\n\n---\n\n## 2. Kernonderwerpen per Les\n\n### Les 1: De Slimme Schrijver, Samenvatter & Prompting\n* **Basisprincipes & LLM-tools:** ChatGPT, Google Gemini, Microsoft Copilot, Claude.\n* **Prompting technieken:**\n  * Context meegeven en instructies verfijnen.\n  * De *Persona*-techniek (bv. \"Reageer als kritische redacteur\" of \"Leg uit aan een beginner\").\n* **Praktische toepassingen:**\n  * Opstellen en verbeteren van e-mails, brieven en verslagen.\n  * Creatief schrijven: verhalen, toespraken, brainstormen over ideeën.\n  * Informatie temmen: samenvatten van lange artikelen, beleidsstukken of transcripties.\n\n### Les 2: Beeld, Ontwerp & 'Kijken' met AI (Vision)\n* **Beeldgeneratie:** Afbeeldingen en illustraties genereren vanuit prompts (beschrijvingen).\n* **Beeldbewerking:** Foto's aanpassen, achtergronden wijzigen of stijlen toepassen.\n* **Multimodale AI / Vision:**\n  * Foto's uploaden en analyseren (bv. een plant herkennen, ingrediënten in de koelkast omzetten naar recepten).\n  * Werken met diagrammen en visuele documenten.\n\n### Les 3: Persoonlijke Assistent, Planning & Betrouwbaarheid\n* **AI als assistent & coach:**\n  * Maken van dag-, week- of vakantieplanningen.\n  * Brainstormpartner en taalcoach (oefenen in vreemde talen, toonaanpassing).\n* **Kritische blik & Veiligheid:**\n  * Omgaan met hallucinaties (feiten vs. fictie) en methoden om bronnen te verifiëren.\n  * Privacy en omgang met persoonlijke data.\n  * Herkennen van AI-gegenereerde content en deepfakes.\n\n---\n\n## 3. Definitieve Wervingstekst (Compacte versie)\n\n> ### **Aan de slag met AI (Praktijkcursus)**\n>\n> AI-producten zoals ChatGPT, Gemini en Copilot zijn inmiddels voor iedereen beschikbaar. De ontwikkelingen gaan razendsnel en zullen onze wereld blijvend veranderen. In deze cursus van drie lessen laten we de theorie achter ons en gaan we **zelf aan de slag**. Het doel is om te laten zien hoe je AI laagdrempelig kunt inzetten als creatieve en praktische assistent.\n>\n> **Wat komt er aan de orde?**  \n> In de lessen ontdek je een breed scala aan toepassingen:\n> * **Slimme tekst:** het opstellen van brieven en mails, of het genereren van verhalen;\n> * **Informatie temmen:** het razendsnel samenvatten van lange teksten of video's;\n> * **Beeld & Vision:** het maken van afbeeldingen en het laten analyseren van foto’s;\n> * **Persoonlijke assistent:** hulp bij planningen, ontwerpen en brainstormen;\n> * **Kritische blik:** hoe ga je om met de betrouwbaarheid en veiligheid van de resultaten?\n>\n> **Praktische opzet**  \n> De insteek van deze cursus is anders dan de eerdere reeks waarin de theorie en maatschappelijke gevolgen centraal stonden. We gaan nu echt doen. Voor deze cursus is het dan ook nodig dat je een **eigen laptop of tablet** meeneemt naar de lessen.\n>\n> De beperkende factor bij AI is vaak enkel je eigen fantasie. Na deze drie lessen heb je de tools in handen om die fantasie werkelijkheid te maken!\n\n---\n\n## 4. Uitgebreide Variant (Optioneel voor webpagina / brochure)\n\n> ### **Cursus: Aan de slag met AI – Ontdek de magie in 3 lessen**\n>\n> **Heb je al eens geëxperimenteerd met ChatGPT of Gemini, maar wil je nu echt weten hoe je deze tools slim voor je laat werken? Of ben je gewoon nieuwsgierig naar wat er allemaal mogelijk is? In deze praktische cursus laten we de theorie achter ons en gaan we zelf aan de knoppen zitten!**\n>\n> De ontwikkelingen op het gebied van AI gaan razendsnel. Waar we vorig jaar nog verbaasd waren over een simpel tekstje, kunnen deze tools nu beelden maken, foto’s analyseren en zelfs optreden als je persoonlijke assistent. In drie lessen leer je hoe je deze technologie op een laagdrempelige manier inzet voor je dagelijkse leven.\n>\n> #### **Wat gaan we doen?**\n> De insteek is simpel: **doen!** In tegenstelling tot eerdere cursussen over de maatschappelijke gevolgen van AI, ligt de focus nu volledig op de praktijk.\n>\n> * **Les 1: De Slimme Schrijver & Samenvatter**  \n>   Je leert de 'kunst van het vragenstellen' (prompting). Hoe zorg je dat AI precies schrijft wat jij bedoelt? We maken vlijmscherpe brieven, vatten lange teksten of video's samen en gebruiken AI als creatieve brainstormpartner.\n> * **Les 2: Beeld, Ontwerp & 'Kijken' met AI**  \n>   We gaan de visuele kant op. Je leert hoe je prachtige afbeeldingen vanuit het niets creëert en foto’s bewerkt. Ook ontdek je hoe AI kan 'kijken': maak een foto van een ingrediënt of een onbekende plant en laat de computer vertellen wat het is.\n> * **Les 3: Je Persoonlijke Assistent & Veiligheid**  \n>   Hoe maak je een complexe planning in enkele seconden? We kijken naar handige toepassingen voor je agenda en huishouden. Ook staan we stil bij een stukje veiligheid: wat is echt, wat is nep en hoe controleer je of de AI de waarheid spreekt?\n>\n> #### **Praktische Informatie**\n> * **Zelf doen:** We gaan in de les direct aan de slag. Het meenemen van een eigen **laptop of tablet** is daarom noodzakelijk.\n> * **Voor wie:** Iedereen met belangstelling voor AI. Je hoeft geen computergenie te zijn; nieuwsgierigheid is de enige vereiste!\n> * **De essentie:** De beperkende factor van AI is vaak je eigen fantasie. Na deze drie lessen heb je de tools in handen om die fantasie werkelijkheid te maken.\n\n---\n\n## 5. Referentiekader: Vorige Cursus (Theorie & Achtergrond)\n\n*Ter vergelijking en achtergrond context:*\n\n* **Vorige insteek:** AI geschiedenis, klassieke AI, neurale netwerken, deep learning, LLM architecturen, AGI & maatschappelijke impact.\n* **Case studies toen:** Computerschaak, beeldherkenning, NLP (taalherkenning & generatie).\n* **Verschil nu:** Verschuiving van conceptueel/wetenschappelijk begrip naar interactieve gebruikersvaardigheden, prompting, multimodale tools en alledaagse productiviteit.\n\n---\n\n## 6. Volgende Stappen voor Antigravity Sessie\n\n- [ ] Lesplannen uitschrijven per les (tijdlijn van 2 uur per les).\n- [ ] Oefenopdrachten / 'prompt sheets' opstellen voor de cursisten.\n- [ ] Lijst met aanbevolen tools en gratis accounts voorbereiden (OpenAI, Google Gemini, Copilot, Perplexity/Claude).\n- [ ] Hand-out / spiekbriefje ontwerpen voor effectief prompten.\n"
+  },
+  "ai_handleiding": {
+    "title": "Open_Dag_Presentatie_Handleiding.md",
+    "folder": "AI",
+    "presUrl": "presentatie_opendag.html",
+    "presTitle": "Start AI Presentatie ▶",
+    "content": "# Mini-Presentatie: \"Aan de slag met AI\" (Open Dag)\n\nDit document bevat de documentatie en handleiding voor de zelf-uitleggende interactieve mini-presentatie voor de open dag.\n\n---\n\n## 📸 Overzicht van de Geïntegreerde Beelden per Dia\n\nAlle afbeeldingen zijn speciaal voor de cursus gegenereerd en staan in de map `images/`:\n\n1. **Dia 1 (Titel & Welkom):** `images/slide1_hero_ai.jpg`  \n   *Sfeervolle moderne werkplek met laptop, gloeiende AI-lichtstromen en neurale netwerk visualisaties.*\n2. **Dia 2 (Waarom meedoen?):** `images/slide2_why_ai.jpg`  \n   *Gloeiende gloeilamp/brein compositie met symbolen voor tijdwinst, creativiteit en alledaagse automatisering.*\n3. **Dia 3 (Les 1 - De Slimme Schrijver):** `images/slide3_smart_writer.jpg`  \n   *Futuristische digitale pen die oplichtende tekst en samenvattingen schrijft in een zwevend document.*\n4. **Dia 4 (Les 2 - Beeld & Vision):** `images/slide4_vision_art.jpg`  \n   *Digitaal schildersezel met AI-beeldgeneratie en een scannende camera (Vision/analyse).*\n5. **Dia 5 (Les 3 - Assistent & Veiligheid):** `images/slide5_assistant_security.jpg`  \n   *Vriendelijke AI-assistent met agenda/takenlijst en een gloeiend groen beveiligingsschild voor privacy en factchecking.*\n6. **Dia 6 (Praktische Informatie & Contact):** `images/slide6_welcome_opendag.jpg`  \n   *Warme en uitnodigende Open Dag balie met welkomstverlichting en interactieve tablets.*\n\n---\n\n## 🖥️ Hoe te openen en testen\n\n### Direct op je Mac bekijken:\nVoer in de terminal uit:\n```bash\nopen \"presentatie_opendag.html\"\n```\n\n### Op je iPad gebruiken (Kiosk mode):\n1. Zet de map `2026 najaar` (of `presentatie_opendag.html` samen met het mapje `images/`) via **iCloud Drive** of **AirDrop** op je iPad.\n2. Open `presentatie_opendag.html` in **Safari**.\n3. Tik rechtsonder op **⛶ Volledig Scherm** (of tik in de adresbalk op het deel-icoon en kies *\"Zet op beginscherm\"* voor een echte app-ervaring zonder browserbalken).\n4. De presentatie draait nu continu en vloeiend door in een lus (15 seconden per dia met een voortgangsbalk bovenin).\n\n---\n\n## 💡 Handige iPad Instellingen voor de Stand\n\n* **Scherm aan laten staan:**  \n  *Instellingen* → *Scherm en helderheid* → *Automatisch slot* → Zet op **Nooit**.\n* **Begeleide Toegang (Guided Access):**  \n  *Instellingen* → *Toegankelijkheid* → *Begeleide toegang* inschakelen. Hiermee vergrendel je de iPad in Safari zodat passanten de presentatie niet kunnen wegklikken.\n"
+  },
+  "sci_blok1": {
+    "title": "De_Geboorte_van_de_Moderne_Wetenschap_Blok_1.md",
+    "folder": "Wetenschap",
+    "presUrl": "wetenschap/presentatie_opendag_wetenschap.html",
+    "presTitle": "Start Wetenschap Presentatie ▶",
+    "content": "---\nmarp: true\ntheme: default\npaginate: true\n---\n\n# De Geboorte van de Moderne Wetenschap\n### Blok 1: Van de Griekse abstractie naar het 'Uurwerk' van Newton\n**Docent / Spreker:** [Naam]  \n**Cyclus:** Wetenschapsgeschiedenis & Paradigmaverschuivingen\n\n---\n\n## Overzicht van Blok 1\n\n1. **Les 1:** De Griekse Erfenis & Het Dogma\n2. **Les 2:** De Breuk met het Geocentrisme (Copernicus t/m Galilei)\n3. **Les 3:** De Mechanisering van het Wereldbeeld (Descartes & Newton)\n\n---\n\n<!-- LES 1 -->\n\n# Les 1: De Griekse Erfenis & Het Dogma\n\n---\n\n## 1.1 De Griekse Paradox\n* **Hoogontwikkelde wiskunde:**\n  * Deductieve logica en axioma's (Euclides)\n  * Zuivere meetkunde als ideaal\n* **Achterblijvende natuurwetenschap:**\n  * Gebrek aan systematische experimenten\n  * Primaat van de zuivere rede boven observatie\n\n---\n\n## 1.2 Aristoteles vs. De Natuurwetenschap\n* **Teleologie (doelgerichtheid):**\n  * Waarom vallen voorwerpen? *Ze zoeken hun 'natuurlijke plaats'.*\n  * Alles streeft naar rust en vervolmaking.\n* **Geocentrisch model:**\n  * De aarde als onbeweeglijk middelpunt.\n  * Rigide scheiding tussen ondermaanse en bovenmaanse sferen.\n\n---\n\n## 1.3 De Invloed van Religie & Filosofie\n* **Scholastiek:**\n  * Samensmelten van christelijke theologie met het wereldbeeld van Aristoteles.\n* **Kennis als dogma:**\n  * Waarheid ligt vast in openbaring en klassieke teksten.\n  * Afwijken van het geocentrische model geldt als ketterij.\n\n---\n\n<!-- LES 2 -->\n\n# Les 2: De Grote Breuk met het Verleden\n\n---\n\n## 2.1 Copernicus: De Aarde Gaat Draaien\n* **1543:** Publicatie van *De revolutionibus orbium coelestium*.\n* **De shift:**\n  * Van geocentrisme naar heliocentrisme.\n  * Wiskundige vereenvoudiging: verdwijnen van complexe epicycli.\n* **Impact:**\n  * De aarde verliest haar unieke, centrale plaats in de kosmos.\n\n---\n\n## 2.2 Kepler: De Cirkel Doorbijten\n* **Weg met de 'volmaakte cirkel':**\n  * Introductie van de ellips als planeetbaan.\n* **Empirische wiskunde:**\n  * Gebaseerd op de ongekend nauwkeurige data van Tycho Brahe.\n  * Drie wetten die planeetbewegingen kwantitatief vastleggen.\n\n---\n\n## 2.3 Galilei: Het Experiment en de Telescoop\n* **Nieuwe waarnemingen:**\n  * Manen van Jupiter, kraters op de maan, zonnevlekken.\n  * Bewijs dat hemellichamen niet 'volmaakt' en onveranderlijk zijn.\n* **De Wetenschappelijke Methode:**\n  * *Metingen verrichten, hypotheses toetsen, data verzamelen.*\n  * Het dramatische conflict met de Inquisitie.\n\n---\n\n<!-- LES 3 -->\n\n# Les 3: De Mechanisering van het Wereldbeeld\n\n---\n\n## 3.1 Descartes: De Wereld als Machine\n* **Methodische twijfel:**\n  * Niets aannemen op autoriteit; alleen wat helder en onderscheiden is.\n* **Mechanicisme:**\n  * Natuurfenomenen verklaren via botsende deeltjes en materie in beweging.\n  * Analytische meetkunde als brug tussen algebra en geometrie.\n\n---\n\n## 3.2 Newton: De Grote Synthese\n* **1687:** *Philosophiae Naturalis Principia Mathematica*.\n* **Universele Wetten:**\n  * Drie wetten van beweging ($F = m \\cdot a$).\n  * Universele zwaartekracht ($F = G \\frac{m_1 m_2}{r^2}$).\n* **Hemel en aarde verenigd:**\n  * Dezelfde kracht verklaart de vallende appel en de baan van de maan.\n\n---\n\n## 3.3 De Nieuwe Wiskunde & Het Determinisme\n* **Calculus / Fluxions:**\n  * De noodzaak om verandering en versnelling mathematisch te vangen.\n* **Het Uurwerkwil-universum:**\n  * Als positie en snelheid van alle deeltjes bekend zijn, ligt het verloop van de wereld vast.\n* **Brug naar Blok 2:**\n  * Van deze 'zekere' machine naar de onzekerheden van de 20e eeuw (Quantum & Relativiteit).\n"
+  },
+  "sci_handleiding": {
+    "title": "Open_Dag_Presentatie_Handleiding_Wetenschap.md",
+    "folder": "Wetenschap",
+    "presUrl": "wetenschap/presentatie_opendag_wetenschap.html",
+    "presTitle": "Start Wetenschap Presentatie ▶",
+    "content": "# Mini-Presentatie: \"De Geboorte van de Moderne Wetenschap\" (Open Dag)\n\nDit document bevat de documentatie en handleiding voor de zelf-uitleggende interactieve mini-presentatie voor de cursus Wetenschapsgeschiedenis & Filosofie (Blok 1).\n\n---\n\n## 📸 Overzicht van de Geïntegreerde Beelden per Dia\n\nAlle historische en wetenschappelijke illustraties zijn op maat gegenereerd en staan in `wetenschap/images/`:\n\n1. **Dia 1 (Titel & Introductie):** `wetenschap/images/sci_slide1_hero.jpg`  \n   *Klassieke studeerkamer met een antieke messing telescoop bij het raam, armillarium, hemelkaarten, opengeslagen perkament en een tikkend slingeruurwerk.*\n2. **Dia 2 (Hoe de Wereld een Machine Werd):** `wetenschap/images/sci_slide2_paradigm.jpg`  \n   *Het zonnestelsel met gloeiende elliptische planeetbanen rond de zon, verweven met gouden tandwielen en kosmische slinger-mechanismen.*\n3. **Dia 3 (Les 1 - De Griekse Erfenis & Aristoteles):** `wetenschap/images/sci_slide3_aristotle.jpg`  \n   *Portret van Aristoteles in de Griekse academie tussen marmeren zuilen, met geometrische perkamentrollen en het klassieke geocentrische sferenmodel.*\n4. **Dia 4 (Les 2 - De Breuk met het Geocentrisme):** `wetenschap/images/sci_slide4_galileo.jpg`  \n   *Historisch meesterwerk met Galileo Galilei die door zijn telescoop naar Jupiter kijkt, Nicolaus Copernicus met het heliocentrische zonnestelsel en Johannes Kepler die de ellipsen berekent.*\n5. **Dia 5 (Les 3 - De Mechanisering van de Kosmos):** `wetenschap/images/sci_slide5_newton.jpg`  \n   *Sir Isaac Newton die met een glazen prisma zonlicht breekt in het kleurenspectrum, met René Descartes, formules, een vallende appel en een staande slingerklok.*\n6. **Dia 6 (Praktische Informatie & Aanmelden):** `wetenschap/images/sci_slide6_opendag.jpg`  \n   *Sfeervolle historische bibliotheek/collegezaal met antieke instrumenten, wereldbol, kaarslicht en een open inschrijvingsregister.*\n\n---\n\n## 🖥️ Hoe te openen en testen\n\n### Direct op je Mac bekijken:\nVoer in de terminal uit:\n```bash\nopen \"wetenschap/presentatie_opendag_wetenschap.html\"\n```\n\n### Op je iPad gebruiken (Kiosk mode):\n1. Zet de map `wetenschap/` via **iCloud Drive** of **AirDrop** op je iPad.\n2. Open `presentatie_opendag_wetenschap.html` in **Safari**.\n3. Tik op **⛶ Volledig Scherm**.\n4. De presentatie draait automatisch door (15 seconden per dia) in een oneindige lus.\n\n---\n\n## 💡 Handige iPad Instellingen\n\n* **Scherm aan laten staan:**  \n  *Instellingen* → *Scherm en helderheid* → *Automatisch slot* → Zet op **Nooit**.\n* **Begeleide Toegang (Guided Access):**  \n  *Instellingen* → *Toegankelijkheid* → *Begeleide toegang* inschakelen. Hiermee vergrendel je de iPad in Safari zodat passanten de presentatie niet kunnen wegklikken.\n"
+  }
+};
 
-Dit document bevat de samenvatting, opbouw, definitieve wervingsteksten en cursusstructuur van de brainstormsessie over de praktijkcursus **"Aan de slag met AI"** (3 lessen).
-
----
-
-## 1. Cursusprofiel & Uitgangspunten
-
-* **Titel:** Aan de slag met AI (Praktijkcursus)
-* **Duur:** 3 bijeenkomsten / lessen
-* **Doelgroep:** Iedereen met belangstelling / een brede doelgroep (geen programmeer- of diepe IT-kennis vereist, wel digitale basisvaardigheden).
-* **Vereiste:** Cursisten nemen een eigen laptop of tablet mee; er wordt actief 'hands-on' gewerkt tijdens de bijeenkomsten.
-* **Insteek & Onderscheid:** In tegenstelling tot theoretische cursussen over de geschiedenis, werking en maatschappelijke impact van AI, ligt de nadruk hier 100% op de **praktische toepassing** van moderne LLM- en AI-tools in het dagelijks leven en werk.
-
----
-
-## 2. Kernonderwerpen per Les
-
-### Les 1: De Slimme Schrijver, Samenvatter & Prompting
-* **Basisprincipes & LLM-tools:** ChatGPT, Google Gemini, Microsoft Copilot, Claude.
-* **Prompting technieken:**
-  * Context meegeven en instructies verfijnen.
-  * De *Persona*-techniek (bv. "Reageer als kritische redacteur" of "Leg uit aan een beginner").
-* **Praktische toepassingen:**
-  * Opstellen en verbeteren van e-mails, brieven en verslagen.
-  * Creatief schrijven: verhalen, toespraken, brainstormen over ideeën.
-  * Informatie temmen: samenvatten van lange artikelen, beleidsstukken of transcripties.
-
-### Les 2: Beeld, Ontwerp & 'Kijken' met AI (Vision)
-* **Beeldgeneratie:** Afbeeldingen en illustraties genereren vanuit prompts (beschrijvingen).
-* **Beeldbewerking:** Foto's aanpassen, achtergronden wijzigen of stijlen toepassen.
-* **Multimodale AI / Vision:**
-  * Foto's uploaden en analyseren (bv. een plant herkennen, ingrediënten in de koelkast omzetten naar recepten).
-  * Werken met diagrammen en visuele documenten.
-
-### Les 3: Persoonlijke Assistent, Planning & Betrouwbaarheid
-* **AI als assistent & coach:**
-  * Maken van dag-, week- of vakantieplanningen.
-  * Brainstormpartner en taalcoach (oefenen in vreemde talen, toonaanpassing).
-* **Kritische blik & Veiligheid:**
-  * Omgaan met hallucinaties (feiten vs. fictie) en methoden om bronnen te verifiëren.
-  * Privacy en omgang met persoonlijke data.
-  * Herkennen van AI-gegenereerde content en deepfakes.
-
----
-
-## 3. Definitieve Wervingstekst (Compacte versie)
-
-> ### **Aan de slag met AI (Praktijkcursus)**
->
-> AI-producten zoals ChatGPT, Gemini en Copilot zijn inmiddels voor iedereen beschikbaar. De ontwikkelingen gaan razendsnel en zullen onze wereld blijvend veranderen. In deze cursus van drie lessen laten we de theorie achter ons en gaan we **zelf aan de slag**. Het doel is om te laten zien hoe je AI laagdrempelig kunt inzetten als creatieve en praktische assistent.
->
-> **Wat komt er aan de orde?**  
-> In de lessen ontdek je een breed scala aan toepassingen:
-> * **Slimme tekst:** het opstellen van brieven en mails, of het genereren van verhalen;
-> * **Informatie temmen:** het razendsnel samenvatten van lange teksten of video's;
-> * **Beeld & Vision:** het maken van afbeeldingen en het laten analyseren van foto’s;
-> * **Persoonlijke assistent:** hulp bij planningen, ontwerpen en brainstormen;
-> * **Kritische blik:** hoe ga je om met de betrouwbaarheid en veiligheid van de resultaten?
->
-> **Praktische opzet**  
-> De insteek van deze cursus is anders dan de eerdere reeks waarin de theorie en maatschappelijke gevolgen centraal stonden. We gaan nu echt doen. Voor deze cursus is het dan ook nodig dat je een **eigen laptop of tablet** meeneemt naar de lessen.
->
-> De beperkende factor bij AI is vaak enkel je eigen fantasie. Na deze drie lessen heb je de tools in handen om die fantasie werkelijkheid te maken!
-
----
-
-## 4. Uitgebreide Variant (Optioneel voor webpagina / brochure)
-
-> ### **Cursus: Aan de slag met AI – Ontdek de magie in 3 lessen**
->
-> **Heb je al eens geëxperimenteerd met ChatGPT of Gemini, maar wil je nu echt weten hoe je deze tools slim voor je laat werken? Of ben je gewoon nieuwsgierig naar wat er allemaal mogelijk is? In deze praktische cursus laten we de theorie achter ons en gaan we zelf aan de knoppen zitten!**
->
-> De ontwikkelingen op het gebied van AI gaan razendsnel. Waar we vorig jaar nog verbaasd waren over een simpel tekstje, kunnen deze tools nu beelden maken, foto’s analyseren en zelfs optreden als je persoonlijke assistent. In drie lessen leer je hoe je deze technologie op een laagdrempelige manier inzet voor je dagelijkse leven.
->
-> #### **Wat gaan we doen?**
-> De insteek is simpel: **doen!** In tegenstelling tot eerdere cursussen over de maatschappelijke gevolgen van AI, ligt de focus nu volledig op de praktijk.
->
-> * **Les 1: De Slimme Schrijver & Samenvatter**  
->   Je leert de 'kunst van het vragenstellen' (prompting). Hoe zorg je dat AI precies schrijft wat jij bedoelt? We maken vlijmscherpe brieven, vatten lange teksten of video's samen en gebruiken AI als creatieve brainstormpartner.
-> * **Les 2: Beeld, Ontwerp & 'Kijken' met AI**  
->   We gaan de visuele kant op. Je leert hoe je prachtige afbeeldingen vanuit het niets creëert en foto’s bewerkt. Ook ontdek je hoe AI kan 'kijken': maak een foto van een ingrediënt of een onbekende plant en laat de computer vertellen wat het is.
-> * **Les 3: Je Persoonlijke Assistent & Veiligheid**  
->   Hoe maak je een complexe planning in enkele seconden? We kijken naar handige toepassingen voor je agenda en huishouden. Ook staan we stil bij een stukje veiligheid: wat is echt, wat is nep en hoe controleer je of de AI de waarheid spreekt?
->
-> #### **Praktische Informatie**
-> * **Zelf doen:** We gaan in de les direct aan de slag. Het meenemen van een eigen **laptop of tablet** is daarom noodzakelijk.
-> * **Voor wie:** Iedereen met belangstelling voor AI. Je hoeft geen computergenie te zijn; nieuwsgierigheid is de enige vereiste!
-> * **De essentie:** De beperkende factor van AI is vaak je eigen fantasie. Na deze drie lessen heb je de tools in handen om die fantasie werkelijkheid te maken.`
-      },
-
-      ai_handleiding: {
-        title: "Open_Dag_Presentatie_Handleiding.md",
-        folder: "AI",
-        presUrl: "presentatie_opendag.html",
-        presTitle: "Start AI Presentatie ▶",
-        content: `# Handleiding: "Aan de slag met AI" (Open Dag)
-
-Dit document bevat de documentatie en instructies voor de zelf-uitleggende interactieve mini-presentatie voor de open dag.
-
----
-
-## 📸 Geïntegreerde Illustraties per Dia
-
-1. **Dia 1 (Titel & Welkom):** \`images/slide1_hero_ai.jpg\` (Moderne werkplek met laptop, neurale netwerk visualisaties)
-2. **Dia 2 (Waarom meedoen?):** \`images/slide2_why_ai.jpg\` (Gloeilamp/brein symbool voor creativiteit en tijdwinst)
-3. **Dia 3 (Les 1 - Schrijver & Prompting):** \`images/slide3_smart_writer.jpg\` (Futuristische digitale stylus en oplichtende samenvattingen)
-4. **Dia 4 (Les 2 - Beeld & Vision):** \`images/slide4_vision_art.jpg\` (Digitaal schildersezel met AI beeldgeneratie en camera)
-5. **Dia 5 (Les 3 - Assistent & Veiligheid):** \`images/slide5_assistant_security.jpg\` (AI assistent met agenda en groen cyber-schild)
-6. **Dia 6 (Praktische Informatie):** \`images/slide6_welcome_opendag.jpg\` (Open Dag registratiebalie)
-
----
-
-## 🖥️ Kiosk Mode & iPad Tips
-
-* **Duur per dia:** 15 seconden per dia (automatisch doordraaiend).
-* **Volledig scherm:** Tik op de knop **⛶ Volledig Scherm** in Safari op de iPad.
-* **Begeleide Toegang:** Gebruik iOS Begeleide Toegang (Guided Access) om de iPad te vergrendelen op de presentatie.`
-      },
-
-      sci_blok1: {
-        title: "De_Geboorte_van_de_Moderne_Wetenschap_Blok_1.md",
-        folder: "Wetenschap",
-        presUrl: "wetenschap/presentatie_opendag_wetenschap.html",
-        presTitle: "Start Wetenschap Presentatie ▶",
-        content: `# De Geboorte van de Moderne Wetenschap
-### Blok 1: Van de Griekse abstractie naar het 'Uurwerk' van Newton
-
----
-
-## Overzicht van Blok 1
-
-1. **Les 1:** De Griekse Erfenis & Het Dogma
-2. **Les 2:** De Breuk met het Geocentrisme (Copernicus t/m Galilei)
-3. **Les 3:** De Mechanisering van het Wereldbeeld (Descartes & Newton)
-
----
-
-## Les 1: De Griekse Erfenis & Het Dogma
-
-### 1.1 De Griekse Paradox
-* **Hoogontwikkelde wiskunde:** Deductieve logica en axioma's (Euclides), zuivere meetkunde als ideaal.
-* **Achterblijvende natuurwetenschap:** Gebrek aan systematische experimenten; primaat van de zuivere rede boven observatie.
-
-### 1.2 Aristoteles vs. De Natuurwetenschap
-* **Teleologie (doelgerichtheid):** Waarom vallen voorwerpen? *Ze zoeken hun 'natuurlijke plaats'.* Alles streeft naar rust en vervolmaking.
-* **Geocentrisch model:** De aarde als onbeweeglijk middelpunt; rigide scheiding tussen ondermaanse en bovenmaanse sferen.
-
-### 1.3 De Invloed van Religie & Filosofie
-* **Scholastiek:** Samensmelten van christelijke theologie met het wereldbeeld van Aristoteles.
-* **Kennis als dogma:** Waarheid ligt vast in openbaring en klassieke teksten. Afwijken geldt als ketterij.
-
----
-
-## Les 2: De Grote Breuk met het Verleden
-
-### 2.1 Copernicus: De Aarde Gaat Draaien
-* **1543:** Publicatie van *De revolutionibus orbium coelestium*.
-* **De shift:** Van geocentrisme naar heliocentrisme. Wiskundige vereenvoudiging: verdwijnen van complexe epicycli.
-* **Impact:** De aarde verliest haar unieke, centrale plaats in de kosmos.
-
-### 2.2 Kepler: De Cirkel Doorbijten
-* **Weg met de 'volmaakte cirkel':** Introductie van de ellips als planeetbaan.
-* **Empirische wiskunde:** Gebaseerd op de ongekend nauwkeurige data van Tycho Brahe. Drie wetten die planeetbewegingen kwantitatief vastleggen.
-
-### 2.3 Galilei: Het Experiment en de Telescoop
-* **Nieuwe waarnemingen:** Manen van Jupiter, kraters op de maan, zonnevlekken. Bewijs dat hemellichamen niet 'volmaakt' en onveranderlijk zijn.
-* **De Wetenschappelijke Methode:** Metingen verrichten, hypotheses toetsen, data verzamelen. Het dramatische conflict met de Inquisitie.
-
----
-
-## Les 3: De Mechanisering van het Wereldbeeld
-
-### 3.1 Descartes: De Wereld als Machine
-* **Methodische twijfel:** Niets aannemen op autoriteit; alleen wat helder en onderscheiden is.
-* **Mechanicisme:** Natuurfenomenen verklaren via botsende deeltjes en materie in beweging. Analytische meetkunde als brug tussen algebra en geometrie.
-
-### 3.2 Newton: De Grote Synthese
-* **1687:** *Philosophiae Naturalis Principia Mathematica*.
-* **Universele Wetten:** Drie wetten van beweging ($F = m \\cdot a$) en universele zwaartekracht ($F = G \\frac{m_1 m_2}{r^2}$).
-* **Hemel en aarde verenigd:** Dezelfde kracht verklaart de vallende appel en de baan van de maan.
-
-### 3.3 De Nieuwe Wiskunde & Het Determinisme
-* **Calculus:** De noodzaak om verandering en versnelling mathematisch te vangen.
-* **Het Uurwerkwil-universum:** Als positie en snelheid van alle deeltjes bekend zijn, ligt het verloop van de wereld vast.`
-      },
-
-      sci_handleiding: {
-        title: "Open_Dag_Presentatie_Handleiding_Wetenschap.md",
-        folder: "Wetenschap",
-        presUrl: "wetenschap/presentatie_opendag_wetenschap.html",
-        presTitle: "Start Wetenschap Presentatie ▶",
-        content: `# Handleiding: "De Geboorte van de Moderne Wetenschap" (Open Dag)
-
-Dit document bevat de documentatie en instructies voor de interactieve mini-presentatie over Wetenschapsgeschiedenis & Filosofie.
-
----
-
-## 📸 Geïntegreerde Beelden per Dia
-
-1. **Dia 1 (Titel & Introductie):** \`wetenschap/images/sci_slide1_hero.jpg\` (Studeerkamer met telescoop, armillarium en slingeruurwerk)
-2. **Dia 2 (Hoe de Wereld een Machine Werd):** \`wetenschap/images/sci_slide2_paradigm.jpg\` (Zonnestelsel en kosmische tandwielen)
-3. **Dia 3 (Les 1 - Aristoteles & Dogma):** \`wetenschap/images/sci_slide3_aristotle.jpg\` (Aristoteles in Griekse academie met geocentrisch model)
-4. **Dia 4 (Les 2 - Breuk met Geocentrisme):** \`wetenschap/images/sci_slide4_galileo.jpg\` (Galilei door telescoop, Copernicus & Kepler)
-5. **Dia 5 (Les 3 - Mechanisering van de Kosmos):** \`wetenschap/images/sci_slide5_newton.jpg\` (Newton met prisma/kleurenspectrum, Descartes, appel & klok)
-6. **Dia 6 (Aanmelden & Vragen):** \`wetenschap/images/sci_slide6_opendag.jpg\` (Historische bibliotheek met inschrijfregister)
-
----
-
-## 🖥️ Kiosk Mode & Instellingen
-
-* **Duur per dia:** 15 seconden per dia in oneindige lus.
-* **Volledig scherm:** Knop **⛶ Volledig Scherm** voor afleidingsvrije kiosk-weergave.`
-      }
-    };
-
-    let activeDocId = 'ai_cursus';
+    let activeDocId = 'ai_handleiding_intake';
     const renderTarget = document.getElementById('markdown-render-target');
     const tocList = document.getElementById('toc-list');
     const currentDocPill = document.getElementById('current-doc-pill');
