@@ -282,7 +282,7 @@ function buildEmailHtml(voornaam, link) {
       <p>Om de bijeenkomsten en praktijkoefeningen optimaal af te stemmen op jouw persoonlijke achtergrond, ervaring en het apparaat dat je meeneemt, wil ik je vragen om vooraf onderstaande korte vragenlijst in te vullen (kost circa 3 minuten):</p>
       
       <div style="margin: 28px 0; text-align: left;">
-        <a href="${link}" style="background-color: #2563eb; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(37,99,235,0.2);">👉 Klik hier om de Vragenlijst in te vullen</a>
+        <a href="${link}" style="background-color: #2563eb; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(37,99,235,0.2);">Klik hier om de vragenlijst in te vullen &rarr;</a>
       </div>
       
       <p style="font-size: 13px; color: #64748b;">
@@ -291,7 +291,7 @@ function buildEmailHtml(voornaam, link) {
       </p>
       
       <div style="background-color: #f1f5f9; border-left: 4px solid #3b82f6; padding: 10px 14px; margin: 20px 0; font-size: 13px; color: #475569;">
-        🔒 <strong>Privacy:</strong> Je antwoorden zijn vertrouwelijk en uitsluitend bestemd voor mij als docent om de lessen voor te bereiden.
+        <strong>Privacy:</strong> Je antwoorden zijn vertrouwelijk en uitsluitend bestemd voor mij als docent om de lessen voor te bereiden.
       </div>
       
       <p><strong>Praktisch:</strong> Neem naar de eerste bijeenkomst je eigen laptop of tablet mee. Mocht je vooraf al vragen hebben, reageer dan gerust op deze mail.</p>
