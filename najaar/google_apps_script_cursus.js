@@ -73,15 +73,15 @@ function onOpen() {
     .addItem("🔔 2. Intake Herinnering: Zet Concepten klaar (Niet-ingestuurd)", "sendIntakeRemindersDraft")
     .addSeparator()
     // 2. Herbruikbaar Berichtenbeheer (voor elk moment in de cursus)
-    .addItem("📝 3. Maak / Open Tabblad "Berichten"", "setupMessagesSheet")
-    .addItem("✉️ 4. Verstuur Bericht uit Tabblad "Berichten" (Concepten)", "sendCustomMessageDrafts")
-    .addItem("🚀 5. Verstuur Bericht uit Tabblad "Berichten" (Direct)", "sendCustomMessageDirect")
+    .addItem("📝 3. Maak / Open Tabblad Berichten", "setupMessagesSheet")
+    .addItem("✉️ 4. Verstuur Bericht uit Tabblad Berichten (Concepten)", "sendCustomMessageDrafts")
+    .addItem("🚀 5. Verstuur Bericht uit Tabblad Berichten (Direct)", "sendCustomMessageDirect")
     .addSeparator()
     // 3. Oorspronkelijke Acties & Test
     .addItem("🧪 Test Concept voor geselecteerde rij", "testSingleRowDraft")
     .addItem("🔗 Genereer alle Persoonlijke Links", "generatePersonalLinks")
     .addItem("✉️ Welkomstmails (Alles): Zet Concepten klaar", "createGmailDrafts")
-    .addItem("📊 Open Tab "Intake Antwoorden"", "setupAnswersSheet")
+    .addItem("📊 Open Tab Intake Antwoorden", "setupAnswersSheet")
     .addToUi();
 }
 
@@ -111,13 +111,13 @@ function checkIntakeSubmissions() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName(SHEET_NAME_DEELNEMERS);
   if (!sheet) {
-    SpreadsheetApp.getUi().alert(`Tabblad "${SHEET_NAME_DEELNEMERS}" niet gevonden!`);
+    SpreadsheetApp.getUi().alert("Tabblad \"" + SHEET_NAME_DEELNEMERS + "\" niet gevonden!");
     return;
   }
 
   const lastRow = sheet.getLastRow();
   if (lastRow < START_ROW) {
-    SpreadsheetApp.getUi().alert(`Geen cursisten gevonden vanaf rij ${START_ROW}.`);
+    SpreadsheetApp.getUi().alert("Geen cursisten gevonden vanaf rij " + START_ROW + ".");
     return;
   }
 
@@ -167,10 +167,10 @@ function checkIntakeSubmissions() {
   sheet.getRange(START_ROW, intakeCol, numRows, 1).setValues(statusValues);
 
   SpreadsheetApp.getUi().alert(
-    `📊 Intake Overzicht:\n\n` +
-    `• ${submittedCount} cursist(en) hebben het formulier ingevuld (✅)\n` +
-    `• ${missingCount} cursist(en) hebben nog NIET ingevuld (⏳)\n\n` +
-    `De kolom "Intake Status" is bijgewerkt!`
+    "📊 Intake Overzicht:\n\n" +
+    "• " + submittedCount + " cursist(en) hebben het formulier ingevuld (✅)\n" +
+    "• " + missingCount + " cursist(en) hebben nog NIET ingevuld (⏳)\n\n" +
+    "De kolom \"Intake Status\" is bijgewerkt!"
   );
 }
 
@@ -216,11 +216,11 @@ function sendIntakeRemindersDraft() {
     // Genereer link als deze nog ontbrak
     if (!link) {
       const inschrijfnummer = String(data[i][map.inschrijfnummer - 1] || "").trim();
-      link = `${BASE_INTAKE_URL}?id=${encodeURIComponent(inschrijfnummer)}&naam=${encodeURIComponent(voornaam)}`;
+      link = BASE_INTAKE_URL + "?id=" + encodeURIComponent(inschrijfnummer) + "&naam=" + encodeURIComponent(voornaam);
       sheet.getRange(rowNum, map.link).setValue(link);
     }
 
-    const subject = `Herinnering: Voorbereiding Cursus "Aan de slag met AI" (Korte Vragenlijst)`;
+    const subject = "Herinnering: Voorbereiding Cursus \"Aan de slag met AI\" (Korte Vragenlijst)";
     const emailContent = buildReminderEmailHtml(voornaam, link);
 
     GmailApp.createDraft(email, subject, emailContent.plainBody, { htmlBody: emailContent.htmlBody });
@@ -228,10 +228,10 @@ function sendIntakeRemindersDraft() {
   }
 
   SpreadsheetApp.getUi().alert(
-    `✅ Herinneringen Klaargezet!\n\n` +
-    `Er zijn ${draftCount} herinnerings-concepten klaargezet in jouw Gmail.\n` +
-    `(${skippedSubmitted} cursisten die al hadden ingevuld zijn netjes overgeslagen).\n\n` +
-    `Open Gmail > Concepten om ze te bekijken en te verzenden!`
+    "✅ Herinneringen Klaargezet!\n\n" +
+    "Er zijn " + draftCount + " herinnerings-concepten klaargezet in jouw Gmail.\n" +
+    "(" + skippedSubmitted + " cursisten die al hadden ingevuld zijn netjes overgeslagen).\n\n" +
+    "Open Gmail > Concepten om ze te bekijken en te verzenden!"
   );
 }
 
@@ -271,12 +271,19 @@ function setupMessagesSheet() {
     sheet.getRange("B4").setDataValidation(rule);
 
     sheet.getRange("A6").setValue("Berichttekst:").setFontWeight("bold");
-    const defaultBody = 
-      "Beste {voornaam},\n\n" +
-      "Hierbij ontvang je extra informatie over de cursus "Aan de slag met AI: ontdek de kracht van slimme tools".\n\n" +
-      "[Typ hier je eigen bericht, samenvatting, huiswerk of links]\n\n" +
-      "Neem naar de volgende les je eigen laptop of tablet mee.\n\n" +
-      "Hartelijke groet,\nJan Martin Jansen\nhttps://janmartinjansen.github.io/AI/najaar";
+    const defaultBody = [
+      "Beste {voornaam},",
+      "",
+      "Hierbij ontvang je extra informatie over de cursus \"Aan de slag met AI: ontdek de kracht van slimme tools\".",
+      "",
+      "[Typ hier je eigen bericht, samenvatting, huiswerk of links]",
+      "",
+      "Neem naar de volgende les je eigen laptop of tablet mee.",
+      "",
+      "Hartelijke groet,",
+      "Jan Martin Jansen",
+      "https://janmartinjansen.github.io/AI/najaar"
+    ].join("\n");
     
     sheet.getRange("B6").setValue(defaultBody);
     sheet.getRange("B6").setWrap(true);
@@ -291,7 +298,7 @@ function setupMessagesSheet() {
     sheet.setColumnWidth(2, 550);
     sheet.setRowHeight(6, 180);
 
-    SpreadsheetApp.getUi().alert(`Tabblad "${SHEET_NAME_BERICHTEN}" is aangemaakt! Typ hier je onderwerp en bericht.`);
+    SpreadsheetApp.getUi().alert("Tabblad \"" + SHEET_NAME_BERICHTEN + "\" is aangemaakt! Typ hier je onderwerp en bericht.");
   } else {
     ss.setActiveSheet(sheet);
   }
@@ -311,7 +318,7 @@ function sendCustomMessageDirect() {
   const ui = SpreadsheetApp.getUi();
   const response = ui.alert(
     "Direct Verzenden",
-    "Weet je zeker dat je het bericht uit het tabblad Berichten direct wilt verzenden naar de geselecteerde doelgroep?",
+    "Weet je zeker dat je het bericht uit het tabblad 'Berichten' direct wilt verzenden naar de geselecteerde doelgroep?",
     ui.ButtonSet.YES_NO
   );
 
@@ -329,7 +336,7 @@ function processCustomMessage(isDraftOnly) {
   const deelSheet = ss.getSheetByName(SHEET_NAME_DEELNEMERS);
 
   if (!msgSheet) {
-    SpreadsheetApp.getUi().alert(`Tabblad "${SHEET_NAME_BERICHTEN}" niet gevonden! Klik eerst op menuoptie 3.`);
+    SpreadsheetApp.getUi().alert("Tabblad \"" + SHEET_NAME_BERICHTEN + "\" niet gevonden! Klik eerst op menuoptie 3.");
     return;
   }
   if (!deelSheet) return;
@@ -339,11 +346,11 @@ function processCustomMessage(isDraftOnly) {
   const rawBody = String(msgSheet.getRange("B6").getValue()).trim();
 
   if (!rawSubject) {
-    SpreadsheetApp.getUi().alert("Vul eerst een Onderwerp in cel B3 van het tabblad Berichten!");
+    SpreadsheetApp.getUi().alert("Vul eerst een Onderwerp in cel B3 van het tabblad 'Berichten'!");
     return;
   }
   if (!rawBody) {
-    SpreadsheetApp.getUi().alert("Vul eerst een Berichttekst in cel B6 van het tabblad Berichten!");
+    SpreadsheetApp.getUi().alert("Vul eerst een Berichttekst in cel B6 van het tabblad 'Berichten'!");
     return;
   }
 
@@ -404,7 +411,7 @@ function processCustomMessage(isDraftOnly) {
     }
 
     if (!link) {
-      link = `${BASE_INTAKE_URL}?id=${encodeURIComponent(id)}&naam=${encodeURIComponent(voornaam)}`;
+      link = BASE_INTAKE_URL + "?id=" + encodeURIComponent(id) + "&naam=" + encodeURIComponent(voornaam);
     }
 
     // Vervang tags
@@ -432,9 +439,9 @@ function processCustomMessage(isDraftOnly) {
 
   const actie = isDraftOnly ? "concepten klaargezet in je Gmail" : "e-mails direct verzonden";
   SpreadsheetApp.getUi().alert(
-    `✅ Klaar!\n\n` +
-    `Er zijn ${count} ${actie} naar doelgroep: "${targetAudience}".\n` +
-    `(${skipped} overgeslagen/buiten doelgroep).`
+    "✅ Klaar!\n\n" +
+    "Er zijn " + count + " " + actie + " naar doelgroep: \"" + targetAudience + "\".\n" +
+    "(" + skipped + " overgeslagen/buiten doelgroep)."
   );
 }
 
@@ -444,62 +451,56 @@ function processCustomMessage(isDraftOnly) {
 function formatPlainTextToHtml(text) {
   const paragraphs = text.split(/\n\s*\n/);
   const htmlParagraphs = paragraphs.map(p => {
-    // Links klikbaar maken
     let escaped = p
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/\n/g, "<br>");
     
-    escaped = escaped.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color: #2563eb; text-decoration: underline;">$1</a>\);
-    return `<p style="margin-bottom: 14px;">${escaped}</p>`;
+    escaped = escaped.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color: #2563eb; text-decoration: underline;">$1</a>');
+    return "<p style=\"margin-bottom: 14px;\">" + escaped + "</p>";
   }).join("");
 
-  return `
-    <div style="font-family: Arial, sans-serif; font-size: 15px; color: #1e293b; line-height: 1.6; max-width: 600px;">
-      ${htmlParagraphs}
-    </div>
-  `;
+  return "<div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #1e293b; line-height: 1.6; max-width: 600px;\">" +
+         htmlParagraphs +
+         "</div>";
 }
 
 /**
  * HULPFUNCTIE: Herinneringsmail HTML template
  */
 function buildReminderEmailHtml(voornaam, link) {
-  const htmlBody = `
-    <div style="font-family: Arial, sans-serif; font-size: 15px; color: #1e293b; line-height: 1.6; max-width: 600px;">
-      <p>Beste ${voornaam},</p>
-      
-      <p>Binnenkort gaan we van start met de praktijkcursus <strong>"Aan de slag met AI: ontdek de kracht van slimme tools"</strong> in School 7. Ik kijk er erg naar uit om je te ontmoeten!</p>
-      
-      <p>Mocht je nog geen gelegenheid hebben gehad: wil je vooraf nog even de korte vragenlijst invullen? Hiermee kan ik de praktijkoefeningen optimaal afstemmen op jouw ervaring en het apparaat dat je meeneemt (kost circa 2 à 3 minuten):</p>
-      
-      <div style="margin: 28px 0; text-align: left;">
-        <a href="${link}" style="background-color: #2563eb; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(37,99,235,0.2);">Vragenlijst invullen &rarr;</a>
-      </div>
-      
-      <p style="font-size: 13px; color: #64748b;">
-        <em>Werkt de knop niet? Kopieer dan deze link in je browser:<br>
-        <a href="${link}" style="color: #2563eb;">${link}</a></em>
-      </p>
-      
-      <div style="background-color: #f1f5f9; border-left: 4px solid #3b82f6; padding: 10px 14px; margin: 20px 0; font-size: 13px; color: #475569;">
-        <strong>Privacy:</strong> Je antwoorden zijn vertrouwelijk en uitsluitend bestemd voor mij als docent om de lessen voor te bereiden.
-      </div>
-      
-      <p><strong>Praktisch:</strong> Neem naar de eerste bijeenkomst je eigen laptop of tablet mee. Mocht je vooraf al vragen hebben, reageer dan gerust op deze mail.</p>
-      
-      <p>Hartelijke groet en graag tot ziens bij de eerste les!</p>
-      
-      <p style="margin-top: 20px;">
-        <strong>Jan Martin Jansen</strong><br>
-        <span style="color: #64748b; font-size: 14px;">Docent "Aan de slag met AI"</span><br>
-        <a href="https://janmartinjansen.github.io/AI/najaar" style="color: #2563eb; font-size: 13px;">https://janmartinjansen.github.io/AI/najaar</a>
-      </p>
-    </div>
-  `;
+  const htmlBody = [
+    "<div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #1e293b; line-height: 1.6; max-width: 600px;\">",
+    "  <p>Beste " + voornaam + ",</p>",
+    "  <p>Binnenkort gaan we van start met de praktijkcursus <strong>\"Aan de slag met AI: ontdek de kracht van slimme tools\"</strong> in School 7. Ik kijk er erg naar uit om je te ontmoeten!</p>",
+    "  <p>Mocht je nog geen gelegenheid hebben gehad: wil je vooraf nog even de korte vragenlijst invullen? Hiermee kan ik de praktijkoefeningen optimaal afstemmen op jouw ervaring en het apparaat dat je meeneemt (kost circa 2 à 3 minuten):</p>",
+    "  <div style=\"margin: 28px 0; text-align: left;\">",
+    "    <a href=\"" + link + "\" style=\"background-color: #2563eb; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(37,99,235,0.2);\">Vragenlijst invullen &rarr;</a>",
+    "  </div>",
+    "  <p style=\"font-size: 13px; color: #64748b;\">",
+    "    <em>Werkt de knop niet? Kopieer dan deze link in je browser:<br>",
+    "    <a href=\"" + link + "\" style=\"color: #2563eb;\">" + link + "</a></em>",
+    "  </p>",
+    "  <div style=\"background-color: #f1f5f9; border-left: 4px solid #3b82f6; padding: 10px 14px; margin: 20px 0; font-size: 13px; color: #475569;\">",
+    "    <strong>Privacy:</strong> Je antwoorden zijn vertrouwelijk en uitsluitend bestemd voor mij als docent om de lessen voor te bereiden.",
+    "  </div>",
+    "  <p><strong>Praktisch:</strong> Neem naar de eerste bijeenkomst je eigen laptop of tablet mee. Mocht je vooraf al vragen hebben, reageer dan gerust op deze mail.</p>",
+    "  <p>Hartelijke groet en graag tot ziens bij de eerste les!</p>",
+    "  <p style=\"margin-top: 20px;\">",
+    "    <strong>Jan Martin Jansen</strong><br>",
+    "    <span style=\"color: #64748b; font-size: 14px;\">Docent \"Aan de slag met AI\"</span><br>",
+    "    <a href=\"https://janmartinjansen.github.io/AI/najaar\" style=\"color: #2563eb; font-size: 13px;\">https://janmartinjansen.github.io/AI/najaar</a>",
+    "  </p>",
+    "</div>"
+  ].join("\n");
 
-  const plainBody = `Beste ${voornaam},\n\nBinnenkort gaan we van start met de praktijkcursus "Aan de slag met AI: ontdek de kracht van slimme tools" in School 7.\n\nMocht je nog geen gelegenheid hebben gehad, wil je vooraf nog even de korte vragenlijst invullen?\n${link}\n\nNeem je eigen laptop of tablet mee naar de les. Tot ziens!\n\nHartelijke groet,\nJan Martin Jansen\nhttps://janmartinjansen.github.io/AI/najaar`;
+  const plainBody = "Beste " + voornaam + ",\n\n" +
+    "Binnenkort gaan we van start met de praktijkcursus \"Aan de slag met AI: ontdek de kracht van slimme tools\" in School 7.\n\n" +
+    "Mocht je nog geen gelegenheid hebben gehad, wil je vooraf nog even de korte vragenlijst invullen?\n" +
+    link + "\n\n" +
+    "Neem je eigen laptop of tablet mee naar de les. Tot ziens!\n\n" +
+    "Hartelijke groet,\nJan Martin Jansen\nhttps://janmartinjansen.github.io/AI/najaar";
 
   return { htmlBody: htmlBody, plainBody: plainBody };
 }
@@ -510,13 +511,13 @@ function buildReminderEmailHtml(voornaam, link) {
 function testSingleRowDraft() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME_DEELNEMERS);
   if (!sheet) {
-    SpreadsheetApp.getUi().alert(`Tabblad "${SHEET_NAME_DEELNEMERS}" niet gevonden!`);
+    SpreadsheetApp.getUi().alert("Tabblad \"" + SHEET_NAME_DEELNEMERS + "\" niet gevonden!");
     return;
   }
 
   const activeRow = sheet.getActiveCell().getRow();
   if (activeRow < START_ROW) {
-    SpreadsheetApp.getUi().alert(`Selecteer eerst een cursist-rij (vanaf rij ${START_ROW}, bijv. je testrij op rij 22)!`);
+    SpreadsheetApp.getUi().alert("Selecteer eerst een cursist-rij (vanaf rij " + START_ROW + ", bijv. je testrij op rij 22)!");
     return;
   }
 
@@ -533,31 +534,31 @@ function testSingleRowDraft() {
 
   if (!email || !email.includes("@")) {
     SpreadsheetApp.getUi().alert(
-      `Geen geldig e-mailadres gevonden op rij ${activeRow} in kolom ${colLetterEmail}!\n` +
-      `Gevonden waarde: "${email}"\n\n` +
-      `Controleer of het e-mailadres in kolom ${colLetterEmail} staat.`
+      "Geen geldig e-mailadres gevonden op rij " + activeRow + " in kolom " + colLetterEmail + "!\n" +
+      "Gevonden waarde: \"" + email + "\"\n\n" +
+      "Controleer of het e-mailadres in kolom " + colLetterEmail + " staat."
     );
     return;
   }
 
   if (!link) {
-    link = `${BASE_INTAKE_URL}?id=${encodeURIComponent(inschrijfnummer || "TEST-01")}&naam=${encodeURIComponent(voornaam)}`;
+    link = BASE_INTAKE_URL + "?id=" + encodeURIComponent(inschrijfnummer || "TEST-01") + "&naam=" + encodeURIComponent(voornaam);
     sheet.getRange(activeRow, map.link).setValue(link);
   }
 
-  const subject = `[TEST] Praktijkcursus "Aan de slag met AI" - Welkom & Korte Vragenlijst`;
+  const subject = "[TEST] Praktijkcursus \"Aan de slag met AI\" - Welkom & Korte Vragenlijst";
   const emailContent = buildReminderEmailHtml(voornaam, link);
 
   GmailApp.createDraft(email, subject, emailContent.plainBody, { htmlBody: emailContent.htmlBody });
   sheet.getRange(activeRow, map.status).setValue("Test concept klaar in Gmail");
 
   SpreadsheetApp.getUi().alert(
-    `✅ Test geslaagd!\n\n` +
-    `Voor rij ${activeRow} (${voornaam}):\n` +
-    `1. E-mailadres: ${email}\n` +
-    `2. Persoonlijke link geplaatst in kolom ${String.fromCharCode(64 + map.link)}\n` +
-    `3. Concept-mail klaargezet in jouw Gmail!\n\n` +
-    `Open Gmail > Concepten om te bekijken!`
+    "✅ Test geslaagd!\n\n" +
+    "Voor rij " + activeRow + " (" + voornaam + "):\n" +
+    "1. E-mailadres: " + email + "\n" +
+    "2. Persoonlijke link geplaatst in kolom " + String.fromCharCode(64 + map.link) + "\n" +
+    "3. Concept-mail klaargezet in jouw Gmail!\n\n" +
+    "Open Gmail > Concepten om te bekijken!"
   );
 }
 
@@ -583,7 +584,7 @@ function generatePersonalLinks() {
     const voornaam = String(data[i][map.voornaam - 1] || "").trim();
 
     if (inschrijfnummer || voornaam) {
-      const fullUrl = `${BASE_INTAKE_URL}?id=${encodeURIComponent(inschrijfnummer)}&naam=${encodeURIComponent(voornaam)}`;
+      const fullUrl = BASE_INTAKE_URL + "?id=" + encodeURIComponent(inschrijfnummer) + "&naam=" + encodeURIComponent(voornaam);
       links.push([fullUrl]);
       count++;
     } else {
@@ -592,7 +593,7 @@ function generatePersonalLinks() {
   }
 
   sheet.getRange(START_ROW, map.link, numRows, 1).setValues(links);
-  SpreadsheetApp.getUi().alert(`Succes! Er zijn ${count} persoonlijke links gegenereerd in kolom ${String.fromCharCode(64 + map.link)}.`);
+  SpreadsheetApp.getUi().alert("Succes! Er zijn " + count + " persoonlijke links gegenereerd in kolom " + String.fromCharCode(64 + map.link) + ".");
 }
 
 /**
@@ -622,11 +623,11 @@ function createGmailDrafts() {
     if (!email || !email.includes("@") || status === "Verzonden") continue;
 
     if (!link) {
-      link = `${BASE_INTAKE_URL}?id=${encodeURIComponent(inschrijfnummer)}&naam=${encodeURIComponent(voornaam)}`;
+      link = BASE_INTAKE_URL + "?id=" + encodeURIComponent(inschrijfnummer) + "&naam=" + encodeURIComponent(voornaam);
       sheet.getRange(rowNum, map.link).setValue(link);
     }
 
-    const subject = `Praktijkcursus "Aan de slag met AI" - Welkom & Korte Vragenlijst`;
+    const subject = "Praktijkcursus \"Aan de slag met AI\" - Welkom & Korte Vragenlijst";
     const emailContent = buildReminderEmailHtml(voornaam, link);
 
     GmailApp.createDraft(email, subject, emailContent.plainBody, { htmlBody: emailContent.htmlBody });
@@ -634,7 +635,7 @@ function createGmailDrafts() {
     count++;
   }
 
-  SpreadsheetApp.getUi().alert(`Klaar! Er zijn ${count} welkomst-concepten klaargezet in je Gmail.`);
+  SpreadsheetApp.getUi().alert("Klaar! Er zijn " + count + " welkomst-concepten klaargezet in je Gmail.");
 }
 
 /**
@@ -656,7 +657,7 @@ function setupAnswersSheet() {
     sheet.setFrozenRows(1);
     
     try {
-      SpreadsheetApp.getUi().alert(`Tabblad "${SHEET_NAME_ANTWOORDEN}" is aangemaakt!`);
+      SpreadsheetApp.getUi().alert("Tabblad \"" + SHEET_NAME_ANTWOORDEN + "\" is aangemaakt!");
     } catch (err) {}
   } else {
     try {
