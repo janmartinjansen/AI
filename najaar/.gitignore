@@ -1,0 +1,4 @@
+.DS_Store
+*.tmp
+extracted_images/
+extracted_slides_text.txt

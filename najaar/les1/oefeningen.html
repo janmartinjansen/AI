@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Praktijkopdrachten • Keuzemenu | Les 1: Aan de slag met AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-body: #334155;
+      --accent-blue: #2563eb;
+      --accent-blue-light: #eff6ff;
+      --accent-blue-border: #bfdbfe;
+      --accent-emerald: #059669;
+      --accent-emerald-light: #ecfdf5;
+      --accent-amber: #d97706;
+      --accent-amber-light: #fffbeb;
+      --accent-purple: #7c3aed;
+      --accent-purple-light: #f5f3ff;
+      --radius: 16px;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      background-image: radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.5) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(254, 243, 199, 0.4) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding: 2.5rem 1.25rem 4rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 860px;
+      width: 100%;
+    }
+
+    /* Top Nav */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      color: var(--text-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+      border-color: var(--accent-blue-border);
+      transform: translateX(-3px);
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 2.5rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: var(--accent-amber-light);
+      border: 1px solid #fde68a;
+      color: var(--accent-amber);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin-bottom: 1.6rem;
+      line-height: 1.5;
+    }
+
+    /* Menu Banner */
+    .menu-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
+    }
+
+    .menu-banner h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-banner p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 1.2rem;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .menu-pill {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Exercise Section Cards */
+    .exercise-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .exercise-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .badge-blue { background: var(--accent-blue-light); color: var(--accent-blue); border: 1px solid var(--accent-blue-border); }
+    .badge-emerald { background: var(--accent-emerald-light); color: var(--accent-emerald); border: 1px solid #a7f3d0; }
+    .badge-purple { background: var(--accent-purple-light); color: var(--accent-purple); border: 1px solid #ddd6fe; }
+    .badge-amber { background: var(--accent-amber-light); color: var(--accent-amber); border: 1px solid #fde68a; }
+
+    .exercise-card h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .exercise-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 1.5rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .exercise-card p {
+      font-size: 0.96rem;
+      color: var(--text-body);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .exercise-card ul, .exercise-card ol {
+      padding-left: 1.4rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+      color: var(--text-body);
+    }
+
+    .exercise-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Text & Prompt Containers */
+    .casus-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid var(--accent-blue);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0 1.4rem 0;
+      position: relative;
+    }
+
+    .casus-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .casus-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .casus-content {
+      font-size: 0.94rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    /* Prompt Box with Code Style */
+    .prompt-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0 1.4rem 0;
+      position: relative;
+    }
+
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .prompt-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: #38bdf8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .prompt-content {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Buttons */
+    .btn-copy {
+      background: #1e293b;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+
+    .btn-copy.copied {
+      background: #059669;
+      border-color: #059669;
+      color: #ffffff;
+    }
+
+    .btn-copy-casus {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy-casus:hover {
+      background: var(--accent-blue-light);
+      border-color: var(--accent-blue-border);
+      color: var(--accent-blue);
+    }
+
+    .btn-copy-casus.copied {
+      background: #059669;
+      border-color: #059669;
+      color: #ffffff;
+    }
+
+    /* Action Tip Box */
+    .tip-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      margin: 1.2rem 0;
+      font-size: 0.92rem;
+      color: #166534;
+    }
+
+    .tip-box strong {
+      color: #14532d;
+    }
+
+    /* Software Pills */
+    .app-shortcuts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 1.2rem 0;
+    }
+
+    .app-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .app-card h5 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .app-card p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+      line-height: 1.45;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 680px) {
+      h1 { font-size: 2rem; }
+      .exercise-card { padding: 1.4rem; }
+      .menu-banner { padding: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Nav -->
+    <div class="top-nav">
+      <a href="index.html" class="back-btn">← Terug naar Les 1 Overzicht</a>
+      <a href="../index.html" class="back-btn">Cursushome</a>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <div class="tag">✏️ Praktijkgedeelte • Les 1</div>
+      <h1>Aan de slag met Chatbots</h1>
+      <p class="subtitle">Kies de opdrachten die het beste aansluiten bij jouw werk, verenigingsleven of privé-situatie. Gebruik ChatGPT, Google Gemini, Microsoft Copilot of Claude.</p>
+    </header>
+
+    <!-- Keuzemenu Banner -->
+    <div class="menu-banner">
+      <h3>🎯 Het Keuzemenu: Kies minimaal 2 opdrachten</h3>
+      <p>Je hoeft niet alle vier de opdrachten te maken. Kies wat jou het meeste aanspreekt of waar je zelf het vaakst mee te maken hebt:</p>
+      
+      <div class="menu-grid">
+        <div class="menu-pill">✉️ 1. Correspondentie & RCTK</div>
+        <div class="menu-pill">📊 2. Rommelig naar Excel/Word</div>
+        <div class="menu-pill">🗣️ 3. Doelgroep & WhatsApp</div>
+        <div class="menu-pill">🧠 4. Kritische Sparringpartner</div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 1 -->
+    <div class="exercise-card" id="opdracht1">
+      <div class="badge-bar">
+        <span class="badge badge-blue">✉️ Opdracht 1</span>
+        <span class="badge badge-amber">Correspondentie</span>
+        <span class="badge badge-blue">RCTK-Formule</span>
+      </div>
+      <h2>De RCTK-Formule in Actie (Het A/B-Experiment)</h2>
+      <p>
+        Ervaar het enorme verschil tussen een vluchtige "Google-zoekopdracht" en een gestructureerde prompt met <strong>Rol, Context, Taak en Kwaliteitseis</strong>.
+      </p>
+
+      <div class="casus-box">
+        <div class="casus-header">
+          <span class="casus-title">📋 De Casus: Hardnekkige CV-storing</span>
+          <button class="btn-copy-casus" onclick="copySnippet('casus1', this)">📋 Kopieer casus</button>
+        </div>
+        <div class="casus-content" id="casus1">
+          Je huurt al drie jaar een woning in Den Helder. Al 14 dagen vertoont de combiketel storingscode E04 (geen warm water, ijskoude radiatoren). Je hebt op 16 september en 22 september gebeld met de klantenservice van de verhuurder; beide keren werd een monteur binnen 24 uur beloofd, maar er is niemand geweest en je bent niet teruggebeld.
+        </div>
+      </div>
+
+      <h3>Stap A: De Vaste Valkuil (De kale prompt)</h3>
+      <p>Typ eerst deze korte vraag in je chatbot en bekijk het antwoord:</p>
+      
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 1A • KALE VRAAG</span>
+          <button class="btn-copy" onclick="copySnippet('prompt1a', this)">📋 Kopieer prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt1a">Schrijf een boze mail naar mijn verhuurder over mijn kapotte verwarming.</div>
+      </div>
+      <p style="font-size: 0.88rem; color: var(--text-muted); font-style: italic;">
+        👀 <strong>Wat valt op?</strong> De tekst is vaak overdreven theatraal, emotioneel, of bevat feiten die de AI zelf heeft verzonnen.
+      </p>
+
+      <h3>Stap B: De RCTK-Meesterprompt</h3>
+      <p>Kopieer onderstaande complete prompt en plak deze in je chat. De casus zit hier al direct in verwerkt onder <code>[CONTEXT]</code>:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 1B • RCTK-METHODE</span>
+          <button class="btn-copy" onclick="copySnippet('prompt1b', this)">📋 Kopieer complete prompt (meteen klaar voor gebruik)</button>
+        </div>
+        <div class="prompt-content" id="prompt1b">[ROL] Je bent een ervaren communicatie-adviseur en consumentenjurist.
+[CONTEXT] Ik huur al drie jaar een appartement in Den Helder. Al 14 dagen vertoont de cv-ketel foutcode E04 (geen warm water en verwarming). Ik heb op 16 september en 22 september telefonisch contact gehad met de servicelijn; beide keren werd een monteur beloofd, maar er is niets gebeurd.
+[TAAK] Schrijf een formele, vriendelijke maar besliste ingebrekestelling per e-mail aan de verhuurder.
+[KWALITEITSEISEN] 
+- Maximaal 200 woorden.
+- Toon: zakelijk, redelijk maar standvastig (geen scheldwoorden).
+- Geef een heldere deadline van 3 werkdagen voor herstel.
+- Noem de eerdere contactmomenten in een overzichtelijke opsomming.
+- Sluit af met een constructieve oproep tot snelle actie.</div>
+      </div>
+
+      <div class="tip-box">
+        💡 <strong>Het leereffect:</strong> Door duidelijke kaders (termijn, toon, lengte) levert de AI een direct verzendklare brief op die respect afdwingt in plaats van wrevel wekt.
+      </div>
+    </div>
+
+    <!-- OPDRACHT 2 -->
+    <div class="exercise-card" id="opdracht2">
+      <div class="badge-bar">
+        <span class="badge badge-emerald">📊 Opdracht 2</span>
+        <span class="badge badge-emerald">Data & Administratie</span>
+        <span class="badge badge-blue">Excel & Word</span>
+      </div>
+      <h2>Van Rommelige Notities naar Excel & Word</h2>
+      <p>
+        AI is een meester in het structureren van chaos. In deze oefening filter je willekeurige gegevens uit een rommelige notitie en zet je ze om in een tabel die je <strong>direct in Excel of Word plakt</strong>.
+      </p>
+
+      <div class="casus-box">
+        <div class="casus-header">
+          <span class="casus-title">📋 De Rommelige Notitie: Verenigingsuitje</span>
+          <button class="btn-copy-casus" onclick="copySnippet('casus2', this)">📋 Kopieer losse notitie</button>
+        </div>
+        <div class="casus-content" id="casus2">Hoi Jan, hier even de stand van zaken rondom onze bijeenkomst van zaterdag 18 oktober in De Kampanje:
+Kees heeft al € 45,- betaald voor de catering, maar hij eet vegetarisch. 
+Anja declareert € 22,50 voor reiskosten met de auto (benzinebonnetje is aanwezig). 
+Piet heeft € 120,- voorgeschoten voor de zaalhuur; de officiële factuur moeten we nog ontvangen van de beheerder. 
+Karin kan alleen in de middag aansluiten, heeft geen dieetwensen en moet haar eigen bijdrage van € 15,- nog overmaken. 
+Dan hebben we nog Henk: die heeft € 35,- betaald voor het drukwerk van de flyers. 
+En let op: er staat nog een borgsom van € 50,- open die contant aan de zaalbeheerder voldaan moet worden bij vertrek.</div>
+      </div>
+
+      <h3>De Complete Prompt</h3>
+      <p>In het onderstaande vak staat de opdracht <strong>inclusief de notities</strong> er al direct onder geplakt. Met één klik kopieer je alles in één keer:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 2 • TABEL GENEREREN (COMPLEET)</span>
+          <button class="btn-copy" onclick="copySnippet('prompt2', this)">📋 Kopieer complete prompt (meteen klaar voor gebruik)</button>
+        </div>
+        <div class="prompt-content" id="prompt2">Haal alle financiële en organisatorische gegevens uit onderstaande notities en presenteer ze in een overzichtelijke tabel met exact deze kolommen:
+1. Naam / Betrokkene
+2. Onderwerp / Taak
+3. Bedrag (€)
+4. Status (Betaald / Nog betalen / Declaratie / Borg)
+5. Notities / Dieetwensen
+
+Sorteer de tabel op Bedrag van hoog naar laag. Bereken onderaan direct het totaalbedrag.
+
+Notities:
+Hoi Jan, hier even de stand van zaken rondom onze bijeenkomst van zaterdag 18 oktober in De Kampanje:
+Kees heeft al € 45,- betaald voor de catering, maar hij eet vegetarisch. 
+Anja declareert € 22,50 voor reiskosten met de auto (benzinebonnetje is aanwezig). 
+Piet heeft € 120,- voorgeschoten voor de zaalhuur; de officiële factuur moeten we nog ontvangen van de beheerder. 
+Karin kan alleen in de middag aansluiten, heeft geen dieetwensen en moet haar eigen bijdrage van € 15,- nog overmaken. 
+Dan hebben we nog Henk: die heeft € 35,- betaald voor het drukwerk van de flyers. 
+En let op: er staat nog een borgsom van € 50,- open die contant aan de zaalbeheerder voldaan moet worden bij vertrek.</div>
+      </div>
+
+      <div class="tip-box">
+        💡 <strong>Handige praktijktip:</strong> Door de opdracht én de brontekst in één enkel bericht naar de chatbot te sturen, weet de AI meteen wat de bedoeling is en hoef je niet tussendoor te knippen of plakken.
+      </div>
+
+      <h3>👉 De Praktijkactie: Importeren in Excel of Word</h3>
+      <div class="app-shortcuts">
+        <div class="app-card">
+          <h5>📗 Naar Excel / Spreadsheets</h5>
+          <p>Selecteer de tabel in het chatvenster en druk op <code>Ctrl+C</code> (of <code>Cmd+C</code> op Mac). Open Excel en druk op <code>Ctrl+V</code>. De tekst splitst automatisch in keurige rijen en kolommen!</p>
+        </div>
+        <div class="app-card">
+          <h5>✨ Gemini Tip</h5>
+          <p>Gebruik je Google Gemini? Klik rechts onder de tabel direct op <strong>"Exporteren naar Spreadsheets"</strong>. Er opent automatisch een kant-en-klaar Google Sheets bestand!</p>
+        </div>
+        <div class="app-card">
+          <h5>📘 Naar Microsoft Word</h5>
+          <p>Kopieer de tabel en plak in Word. Word herkent direct het rasterformaat en maakt er automatisch een bewerkbare, opgemaakte Word-tabel met rasterlijnen van.</p>
+        </div>
+      </div>
+
+      <p style="margin-top: 1rem; font-size: 0.92rem; color: var(--text-body);">
+        ➕ <strong>Bonusvraag in dezelfde chat:</strong> Vraag na de tabel direct: <em>"Voeg een extra kolom toe genaamd 'Prioriteit' (Hoog / Midden / Laag) en geef een korte toelichting."</em>
+      </p>
+    </div>
+
+    <!-- OPDRACHT 3 -->
+    <div class="exercise-card" id="opdracht3">
+      <div class="badge-bar">
+        <span class="badge badge-purple">🗣️ Opdracht 3</span>
+        <span class="badge badge-amber">Schrijven & Stijl</span>
+        <span class="badge badge-purple">Doelgroep & WhatsApp</span>
+      </div>
+      <h2>De Doelgroep- & Toon-Switcher</h2>
+      <p>
+        Ervaar hoe moeiteloos een AI-model kan schakelen in register en toonhoogte: van formele beleidstaal naar helder B1-Nederlands en een korte, vriendelijke buurt-WhatsApp.
+      </p>
+
+      <div class="casus-box">
+        <div class="casus-header">
+          <span class="casus-title">📋 Taaie Ambtelijke Tekst: Gemeentebesluit</span>
+          <button class="btn-copy-casus" onclick="copySnippet('casus3', this)">📋 Kopieer losse beleidstekst</button>
+        </div>
+        <div class="casus-content" id="casus3">In het kader van het gemeentelijk Verduurzamings- en Mobiliteitsplan 2026-2030 heeft het college van B&W besloten tot grootschalige sanering en infrastructurele herinrichting van de openbare ruimte in de woonwijk De Schooten. Teneinde de aanleg van een geavanceerd collectief warmtenetwerk te faciliteren, alsmede infiltratiekratten ten behoeve van klimaatadaptieve hemelwaterberging te implementeren, zal gedurende een tijdvak van vier aaneengesloten maanden een algeheel parkeer- en doorgangsverbod van kracht zijn voor gemotoriseerd verkeer. Daarnaast noopt de ondergrondse kabeldichtheid tot het kappen van een zestal volwassen kastanjebomen, hetgeen conform vigerend kapbeleid via een 1-op-1 herplantingsplicht in het daaropvolgende plantseizoen zal worden gecompenseerd.</div>
+      </div>
+
+      <h3>Stap 1: Naar Begrijpelijk Nederlands (B1 voor een wijkkrant)</h3>
+      <p>Onderstaande prompt bevat de opdracht én de beleidstekst al in één geheel:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 3A • SAMENVATTEN B1 (COMPLEET)</span>
+          <button class="btn-copy" onclick="copySnippet('prompt3a', this)">📋 Kopieer complete prompt (meteen klaar voor gebruik)</button>
+        </div>
+        <div class="prompt-content" id="prompt3a">Herschrijf onderstaande ambtelijke tekst naar een begrijpelijke mededeling voor de lokale wijkkrant op taalniveau B1.
+Eisen:
+- Gebruik korte, actieve zinnen.
+- Geef in maximaal 3 opsommingstekens de belangrijkste gevolgen voor buurtbewoners.
+- Vermijd jargon (geen termen als 'implementeren', 'infiltratiekratten' of 'tijdvak').
+
+Tekst:
+In het kader van het gemeentelijk Verduurzamings- en Mobiliteitsplan 2026-2030 heeft het college van B&W besloten tot grootschalige sanering en infrastructurele herinrichting van de openbare ruimte in de woonwijk De Schooten. Teneinde de aanleg van een geavanceerd collectief warmtenetwerk te faciliteren, alsmede infiltratiekratten ten behoeve van klimaatadaptieve hemelwaterberging te implementeren, zal gedurende een tijdvak van vier aaneengesloten maanden een algeheel parkeer- en doorgangsverbod van kracht zijn voor gemotoriseerd verkeer. Daarnaast noopt de ondergrondse kabeldichtheid tot het kappen van een zestal volwassen kastanjebomen, hetgeen conform vigerend kapbeleid via een 1-op-1 herplantingsplicht in het daaropvolgende plantseizoen zal worden gecompenseerd.</div>
+      </div>
+
+      <h3>Stap 2: Naar de Buurtpreventie-WhatsApp</h3>
+
+      <div class="tip-box">
+        💡 <strong>Gouden AI-regel (Het geheugen):</strong> Blijf in <u>hetzelfde chatgesprek</u>! Je hoeft de beleidstekst <strong>niet opnieuw te plakken</strong>. De chatbot onthoudt wat je net besproken hebt. Typ simpelweg onderstaande vervolgvraag:
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 3B • VERVOLGVRAAG (WHATSAPP)</span>
+          <button class="btn-copy" onclick="copySnippet('prompt3b', this)">📋 Kopieer vervolgvraag</button>
+        </div>
+        <div class="prompt-content" id="prompt3b">Herschrijf deze kernboodschap nu voor de buurt-WhatsAppgroep:
+- Maximaal 4 regels.
+- Informele, vriendelijke en waarschuwende toon.
+- Gebruik 2 passende emoji's.
+- Zorg dat direct duidelijk is: wanneer start het, wat betekent dit voor parkeren en wat gebeurt er met de bomen?</div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 4 -->
+    <div class="exercise-card" id="opdracht4">
+      <div class="badge-bar">
+        <span class="badge badge-amber">🧠 Opdracht 4</span>
+        <span class="badge badge-blue">Sparren & Denkhulp</span>
+        <span class="badge badge-emerald">Advocaat van de Duivel</span>
+      </div>
+      <h2>De Kritische Sparringpartner</h2>
+      <p>
+        AI hoeft niet altijd een "ja-knikker" te zijn die alles mooi vindt wat je schrijft. Laat het model optreden als een scherpe, kritische tegenlezer om blinde vlekken in een plan vooraf te ontdekken.
+      </p>
+
+      <div class="casus-box">
+        <div class="casus-header">
+          <span class="casus-title">📋 Het Beleidsvoorstel: Vereniging</span>
+          <button class="btn-copy-casus" onclick="copySnippet('casus4', this)">📋 Kopieer los voorstel</button>
+        </div>
+        <div class="casus-content" id="casus4">Ons verenigingsbestuur (180 leden, gemiddelde leeftijd 58 jaar) overweegt om per 1 januari het papieren clubblad en de papieren contributiebrieven volledig af te schaffen. Alle communicatie, aanmeldingen voor bardiensten en nieuwsberichten verlopen voortaan verplicht en uitsluitend via een mobiele smartphone-app. Dit bespaart ons jaarlijks € 1.800,- aan druk- en portokosten.</div>
+      </div>
+
+      <h3>De Complete Prompt</h3>
+      <p>Kopieer onderstaande prompt met de casus al ingevoegd (of vervang de tekst door een eigen idee/plan):</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 4 • KRITISCHE ADVISEUR (COMPLEET)</span>
+          <button class="btn-copy" onclick="copySnippet('prompt4', this)">📋 Kopieer complete prompt (meteen klaar voor gebruik)</button>
+        </div>
+        <div class="prompt-content" id="prompt4">Ik leg je een beleidsvoorstel voor van een lokale vereniging met ca. 180 leden (gemiddelde leeftijd 58 jaar):
+
+Voorstel:
+Ons verenigingsbestuur overweegt om per 1 januari het papieren clubblad en de papieren contributiebrieven volledig af te schaffen. Alle communicatie, aanmeldingen voor bardiensten en nieuwsberichten verlopen voortaan verplicht en uitsluitend via een mobiele smartphone-app. Dit bespaart ons jaarlijks € 1.800,- aan druk- en portokosten.
+
+Kruip in de huid van een kritisch lid dat hecht aan sociale betrokkenheid en toegankelijkheid voor minder digitaal vaardige leden.
+1. Geef de 3 sterkste inhoudelijke bezwaren tegen dit voorstel. Waar gaat dit in de praktijk gegarandeerd wringen?
+2. Doe vervolgens 2 constructieve concessie-voorstellen waarmee we wél geld besparen, maar zonder leden buiten te sluiten.</div>
+      </div>
+
+      <div class="tip-box">
+        💡 <strong>Tip voor eigen gebruik:</strong> Je kunt deze techniek altijd toepassen op je eigen conceptbrieven, sollicitaties of voorstellen. Vraag simpelweg: <em>"Welke 3 tegenargumenten kan de ontvanger hierop hebben?"</em>
+      </div>
+    </div>
+
+    <!-- Afronding -->
+    <div class="menu-banner" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);">
+      <h3>🎉 Klaar met je 2 opdrachten?</h3>
+      <p style="color: #eff6ff;">
+        Vergelijk je resultaten even met je buurman of buurvrouw. Verschilt de toon tussen ChatGPT, Gemini of Copilot? Bewaar je beste prompt in een notitie-app: dit is het begin van je eigen persoonlijke AI-gereedschapskist!
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="index.html" class="back-btn" style="color: #1e3a8a;">← Terug naar Lespagina</a>
+        <a href="opdracht_notebooklm.html" class="back-btn" style="background: #ffffff; color: #7c3aed; border-color: #ddd6fe;">Bekijk het Huiswerk (NotebookLM) →</a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Jan Martin Jansen • Praktijkcursus "Aan de slag met AI" (MM2704) • School 7, Den Helder</p>
+    </footer>
+
+  </div>
+
+  <script>
+    function copySnippet(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✅ Gekopieerd!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        alert('Kopiëren mislukt. Selecteer de tekst handmatig.');
+      });
+    }
+  </script>
+</body>
+</html>

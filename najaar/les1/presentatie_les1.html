@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Les 1: Artificiële Intelligentie - Wat is AI en hoe werkt het écht? | Jan Martin Jansen</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-body: #cbd5e1;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(192, 132, 252, 0.12) 0px, transparent 50%);
+    }
+
+    .slide-deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      width: 94%;
+      max-width: 1240px;
+      height: 88%;
+      max-height: 760px;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 2.5rem 3rem;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Slide Header */
+    .slide-header {
+      margin-bottom: 1.8rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.8rem;
+    }
+
+    .tag-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .tag-purple { background: rgba(192, 132, 252, 0.15); color: var(--accent-purple); border: 1px solid rgba(192, 132, 252, 0.3); }
+    .tag-green { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); border: 1px solid rgba(52, 211, 153, 0.3); }
+    .tag-amber { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+    .tag-rose { background: rgba(251, 113, 133, 0.15); color: var(--accent-rose); border: 1px solid rgba(251, 113, 133, 0.3); }
+
+    .slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .slide-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    /* Layout Grids */
+    .grid-split {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: stretch;
+      flex: 1;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      flex: 1;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      flex: 1;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      flex: 1;
+    }
+
+    .list-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      transition: all 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: var(--text-body);
+      line-height: 1.55;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .card li {
+      font-size: 0.92rem;
+      color: var(--text-body);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .card li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Media Right Card */
+    .media-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .media-card img {
+      max-width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    /* Banners */
+    .banner {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 14px;
+    }
+
+    .banner.cyan { border-color: var(--accent-cyan); }
+    .banner.amber { border-color: var(--accent-amber); }
+    .banner.green { border-color: var(--accent-green); }
+    .banner.purple { border-color: var(--accent-purple); }
+
+    .banner h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .banner.cyan h4 { color: var(--accent-cyan); }
+    .banner.amber h4 { color: var(--accent-amber); }
+    .banner.green h4 { color: var(--accent-green); }
+    .banner.purple h4 { color: var(--accent-purple); }
+
+    .banner p {
+      font-size: 0.92rem;
+      color: var(--text-body);
+      line-height: 1.45;
+    }
+
+    /* Step Item in Slide 11 */
+    .step-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .step-badge {
+      background: var(--accent-cyan);
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 1.1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      font-size: 0.95rem;
+      color: var(--text-body);
+      line-height: 1.45;
+    }
+
+    .step-text strong {
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    /* Bottom Controls */
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 18px;
+      border-radius: 9999px;
+      backdrop-filter: blur(16px);
+      z-index: 100;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .controls button {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .controls button:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .slide-counter {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 65px;
+      text-align: center;
+    }
+
+    .btn-notes {
+      border: 1px solid rgba(56, 189, 248, 0.3) !important;
+      color: var(--accent-cyan) !important;
+    }
+
+    .btn-notes.active {
+      background: var(--accent-cyan) !important;
+      color: #0f172a !important;
+    }
+
+    /* Notes Drawer */
+    .notes-drawer {
+      position: fixed;
+      bottom: 75px;
+      right: 25px;
+      width: 440px;
+      max-height: 300px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 14px;
+      padding: 16px 20px;
+      overflow-y: auto;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      z-index: 99;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    .notes-drawer.open {
+      display: block;
+    }
+
+    .notes-drawer h5 {
+      color: var(--accent-cyan);
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 900px) {
+      .slide { padding: 1.5rem; height: 92%; }
+      .slide-title { font-size: 1.6rem; }
+      .grid-split, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .media-card img { max-height: 240px; }
+      .notes-drawer { width: 90%; left: 5%; right: 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slide-deck">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active" id="slide-1" data-notes="WELKOM & OPENING:
+- Welkom allemaal bij de eerste les van 'Aan de slag met AI'!
+- De opzet van vandaag: de eerste helft (ca. 40 min) gebruiken we om het mysterie van AI te ontrafelen. Geen moeilijke wiskunde, maar heldere intuïtie over hoe deze technologie werkt.
+- De tweede helft van de les gaan we zelf achter de knoppen zitten: hands-on prompten met ChatGPT, Copilot en Gemini.
+- Vraag gerust tussendoor als iets onduidelijk is!">
+      <div class="slide-header">
+        <span class="tag tag-cyan">✨ AAN DE SLAG MET AI • LES 1 (DEEL 1)</span>
+        <h1 class="slide-title">Artificiële Intelligentie</h1>
+        <p class="slide-subtitle">Wat is AI en hoe werkt het écht? • Van wiskundig fundament naar dagelijkse assistent</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+  <div class="card">
+    <h3>🏛️ De Oorsprong</h3>
+    <p>Hoe 70 jaar wiskunde leidde tot de huidige doorbraak.</p>
+  </div>
+  <div class="card">
+    <h3>🧠 Hoe Werkt Het?</h3>
+    <p>Neurale netwerken en grote taalmodellen ontrafeld.</p>
+  </div>
+  <div class="card">
+    <h3>🚀 Naar de Praktijk</h3>
+    <p>De 3 gouden regels voor effectief en betrouwbaar gebruik.</p>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" id="slide-2" data-notes="DOCENT INTRODUCTIE:
+- Even kort iets over mijn eigen achtergrond: opgeleid in wiskunde, natuurkunde en gepromoveerd in informatica.
+- Gewerkt bij Philips Research en jarenlang bij Defensie en het hoger onderwijs.
+- Ik volg de ontwikkelingen rond AI al vanaf de academische begintijd in de jaren '80. Wat er de afgelopen twee à drie jaar gebeurt, is absoluut uniek.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">👨‍🏫 JE DOCENT</span>
+        <h1 class="slide-title">Wie ben ik?</h1>
+        <p class="slide-subtitle">Jan Martin Jansen</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>🎓 Opleiding &amp; Achtergrond</h3>
+      <ul>
+        <li>• Studie Wiskunde en Natuurkunde (UvA)</li>
+        <li>• Promotie in de Informatica aan de Radboud Universiteit</li>
+        <li>• Passie voor complexe technologie vertalen naar de praktijk</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>💼 Werkervaring</h3>
+      <ul>
+        <li>• Philips Research &amp; Hoger Onderwijs (NHL)</li>
+        <li>• Defensie Maritieme IT &amp; Defensie Academie (NLDA)</li>
+        <li>• Bestuurslid &amp; docent Helderse Volksuniversiteit</li>
+      </ul>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia02_jan_martin.jpg" alt="Wie ben ik?">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" id="slide-3" data-notes="DE DROOM VAN DE MENSHEID:
+- De wens om menselijke intelligentie na te bootsen is niet nieuw; het zit al duizenden jaren in onze verhalen.
+- Denk aan Talos uit de Griekse mythologie, of HAL 9000 uit Stanley Kubrick's meesterwerk.
+- In Star Trek sprak Captain Kirk tegen de 'Computer', en die gaf direct zinnig antwoord. Nu praten we tegen Gemini of ChatGPT.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🚀 DE EEUWENOUDE DROOM</span>
+        <h1 class="slide-title">Fascinatie voor Denkende Machines</h1>
+        <p class="slide-subtitle">Van oude mythologie tot hedendaagse sciencefiction</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>🏛️ Mythes &amp; Verhalen</h3>
+      <ul>
+        <li>• Oude Grieken: Talos, de mechanische bronzen reus</li>
+        <li>• Archie de man van staal &amp; pratende robots in vroege strips</li>
+        <li>• HAL 9000 (2001 Space Odyssey) &amp; Star Trek boordcomputer</li>
+      </ul>
+    </div>
+    <div class="banner cyan">
+      <h4>💡 Vroeger toekomstmuziek, nu werkelijkheid</h4>
+      <p>Wat decennialang pure sciencefiction leek, zit nu gewoon gratis als app in onze broekzak.</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia03_talos_hal.jpg" alt="Fascinatie voor Denkende Machines">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" id="slide-4" data-notes="DE EXPLOSIE VAN DE LAATSTE JAREN:
+- Waarom is AI ineens overal in het nieuws?
+- Vroeger moest je programmeren om een computer iets nieuws te laten doen. Nu praat je gewoon tegen een model zoals je tegen een stagiair of collega zou praten.
+- De vraag die iedereen bezighoudt: Hoe kan dit zomaar ineens?">
+      <div class="slide-header">
+        <span class="tag tag-amber">⚡ EEN WERELD DIE VERANDERT</span>
+        <h1 class="slide-title">Wat is er aan de hand?</h1>
+        <p class="slide-subtitle">De explosieve opmars van generatieve AI</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card" style="padding:14px 18px;">
+      <p style="color:#ffffff; font-weight:600; font-size:1rem; margin:0;">🔥 Explosie van tools: ChatGPT, Google Gemini, Copilot, Claude &amp; Perplexity.</p>
+    </div>
+    <div class="card" style="padding:14px 18px;">
+      <p style="color:#ffffff; font-weight:600; font-size:1rem; margin:0;">🗣️ Gewone mensentaal: Geen formules of code meer: typ of spreek gewoon Nederlands.</p>
+    </div>
+    <div class="card">
+      <h3>🤔 Hype of Revolutie?</h3>
+      <p>Brieven schrijven, stukken samenvatten, beelden maken en vertalen. Hoe kan dit zomaar ineens?</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia04_ai_hype.jpg" alt="Wat is er aan de hand?">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" id="slide-5" data-notes="WAT IS INTELLIGENTIE?
+- Vraag aan de zaal: wat vinden jullie moeilijker? Deze vermenigvuldiging uit het hoofd, of een kat herkennen op een korrelige foto?
+- Dit heet in de informatica 'Moravec's Paradox': wat rationeel moeilijk lijkt is simpel voor computers, wat voor ons automatisch gaat vereist de zwaarste AI.">
+      <div class="slide-header">
+        <span class="tag tag-purple">🧠 INTUÏTIE VS REKENKRACHT</span>
+        <h1 class="slide-title">Wat is Intelligentie eigenlijk?</h1>
+        <p class="slide-subtitle">Waarom computers en mensen elkaar perfect aanvullen</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>🔢 Simpel voor pc, moeilijk voor mens</h3>
+      <p>125.234 × 365.444 = 45.765.918.896</p>
+      <p>Een rekenmachine doet dit in 1 milliseconde foutloos. Mensen vinden dit zonder papier ondoenlijk.</p>
+    </div>
+    <div class="card">
+      <h3>🐶 Simpel voor mens, moeilijk voor pc</h3>
+      <p>Is dit een kat of een hond?</p>
+      <p>Een peuter herkent dit moeiteloos in een fractie van een seconde. Voor traditionele computers was dit decennialang onmogelijk!</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia05_kat_hond.jpg" alt="Wat is Intelligentie eigenlijk?">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" id="slide-6" data-notes="DE GROTE STROMINGEN:
+- Deep Blue rekende 200 miljoen stellingen per seconde uit. Maar alle schaakkennis was er door meesters ingestopt.
+- De ommekeer kwam toen wetenschappers zeiden: laten we ophouden met regels verzinnen, laten we de computer zélf laten leren zoals een kind leert.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">⏳ HISTORISCHE VOGELVLUCHT</span>
+        <h1 class="slide-title">70 Jaar AI in Twee Stromingen</h1>
+        <p class="slide-subtitle">Van starre regelsystemen naar zelflerende netwerken</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>🏛️ 1950 – 1990: Klassieke AI (Regels)</h3>
+      <ul>
+        <li>• Denken vangen in logische regels: ALS dit, DAN dat</li>
+        <li>• Schaakcomputers: Deep Blue verslaat Kasparov in 1997</li>
+        <li>• De bottleneck: Het systeem leert zélf helemaal niets!</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🧬 Vanaf 1980 / 2000: Neurale AI (Leren)</h3>
+      <ul>
+        <li>• Nabootsing van biologische hersencellen</li>
+        <li>• Niet programmeren, maar laten leren uit voorbeelden</li>
+        <li>• Doorbraak vanaf 2012 dankzij snelle GPU-chips en big data</li>
+      </ul>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia06_kasparov.jpg" alt="70 Jaar AI in Twee Stromingen">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" id="slide-7" data-notes="DE BIOLOGISCHE ANALOGIE:
+- Kijk hoe een kind leert praten en kijken. Niet uit een regelboek, maar door duizenden voorbeelden en feedback.
+- Het brein past ongemerkt zijn interne verbindingen aan. Dát principe wilden we in software nabootsen.">
+      <div class="slide-header">
+        <span class="tag tag-green">🧬 BIOLOGISCHE INSPIRATIE</span>
+        <h1 class="slide-title">Hoe leren onze Hersenen?</h1>
+        <p class="slide-subtitle">Van biologisch neuron naar patroonherkenning</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>🕸️ 86 Miljard Neuronen: Verbonden met onze zintuigen en intensief met elkaar.</h3>
+    </div>
+    <div class="card">
+      <h3>⚡ Vuren van Impulsen: Boven een bepaalde drempel stuurt een neuron een elektrisch signaal door.</h3>
+    </div>
+    <div class="banner green">
+      <h4>🌱 Plasticiteit &amp; Synapsen</h4>
+      <p>Leren = verbindingen tussen neuronen fysiek versterken of verzwakken door herhaling en ervaring.</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia07_hersenen.jpg" alt="Hoe leren onze Hersenen?">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide" id="slide-8" data-notes="NEURAAL NETWERK IN SOFTWARE:
+- Een neuraal netwerk is geen fysieke robotkop; het is zuivere software en wiskunde.
+- Een knooppunt vermenigvuldigt binnenkomende getallen met hun gewichten, telt ze op en geeft het resultaat door.
+- De kunst is: hoe krijgen we de júiste gewichten?">
+      <div class="slide-header">
+        <span class="tag tag-cyan">💻 MACHINE LEARNING</span>
+        <h1 class="slide-title">Neurale Netwerken in Software</h1>
+        <p class="slide-subtitle">Wiskundige knooppunten en gewichten</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>⚙️ De Drie Lagen</h3>
+      <ul>
+        <li>• Invoerlaag (Input): pixels van foto of geluidssignaal</li>
+        <li>• Verborgen lagen: ontdekken stap voor stap abstracte patronen</li>
+        <li>• Uitvoerlaag (Output): berekende kans op herkenning of keuze</li>
+      </ul>
+    </div>
+    <div class="banner cyan">
+      <h4>🔢 Gewichten (Weights): De ziel van het netwerk</h4>
+      <p>Verbindingen tussen knooppunten hebben getallen (gewichten). Dit bepaalt de signaalsterkte. Het hele netwerk is 100% wiskunde in software!</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia08_neuraal_netwerk.jpg" alt="Neurale Netwerken in Software">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide" id="slide-9" data-notes="HET PTT VOORBEELD:
+- In de jaren '80 deed de PTT baanbrekend werk voor postcodes.
+- 5.280 regels en kenmerken werden met de hand bedacht!
+- Indrukwekkend monnikenwerk, maar vreselijk star: voor elke uitzondering moest er weer een regel bij.">
+      <div class="slide-header">
+        <span class="tag tag-rose">🏛️ HET VERLEDEN (JAREN &#x27;80)</span>
+        <h1 class="slide-title">Cijfers Herkennen met Regels</h1>
+        <p class="slide-subtitle">De klassieke aanpak: regels programmeren voor elk detail</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>🔍 Handmatig Kenmerken Bepalen</h3>
+      <ul>
+        <li style="color:var(--text-muted);">PTT &amp; Postbank onderzoek girokaarten:</li>
+        <li>• Eindpunten meten: zit er een punt boven of onder?</li>
+        <li>• Hol en bol: waar buigen de lijnen?</li>
+        <li>• Eilanden: gesloten lussen (bij 0 of 8)</li>
+        <li>• 5.280 kenmerken handmatig geprogrammeerd in tabellen</li>
+      </ul>
+    </div>
+    <div class="banner amber">
+      <h4>⚠️ De Bottleneck van Regels</h4>
+      <p>Schrijft iemand een afwijkende krul, of zit er een koffievlek op de envelop? Dan loopt het regelsysteem direct vast!</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia09_ptt_kenmerken.jpg" alt="Cijfers Herkennen met Regels">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide" id="slide-10" data-notes="DE NEURALE AANPAK:
+- We programmeren géén regels over wat een rondje of lijn is.
+- We stoppen er puur de 784 grijswaarden in.
+- Aan de achterkant hebben we 10 uitgangen (voor 0 t/m 9).
+- Hoe weet het netwerk welke uitgang moet oplichten? Dat gebeurt via training!">
+      <div class="slide-header">
+        <span class="tag tag-green">✨ DE MODERNE AANPAK</span>
+        <h1 class="slide-title">Geen Regels, maar Zelf Leren</h1>
+        <p class="slide-subtitle">Een neuraal netwerk getraind op tienduizenden voorbeelden</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>⚙️ De Neurale Aanpak</h3>
+      <ul>
+        <li>• Invoer: 28 × 28 pixels = 784 grijswaarden (getallen 0 t/m 1)</li>
+        <li>• 2 verborgen lagen = circa 13.000 wiskundige gewichten</li>
+        <li>• Gewichten bepalen sterkte verbindingen: hoger meer invloed</li>
+        <li>• Uitvoer: 10 scores (voor de cijfers 0 t/m 9)</li>
+        <li>• NUL handmatige regels over lussen of lijnen geprogrammeerd!</li>
+      </ul>
+    </div>
+    <div class="banner cyan">
+      <h4>💡 Zelf Patronen Ontdekken</h4>
+      <p>Het netwerk ontdekt door training zelfstandig welke combinaties van pixels bij een 8 of een 3 horen.</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia10_neuraal_cijfers.jpg" alt="Geen Regels, maar Zelf Leren">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide" id="slide-11" data-notes="BACKPROPAGATION UITGELEGD:
+- Dit is het magische recept: Backpropagation.
+- Het netwerk begint dom en gokt.
+- Elke keer dat het ernaast zit, rekenen we wiskundig uit welke gewichten bijgesteld moeten worden.
+- Na tienduizenden voorbeelden herkent het netwerk handschriften feilloos.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🔄 TRAINING &amp; FEEDBACK</span>
+        <h1 class="slide-title">Fouten Maken en Bijstellen</h1>
+        <p class="slide-subtitle">Hoe een neuraal netwerk leert van zijn eigen vergissingen (Backpropagation)</p>
+      </div>
+      <div class="slide-content">
+        <div class="list-vertical">
+  <div class="step-item">
+    <div class="step-badge">1</div>
+    <div class="step-text">
+      <strong>Willekeurige start:</strong> Alle 13.000 gewichtjes beginnen met willekeurige getallen. Het netwerk gokt maar wat.
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-badge">2</div>
+    <div class="step-text">
+      <strong>Voorbeeld aanbieden:</strong> We voeren een plaatje van een &#x27;8&#x27; in. Het netwerk rekent en voorspelt bijvoorbeeld een &#x27;3&#x27;.
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-badge">3</div>
+    <div class="step-text">
+      <strong>Fout berekenen:</strong> We vergelijken de gok (&#x27;3&#x27;) met het juiste antwoord (&#x27;8&#x27;). Er is een meetbaar verschil.
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-badge">4</div>
+    <div class="step-text">
+      <strong>Backpropagation (bijstellen):</strong> Wiskundig worden alle 13.000 gewichtjes een fractie bijgesteld om de fout te verkleinen. Herhaal tienduizenden keren!
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide" id="slide-12" data-notes="DE TUSSENSTAPPEN:
+- Het principe van cijferherkennen werd op steeds grotere schaal toegepast.
+- Eerst gezichten en kentekens, daarna gesproken geluid.
+- Maar het échte begrijpen van complexe taal bleef een enorm struikelblok.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">📈 DE TUSSENSTAPPEN</span>
+        <h1 class="slide-title">Grotere Modellen &amp; Snellere Chips</h1>
+        <p class="slide-subtitle">Van postcodes naar gezichts- en spraakherkenning</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>📈 25 Jaar Vooruitgang</h3>
+      <ul>
+        <li>• Jaren &#x27;90: Handschriftherkenning op giro en postcodes</li>
+        <li>• Jaren 2000: Kentekenherkenning (ANPR), gezichten in camera&#x27;s, ziektes in gewassen</li>
+        <li>• Jaren 2010: Deep Learning (GPU-chips), vloeiende spraakherkenning (Siri, Alexa, Google Assistent)</li>
+        <li>• Maar menselijke taal écht begrijpen bleef een enorm obstakel...</li>
+      </ul>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia12_evolutie.jpg" alt="Grotere Modellen &amp; Snellere Chips">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13 -->
+    <div class="slide" id="slide-13" data-notes="DE REVOLUTIE VAN DE TRANSFORMER:
+- Waarom kon vertaalsoftware vroeger zulke kromme zinnen maken, en nu ineens vloeiend Nederlands schrijven?
+- Dat komt door de Transformer (Google, 2017).
+- Het model kijkt niet woord voor woord, maar ziet het hele document in één keer en weegt alle relaties af.">
+      <div class="slide-header">
+        <span class="tag tag-green">🚀 DE GROTE DOORBRAAK (2017)</span>
+        <h1 class="slide-title">De Stap naar Menselijke Taal</h1>
+        <p class="slide-subtitle">Waarom taal zo moeilijk was en hoe de Transformer alles veranderde</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>🧩 Het Probleem van Context</h3>
+      <ul>
+        <li style="color:var(--text-muted);">Woorden veranderen van betekenis door hun omgeving:</li>
+        <li>• &quot;Hij ging op de bank zitten.&quot; (meubel)</li>
+        <li>• &quot;Hij zette zijn geld op de bank.&quot; (financieel)</li>
+        <li style="color:var(--text-muted);">Oude computers lazen woord voor woord en vergaten het begin van de zin.</li>
+      </ul>
+    </div>
+    <div class="banner cyan">
+      <h4>⚡ De Transformer (Google, 2017)</h4>
+      <p>Bekijkt via een Aandachtsmechanisme (Self-Attention) alle woorden tegelijk. De motor achter ChatGPT, Gemini en Claude!</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia13_transformer.jpg" alt="De Stap naar Menselijke Taal">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14 -->
+    <div class="slide" id="slide-14" data-notes="HOE EEN LLM WERKT:
+- In de basis voorspelt een LLM het meest waarschijnlijke volgende woord.
+- Omdat het getraind is op vrijwel alle kennis van het internet, levert dat verbluffend intelligente antwoorden op.
+- Het leert betekenis via wiskundige vectoren.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">📚 HET LEERPROCES</span>
+        <h1 class="slide-title">Hoe traint een Groot Taalmodel?</h1>
+        <p class="slide-subtitle">Van petabytes aan internettekst naar semantische coördinaten</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>🌐 Het Hele Internet &amp; Next-Token</h3>
+      <ul>
+        <li>• Getraind op petabytes aan tekst: boeken, artikelen, Wikipedia</li>
+        <li>• Next-Token Prediction: geef 10 woorden, voorspel woord 11</li>
+        <li>• &quot;De hoofdstad van Frankrijk is...&quot; -&gt; [Parijs]</li>
+      </ul>
+    </div>
+    <div class="banner cyan">
+      <h4>📐 Betekenis als Coördinaten (Vectoren)</h4>
+      <p>Woorden worden getallenreeksen in een ruimte met duizenden dimensies. Verwante concepten clusteren wiskundig samen: Koning - Man + Vrouw ≈ Koningin.</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia14_training.jpg" alt="Hoe traint een Groot Taalmodel?">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15 -->
+    <div class="slide" id="slide-15" data-notes="HET BELANGRIJKSTE INZICHT VOOR DE CURSIST:
+- AI zoekt niet in een archiefkast met feiten.
+- Het weet niet wat waarheid is; het weet alleen wat taalkundig aannemelijk klinkt.
+- Daarom hallucineert AI soms. Blijf belangrijke feiten altijd zelf verifiëren!">
+      <div class="slide-header">
+        <span class="tag tag-rose">⚠️ HET BELANGRIJKSTE INZICHT</span>
+        <h1 class="slide-title">AI is GÉÉN Database met Feiten!</h1>
+        <p class="slide-subtitle">Waarom een taalmodel kan klinken als een professor, maar kan hallucineren</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>❌ Geen Encyclopedie, maar Kansberekening</h3>
+      <ul>
+        <li>• AI zoekt NIET in een database met opgeslagen waarheden</li>
+        <li>• Het is een hyperkrachtige waarschijnlijkheidsmachine</li>
+        <li>• Het model genereert wat qua taalpatronen logisch klinkt</li>
+      </ul>
+    </div>
+    <div class="banner amber">
+      <h4>🚨 Het gevaar van Hallucinaties</h4>
+      <p>Weet de AI iets niet? Dan geeft het zelden toe dat het het niet weet. Het model verzint met vol zelfvertrouwen een overtuigend, maar onwaar antwoord!</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia15_vectoren.jpg" alt="AI is GÉÉN Database met Feiten!">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 16 -->
+    <div class="slide" id="slide-16" data-notes="DE OPVOEDING VAN DE AI (RLHF):
+- Waarom praat ChatGPT zo vriendelijk tegen je?
+- Dat komt door stap 2: Fine-Tuning met Reinforcement Learning from Human Feedback.
+- Daarmee is het ruwe model 'opgevoed' tot een behulpzame assistent.">
+      <div class="slide-header">
+        <span class="tag tag-green">🤝 OPVOEDING &amp; VEILIGHEID</span>
+        <h1 class="slide-title">Hoe GPT ChatGPT Werd</h1>
+        <p class="slide-subtitle">Van ruwe tekstvoorspeller naar behulpzame dialoogpartner (RLHF)</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>👨‍🏫 Twee Fasen van Training</h3>
+      <ul>
+        <li>• Stap 1: Pre-training (Het ruwe model)</li>
+        <li style="color:var(--text-muted);">Heeft het hele internet gelezen. Kan zinnen afmaken, maar is onbehouwen, chaotisch of onbeleefd.</li>
+        <li>• Stap 2: Fine-Tuning met Mensen (RLHF)</li>
+        <li style="color:var(--text-muted);">Menselijke trainers belonen behulpzame, beleefde en veilige antwoorden.</li>
+        <li>• Zo verandert een tekstvoorspeller in een prettige gesprekspartner: ChatGPT, Copilot of Gemini.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia16_rlhf.jpg" alt="Hoe GPT ChatGPT Werd">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 17 -->
+    <div class="slide" id="slide-17" data-notes="MULTIMODAAL & REDENEREN:
+- De ontwikkelingen staan niet stil.
+- We kunnen nu foto's uploaden en live praten.
+- En de allernieuwste modellen controleren eerst hun eigen tussenstappen voor wiskunde en logica.">
+      <div class="slide-header">
+        <span class="tag tag-amber">⚡ DE NIEUWSTE ONTWIKKELINGEN</span>
+        <h1 class="slide-title">Verder dan Alleen Woordjes Typen</h1>
+        <p class="slide-subtitle">Multimodaal (Vision &amp; Audio) en logisch redeneren</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>👁️ Kijken, Luisteren &amp; Redeneren</h3>
+      <ul>
+        <li>• Multimodaal (Vision &amp; Audio)</li>
+        <li style="color:var(--text-muted);">Tegelijk getraind op tekst, foto&#x27;s, video en stemmen. Maak een foto van een meterkast en krijg direct mondeling advies.</li>
+        <li>• Redeneermodellen (Reasoning)</li>
+        <li style="color:var(--text-muted);">Modellen zoals OpenAI o1 en DeepSeek-R1 typen niet direct, maar &#x27;denken eerst na&#x27; via interne tussenstappen (Chain-of-Thought) voor complexe logica.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia17_multimodaal.jpg" alt="Verder dan Alleen Woordjes Typen">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 18 -->
+    <div class="slide" id="slide-18" data-notes="DE GROTE WETENSCHAPPELIJKE DOORBRAKEN:
+- AI is meer dan een leuke chatbot.
+- Met AlphaFold ontrafelde DeepMind een van de grootste mysteries uit de biologie.
+- Wat wetenschappers decennia kostte, berekent AI nu in minuten. Terecht bekroond met de Nobelprijs in 2024!">
+      <div class="slide-header">
+        <span class="tag tag-green">🏆 MEER DAN EEN CHATBOT</span>
+        <h1 class="slide-title">Van Spelletjes naar Levensredders</h1>
+        <p class="slide-subtitle">Wetenschappelijke doorbraken: AlphaZero en AlphaFold</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>♟️ AlphaGo &amp; AlphaZero (DeepMind)</h3>
+      <ul>
+        <li>• Beheersten Go en schaken door puur tegen zichzelf te spelen</li>
+        <li>• Versloeg menselijke wereldkampioenen na slechts 4 uur trainen</li>
+        <li>• Garry Kasparov: &quot;Buitenaards intuïtieve manier van schaken&quot;</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🧬 AlphaFold (Nobelprijs Scheikunde 2024)</h3>
+      <ul>
+        <li>• Loste het 50 jaar oude biologische &quot;eiwitvouwraadsel&quot; op</li>
+        <li>• Voorspelde de 3D-structuur van 200 miljoen eiwitten</li>
+        <li>• Essentieel voor medicijnontwikkeling tegen kanker en ziektes</li>
+      </ul>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia18_alphafold.jpg" alt="Van Spelletjes naar Levensredders">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 19 -->
+    <div class="slide" id="slide-19" data-notes="DE 3 GOUDEN REGELS:
+- Hiermee slaan we de brug naar het praktische deel van vandaag.
+- Regel 1: Controleer de feiten.
+- Regel 2: Context is koning. Een goede prompt maakt het verschil tussen een standaardtekst en een meesterwerk.
+- Regel 3: Jij bent en blijft de regisseur. AI doet het voorbereidende werk, jij hakt de knopen door.">
+      <div class="slide-header">
+        <span class="tag tag-amber">🎯 DE BRUG NAAR VANDAAG</span>
+        <h1 class="slide-title">3 Gouden Regels voor de Praktijk</h1>
+        <p class="slide-subtitle">Hoe haal je het maximale uit AI zónder in de valkuilen te trappen?</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+  <div class="card">
+    <h3>1️⃣ Verifieer Altijd</h3>
+    <ul>
+      <li>• Vertrouw nooit blind op feiten of bronnen.</li><li>• AI is geen waarheidsmachine, maar een patroongenerator.</li><li>• Controleer jaartallen, namen en citaten altijd zelf.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>2️⃣ Context is Koning</h3>
+    <ul>
+      <li>• Hoe vager de vraag, hoe saaier het antwoord.</li><li>• Geef een duidelijke rol mee (Persona: &quot;Reageer als ervaren redacteur&quot;).</li><li>• Noem doelgroep, gewenste toon en randvoorwaarden.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>3️⃣ Jij bent Regisseur</h3>
+    <ul>
+      <li>• AI levert denksnelheid, variaties en ruwe concepten.</li><li>• Jij bewaakt het eindresultaat, de menselijke toon en de verantwoordelijkheid.</li><li>• Zie AI als je supersnelle stagiair!</li>
+    </ul>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 20 -->
+    <div class="slide" id="slide-20" data-notes="OVERGANG NAAR HANDS-ON:
+- Tijd om de theorie achter ons te laten en het zelf te gaan ervaren!
+- Iedereen mag de laptop of tablet openklappen.
+- Ga naar chatgpt.com, gemini.google.com of copilot.microsoft.com.
+- We beginnen rustig met oefening 1 op het scherm.">
+      <div class="slide-header">
+        <span class="tag tag-green">💻 DEEL 2 VAN DE LES</span>
+        <h1 class="slide-title">Laptops Open: Aan de Slag!</h1>
+        <p class="slide-subtitle">Van passief toeschouwer naar actieve bestuurder van AI</p>
+      </div>
+      <div class="slide-content">
+        <div style="display:flex; flex-direction:column; gap:16px; flex:1;">
+  <div class="grid-3">
+    <div class="card">
+      <h3>✍️ Slim Schrijven &amp; Herschrijven</h3>
+      <p>Een stroeve formele brief omzetten naar een vriendelijke, heldere e-mail in jouw eigen stijl.</p>
+    </div>
+    <div class="card">
+      <h3>📑 Informatie Temmen</h3>
+      <p>Een taai rapport of lang artikel invoeren en in seconden een scherpe samenvatting van 3 punten krijgen.</p>
+    </div>
+    <div class="card">
+      <h3>🎯 Prompt-technieken in de Praktijk</h3>
+      <p>Experimenteren met verschillende Persona&#x27;s, context en vervolgvragen (doorvragen).</p>
+    </div>
+  </div>
+  <div class="banner green">
+    <h4>🚀 Start je favoriete AI-tool (ChatGPT, Copilot of Gemini)</h4>
+    <p>Klap je laptop open, open je browser en laten we beginnen met de eerste oefening!</p>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 21 -->
+    <div class="slide" id="slide-21" data-notes="DE GROTE VIER VERGELEKEN:
+- Iedereen kent ChatGPT, maar het loont enorm om te weten welke tool waarin uitblinkt.
+- Als je een heel dik rapport of een video van een uur wilt samenvatten: kies Gemini.
+- Als je een gevoelige brief of beleidstekst wilt die écht als prachtig Nederlands moet klinken: kies Claude.
+- Als je in Word of Excel zit: kies Copilot.
+- En voor het dagelijkse sparren en brainstormen: ChatGPT blijft de vertrouwde allrounder.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🧭 SPEELVELD • NIVEAU 1</span>
+        <h1 class="slide-title">De Grote Vier Chat-Apps</h1>
+        <p class="slide-subtitle">ChatGPT als referentiepunt: wanneer kies je een andere assistent?</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4">
+  <div class="card">
+    <h3>🤖 ChatGPT (OpenAI)</h3>
+    <ul>
+      <li>• De vertrouwde allrounder waar iedereen mee begint</li><li>• Sterk in brainstormen, vloeiende teksten en DALL-E beelden</li><li>• De standaard waartegen alle andere modellen worden afgezet</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>💎 Google Gemini</h3>
+    <ul>
+      <li>• Gigantisch contextvenster (hele boeken of video&#x27;s in 1 prompt!)</li><li>• Direct gekoppeld aan Google Drive, Gmail en Google Docs</li><li>• Ideaal voor wie al veel in het Google-ecosysteem werkt</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>🧠 Claude (Anthropic)</h3>
+    <ul>
+      <li>• Schrijft het meest natuurlijke, genuanceerde Nederlands</li><li>• Veel minder &#x27;Amerikaans/plastic&#x27; of wollig dan ChatGPT</li><li>• Ongeëvenaard in logica, lange analyses en diep redeneren</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>💼 Microsoft Copilot</h3>
+    <ul>
+      <li>• Direct geïntegreerd in Windows, Edge en Microsoft 365</li><li>• Ondersteunt direct in Word, Excel en PowerPoint</li><li>• Handig voor zakelijk gebruik en kantoorautomatisering</li>
+    </ul>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 22 -->
+    <div class="slide" id="slide-22" data-notes="NOTEBOOKLM UITGELEGD:
+- Dit is voor veel mensen een absolute openbaring.
+- Normale AI verzint soms dingen als het het antwoord niet weet. NotebookLM doet dat NIET: het baseert zich strikt op jouw geüploade documenten.
+- Ideaal voor verenigingsbestuurders (statuten, notulen), intakegesprekken samenvatten, of dikke rapporten doorzoeken.
+- Tip: laat na afloop even kort de Audio Overview horen als je tijd hebt, de zaal vindt dat altijd fantastisch!">
+      <div class="slide-header">
+        <span class="tag tag-purple">📚 DOCUMENTEN TEMMEN • NIVEAU 2</span>
+        <h1 class="slide-title">NotebookLM: Grip op je Eigen Bronnen</h1>
+        <p class="slide-subtitle">Geen hallucinaties: uitsluitend antwoorden gebaseerd op jóuw documenten</p>
+      </div>
+      <div class="slide-content">
+        <div style="display:flex; flex-direction:column; gap:16px; flex:1;">
+  <div class="grid-2">
+    <div class="card">
+      <h3>📁 Hoe Werkt Het?</h3>
+      <ul>
+        <li>• Upload je eigen documenten: PDF&#x27;s, Word-bestanden, notities of weblinks (tot 50 bronnen per notitieblok)</li><li>• Stel gerichte vragen: &quot;Wat waren de afspraken in 2024?&quot;, &quot;Maak een tijdlijn&quot; of &quot;Waar spreken de stukken elkaar tegen?&quot;</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>✨ Waarom is dit een Eye-opener?</h3>
+      <ul>
+        <li>• Vrijwel 0% kans op hallucinaties: het model weet alleen wat in jouw bronnen staat</li><li>• Elk antwoord heeft klikbare voetnoten naar de exacte alinea in jouw bron</li><li>• Volledig gratis te gebruiken met een Google-account</li>
+      </ul>
+    </div>
+  </div>
+  <div class="banner purple">
+    <h4>🎙️ De &#x27;Audio Overview&#x27; (Podcast Generatie)</h4>
+    <p>Met één klik tovert NotebookLM jouw taaie documenten om in een levendig Engels radiogesprek tussen twee AI-presentatoren die jouw dossier bespreken!</p>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 23 -->
+    <div class="slide" id="slide-23" data-notes="AI AGENTS UITGELEGD:
+- In de intake vroeg Arie: 'Hoe kan AI een website voor me bouwen?' Dit is het antwoord!
+- Waar we nu zitten is 'chatten': vraag en antwoord.
+- De volgende golf zijn 'Agents': je geeft ze een taak, en ze gaan zelfstandig aan de slag. Ze openen bestanden, schrijven de code, testen of de knoppen werken, en lossen hun eigen fouten op.
+- Je hoeft straks geen programmeur meer te zijn; je moet de AI kunnen aansturen als een projectleider.">
+      <div class="slide-header">
+        <span class="tag tag-green">🚀 DE TOEKOMST • NIVEAU 3</span>
+        <h1 class="slide-title">Van &#x27;Praten&#x27; naar &#x27;Zelf Doen&#x27;</h1>
+        <p class="slide-subtitle">AI Agents die software bouwen, bestanden beheren en taken uitvoeren</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-split">
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="card">
+      <h3>AI Agents die software bouwen, bestanden beheren en taken uitvoeren</h3>
+    </div>
+    <div class="card">
+      <h3>⚡ Het Verschil met ChatGPT</h3>
+      <ul>
+        <li>• Een Chat-app adviseert: hij typt tekst op je scherm, maar jij moet zelf knippen, plakken en uitvoeren.</li>
+        <li>• Een AI Agent heeft &quot;handen&quot;: hij krijgt een doel (&quot;bouw een website voor mijn club&quot;), maakt bestanden aan, voert code uit en test het zélf!</li>
+      </ul>
+    </div>
+    <div class="banner green">
+      <h4>🛠️ De Nieuwe Generatie Bouwers</h4>
+      <p>Claude Code, Google Antigravity &amp; Codex: zelfstandig werkende agents die complete websites en programma&#x27;s ontwikkelen.</p>
+    </div>
+  </div>
+  <div class="media-card">
+    <img src="les1_afbeeldingen/dia23_ai_agents.png" alt="Van &#x27;Praten&#x27; naar &#x27;Zelf Doen&#x27;">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 24 -->
+    <div class="slide" id="slide-24" data-notes="DE RCTK-FORMULE:
+- Cursisten vragen vaak: waarom krijg ik van ChatGPT van die saaie, algemene antwoorden?
+- Omdat je een algemene vraag stelt!
+- Onthoud RCTK: Rol, Context, Taak, Kaders.
+- Vooral de 'K' van Kaders (beperkingen: lengte, toon, doelgroep) maakt het verschil tussen een 6-min en een 9-plus tekst.">
+      <div class="slide-header">
+        <span class="tag tag-amber">🎯 PROMPTING TECHNIEK</span>
+        <h1 class="slide-title">De Gouden Promptformule: RCTK</h1>
+        <p class="slide-subtitle">Stop met zoeken zoals in Google • Start met regisseren als een opdrachtgever</p>
+      </div>
+      <div class="slide-content">
+        <div style="display:flex; flex-direction:column; gap:16px; flex:1;">
+  <div class="grid-4">
+    <div class="card">
+      <h3>👤 R - Rol</h3>
+      <ul>
+        <li>Geef de AI een persona:</li><li>&quot;Je bent een ervaren eindredacteur&quot; of &quot;Je bent een geduldige coach.&quot;</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📍 C - Context</h3>
+      <ul>
+        <li>Geef de situatie mee:</li><li>&quot;Dit is voor een vereniging met veel 65-plussers die de mail ontvangen.&quot;</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🎯 T - Taak</h3>
+      <ul>
+        <li>Omschrijf de actie:</li><li>&quot;Herschrijf deze brief zodat de toon warm, helder en uitnodigend is.&quot;</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📏 K - Kaders</h3>
+      <ul>
+        <li>Stel duidelijke grenzen:</li><li>&quot;Max. 150 woorden, in 3 alinea&#x27;s, geen vakjargon, puntsgewijs.&quot;</li>
+      </ul>
+    </div>
+  </div>
+  <div class="banner amber">
+    <h4>💡 Waarom dit zo goed werkt</h4>
+    <p>Herinner je de theorie: AI voorspelt woorden op basis van context. Hoe specifieker jouw RCTK-kader, hoe verbluffender het resultaat!</p>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 25 -->
+    <div class="slide" id="slide-25" data-notes="OEFENINGEN BEGELEIDEN:
+- Iedereen mag nu aan de slag!
+- Loop rond in de zaal: help mensen die nog moeten inloggen (Google/Microsoft account werkt meestal direct).
+- Voor tabletgebruikers: wijs op het microfoontje op het virtuele toetsenbord om prompts in te spreken!
+- Na 25 minuten bespreken we plenair een paar mooie resultaten.">
+      <div class="slide-header">
+        <span class="tag tag-green">💻 ZELF ACHTER DE KNOPPEN</span>
+        <h1 class="slide-title">Aan de Slag: Drie Praktijkoefeningen</h1>
+        <p class="slide-subtitle">Open je laptop of tablet • Start ChatGPT, Gemini of Copilot</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+  <div class="card">
+    <h3>✍️ Oefening 1: Herschrijven</h3>
+    <ul>
+      <li>• Pak een formele, stugge brief of e-mail</li><li>• Vraag de AI: &quot;Herschrijf deze mail met een warme, uitnodigende toon voor een verenigingslid&quot;</li><li>• Verfijn het resultaat met een vervolgvraag (&quot;Maak het korter!&quot;)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>📑 Oefening 2: Samenvatten</h3>
+    <ul>
+      <li>• Plak een lang artikel of verslag in het chatvenster</li><li>• Vraag om: 1) Kernboodschap in 2 zinnen, 2) De 3 belangrijkste besluiten</li><li>• Geef een kader mee: &quot;In maximaal 100 woorden&quot;</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>📊 Oefening 3: Tabellen</h3>
+    <ul>
+      <li>• Vraag om een actielijst of taakverdeling</li><li>• Prompt: &quot;Zet de uitkomst in een tabel met kolommen: Wie, Wat, Wanneer&quot;</li><li>• Selecteer de tabel en plak hem direct in Word of Excel!</li>
+    </ul>
+  </div>
+</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="controls">
+    <button id="btn-prev" title="Vorige dia (Pijltje links / Backspace)">← Vorige</button>
+    <span class="slide-counter" id="counter">1 / 25</span>
+    <button id="btn-next" title="Volgende dia (Pijltje rechts / Spatie)">Volgende →</button>
+    <button class="btn-notes" id="btn-notes" title="Sprekersnotities openen/sluiten (S)">Sprekersnotities</button>
+    <button id="btn-fs" title="Volledig scherm (F)">⛶</button>
+  </div>
+
+  <!-- Speaker Notes Modal Drawer -->
+  <div class="notes-drawer" id="notes-drawer">
+    <h5>🎙️ Sprekersnotities (Jan Martin)</h5>
+    <div id="notes-content">Geen notities voor deze dia.</div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const counter = document.getElementById('counter');
+    const notesDrawer = document.getElementById('notes-drawer');
+    const notesContent = document.getElementById('notes-content');
+    const btnNotes = document.getElementById('btn-notes');
+
+    function updateSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+
+      slides[currentSlide].classList.remove('active');
+      currentSlide = index;
+      slides[currentSlide].classList.add('active');
+
+      counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+      // Update speaker notes
+      const notes = slides[currentSlide].getAttribute('data-notes') || 'Geen sprekersnotities beschikbaar voor deze dia.';
+      notesContent.textContent = notes;
+    }
+
+    function toggleNotes() {
+      notesDrawer.classList.toggle('open');
+      btnNotes.classList.toggle('active');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.getElementById('btn-next').addEventListener('click', () => updateSlide(currentSlide + 1));
+    document.getElementById('btn-prev').addEventListener('click', () => updateSlide(currentSlide - 1));
+    document.getElementById('btn-notes').addEventListener('click', toggleNotes);
+    document.getElementById('btn-fs').addEventListener('click', toggleFullScreen);
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        updateSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
+        e.preventDefault();
+        updateSlide(currentSlide - 1);
+      } else if (e.key.toLowerCase() === 's') {
+        toggleNotes();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      } else if (e.key === 'Home') {
+        updateSlide(0);
+      } else if (e.key === 'End') {
+        updateSlide(totalSlides - 1);
+      }
+    });
+
+    // Touch Support (Swipe)
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff < 0) updateSlide(currentSlide + 1); // Swipe left
+        else updateSlide(currentSlide - 1);          // Swipe right
+      }
+    }
+
+    // Initialize first slide notes
+    updateSlide(0);
+  </script>
+</body>
+</html>

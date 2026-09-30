@@ -132,7 +132,7 @@ function createAIOpenDagPresentation() {
   createCard(slide6, 40, 120, 310, 110, '👥 Voor wie?', 'Iedereen met belangstelling voor AI. Digitale basisvaardigheden zijn voldoende.');
   createCard(slide6, 370, 120, 310, 110, '💻 Meenemen', 'Een eigen laptop of tablet (iPad/Android). We gaan elke bijeenkomst zelf oefenen.');
   
-  var banner = slide6.insertShape(SlidesApp.ShapeType.ROUNDED_RECTANGLE, 40, 250, 640, 100);
+  var banner = slide6.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 40, 250, 640, 100);
   banner.getFill().setSolidFill('#2a1e05');
   banner.getBorder().getLineFill().setSolidFill(COLOR_AMBER);
   banner.getBorder().setWeight(2);
@@ -146,7 +146,7 @@ function createAIOpenDagPresentation() {
 }
 
 function createCard(slide, left, top, width, height, title, body) {
-  var shape = slide.insertShape(SlidesApp.ShapeType.ROUNDED_RECTANGLE, left, top, width, height);
+  var shape = slide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, left, top, width, height);
   shape.getFill().setSolidFill('#1e293b');
   shape.getBorder().getLineFill().setSolidFill('#334155');
   shape.getBorder().setWeight(1);
@@ -165,7 +165,7 @@ function createCard(slide, left, top, width, height, title, body) {
 }
 
 function createListItem(slide, left, top, width, height, title, body) {
-  var shape = slide.insertShape(SlidesApp.ShapeType.ROUNDED_RECTANGLE, left, top, width, height);
+  var shape = slide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, left, top, width, height);
   shape.getFill().setSolidFill('#1e293b');
   shape.getBorder().getLineFill().setSolidFill('#334155');
   shape.getBorder().setWeight(1);

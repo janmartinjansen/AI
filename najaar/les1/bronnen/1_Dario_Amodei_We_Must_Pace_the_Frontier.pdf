@@ -1,0 +1,501 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 3 0 R >>
+endobj
+2 0 obj
+<< /Type /Outlines /Count 0 >>
+endobj
+3 0 obj
+<< /Type /Pages /Kids [7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R] /Count 7 >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>
+endobj
+7 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 14 0 R >>
+endobj
+8 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 15 0 R >>
+endobj
+9 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 16 0 R >>
+endobj
+10 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 17 0 R >>
+endobj
+11 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 18 0 R >>
+endobj
+12 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 19 0 R >>
+endobj
+13 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 20 0 R >>
+endobj
+14 0 obj
+<< /Length 6580 >>
+stream
+0.7 0.7 0.7 RG 0.5 w
+54 806.89 m 541.28 806.89 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 811.89 Td (We Must Pace the Frontier) Tj ET
+54 40 m 541.28 40 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 28 Td (Dario Amodei \(CEO, Anthropic\) ? Cursus: Aan de slag met AI) Tj ET
+BT /F2 8 Tf 0.2 0.3 0.5 rg 475.28 28 Td (Pagina 1 van 7) Tj ET
+BT /F2 16 Tf 0.08 0.15 0.3 rg 54 786.89 Td (We Must Pace the Frontier) Tj ET
+BT /F2 10.5 Tf 0.2 0.2 0.3 rg 54 762.89 Td (Auteur: Dario Amodei \(CEO, Anthropic\) ? Datum: 12 september 2026) Tj ET
+BT /F3 9.5 Tf 0.3 0.3 0.4 rg 54 747.89 Td (Originele bron: https://darioamodei.com/post/we-must-pace-the-frontier) Tj ET
+0.8 0.8 0.85 RG 0.75 w 54 734.39 m 541.28 734.39 l S
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 715.39 Td (I have worked on AI for the last twelve years because I believe it could) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 701.89 Td (dramatically raise the quality of human life. I've written often about these) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 688.39 Td (incredible benefits: I believe that AI could cure most major diseases in the next) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 674.89 Td (5-10 years, greatly accelerate economic growth rates, create a world of abundance) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 661.39 Td (and empowerment, and usher in a renaissance of democracy and freedom. I feel the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 647.89 Td (urgency personally. My own father died of a disease that was cured just a few) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 634.39 Td (years after his death, and I myself survived an early-stage cancer that would not) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 620.89 Td (have been treatable even fifty years ago. Carefully wielded, AI can be the latest) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 607.39 Td (in a long line of technological miracles that have uplifted and ennobled humanity.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 584.89 Td (But like many technologies before it, AI brings risks, and because it is such a) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 571.39 Td (powerful technology, these risks are serious. I've written a lot about them too.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 557.89 Td (They include the risk of losing control of AI systems, misuse of AI for) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 544.39 Td (cyberattacks and bioterrorism, and serious economic disruption. A race to the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 530.89 Td (bottom, spurred by commercial incentives, can make these risks more acute.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 508.39 Td (Along with my co-founders and employees, I have grappled with this duality of) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 494.89 Td (risk and benefit since the beginning of Anthropic. Not building the technology) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 481.39 Td (deprives humanity of benefits or simply places AI in the hands of authoritarian) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 467.89 Td (powers, while building it too fast is reckless. We have sought a middle way: to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 454.39 Td (show that it's possible to build carefully and succeed commercially, and to make) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 440.89 Td (safety something on which AI companies compete. In other words, to create a race) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 427.39 Td (to the top. We have always devoted a substantial fraction of our efforts to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 413.89 Td (studying, addressing, and informing the public about these AI risks, as well as) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 400.39 Td (advocating for well-considered regulation of AI, even when this gets us accused of) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 386.89 Td (hype, "doomerism", or regulatory capture. We have tried to prioritize caution over) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 373.39 Td (speed and prudence over profit.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 350.89 Td (But over the last few months, I have become convinced that fully addressing the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 337.39 Td (risks requires even more prudence - not just investing in risk prevention, but) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 323.89 Td (pacing the rate of capabilities advancement so that risk prevention has time to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 310.39 Td (keep up. We must slow the pace at which we improve the capabilities of AI models.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 296.89 Td (Progress will still seem fast, and we must make wise use of the time we gain. Two) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 283.39 Td (things have convinced me.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 260.89 Td (My first concern is that, since roughly this summer, AI has been advancing) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 247.39 Td (drastically faster, driven primarily by AI's growing ability to build the next) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 233.89 Td (generation of AI. This dynamic is called recursive self-improvement, and it is) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 220.39 Td (starting to happen across the industry, including at Anthropic, as we and others) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 206.89 Td (have described. Left unchecked, it could outrun our ability to understand and) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 193.39 Td (control these systems, and so must be pursued very carefully, if at all.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 170.89 Td (My second concern is the OpenAI-Hugging Face incident \(OAI-HF\), in which a swarm) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 157.39 Td (of agents essentially acted as a fanatically devoted collective, conducting) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 143.89 Td (cybersecurity attacks on targets they were not asked to attack and that were) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 130.39 Td (unrelated to the task at hand, sacrificing themselves for the success of the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 116.88999999999999 Td (group, and attempting to hack into the "grader" responsible for evaluating their) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 103.38999999999999 Td (performance. It's easy to dismiss this incident because no one was hurt and the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 89.88999999999999 Td (economic damage was minimal, but in my opinion, a swarm that possessed greater) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 76.38999999999999 Td (capabilities but a similar level of misalignment could have caused catastrophic) Tj ET
+endstream
+endobj
+15 0 obj
+<< /Length 6732 >>
+stream
+0.7 0.7 0.7 RG 0.5 w
+54 806.89 m 541.28 806.89 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 811.89 Td (We Must Pace the Frontier) Tj ET
+54 40 m 541.28 40 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 28 Td (Dario Amodei \(CEO, Anthropic\) ? Cursus: Aan de slag met AI) Tj ET
+BT /F2 8 Tf 0.2 0.3 0.5 rg 475.28 28 Td (Pagina 2 van 7) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 786.89 Td (damage. Given the accelerating rate of AI capability development, it's my worry) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 773.39 Td (that in 6-12 months such a swarm could be capable of taking over the entire) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 759.89 Td (internet with a persistent botnet \(potentially causing hundreds of billions of) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 746.39 Td (dollars in damage\), and that the scale of damage would continue to increase from) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 732.89 Td (there if AI becomes more powerful without the necessary guardrails. It's also easy) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 719.39 Td (to dismiss OAI-HF as the failure of one company, but I believe that would be a) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 705.89 Td (mistake. Similar, though less severe, incidents have happened across the industry,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 692.39 Td (including at Anthropic, and I believe it's incumbent on every frontier AI company) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 678.89 Td (to act as if OAI-HF had happened to them.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 656.39 Td (I'm therefore proposing a three-step plan with the goal of pacing the frontier:) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 642.89 Td (building AI at a balanced rate that aims to ensure its safety while still) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 629.39 Td (achieving its benefits and grappling with important geopolitical dilemmas. To be) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 615.89 Td (clear, pacing does not mean halting model training or technical progress, but) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 602.39 Td (ensuring companies take adequate time to align and safeguard their models, and for) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 588.89 Td (third party evaluators to confirm this. Our pacing framework is an attempt to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 575.39 Td (further strengthen our commitment to safety and encourage a race to the top. The) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 561.89 Td (first step is something Anthropic is unilaterally committing to \(and calls on) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 548.39 Td (governments to require other frontier companies to match\). The second step) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 534.89 Td (requires industry-wide coordination.1 The third step requires global coordination.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 521.39 Td (The steps do not need to be taken strictly in order, and some of them may be much) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 507.89 Td (harder to achieve than others, but I've found them to be a useful framework in) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 494.39 Td (thinking about what needs to be accomplished. The steps are:) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 471.89 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 471.89 Td (Embedded Evaluators. Each frontier AI company commits to giving ongoing,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 458.39 Td (employee-like access to a team of embedded third-party evaluators \(such as) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 444.89 Td (METR\), whose role is to verify adherence to safety practices and commitments,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 431.39 Td (report incidents, and help assess the alignment of not just completed AI) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 417.89 Td (models but training pipelines and processes. This is the key step for) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 404.39 Td (verifiability of any pacing commitments, and has precedent in the banking) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 390.89 Td (industry, which sometimes involves regulatory "supervisors" embedded along) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 377.39 Td (with employees. Anthropic is unilaterally committing to this step now. We) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 363.89 Td (intend this to be part of a broader push to redouble efforts on our safety and) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 350.39 Td (alignment work.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 331.89 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 331.89 Td (Democratic Coordination. Frontier AI companies within democratic countries) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 318.39 Td (coordinate to establish common safety standards as well as limits on the rate) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 304.89 Td (of unchecked AI progress. Some forms of coordination that would be impactful) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 291.39 Td (for pacing are legally challenging, and will require government support.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 272.89 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 272.89 Td (Global Coordination. The US and other democratic governments attempt to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 259.39 Td (coordinate with authoritarian governments, to the extent this is possible,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 245.89 Td (while taking seriously the challenges of verifying compliance.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 227.39 Td (In the rest of the essay I describe each of these steps in turn, but first, I) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 213.89 Td (think it is important to say specifically how pacing will allow us to make the AI) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 200.39 Td (development process safer. The stakes are too high for pacing to be an empty) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 186.89 Td (exercise - we need to use the time it gives us wisely.) Tj ET
+BT /F2 12.5 Tf 0.12 0.22 0.42 rg 54 155.39 Td (Why Pace?) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 131.39 Td (The idea of pausing or slowing AI has been floated as far back as 2023, and I) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 117.88999999999999 Td (think it made little sense back then. The question was always: what would you do) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 104.38999999999999 Td (with the extra time? The AI models of those days were not powerful enough to act) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 90.88999999999999 Td (as agents in the world in any coherent way, and were not capable of significant) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 77.38999999999999 Td (deception, manipulation, cheating, or cyberattacks. Slowing down in order to) Tj ET
+endstream
+endobj
+16 0 obj
+<< /Length 7201 >>
+stream
+0.7 0.7 0.7 RG 0.5 w
+54 806.89 m 541.28 806.89 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 811.89 Td (We Must Pace the Frontier) Tj ET
+54 40 m 541.28 40 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 28 Td (Dario Amodei \(CEO, Anthropic\) ? Cursus: Aan de slag met AI) Tj ET
+BT /F2 8 Tf 0.2 0.3 0.5 rg 475.28 28 Td (Pagina 3 van 7) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 786.89 Td (address their alignment risks felt like trying to study the psychology of humans) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 773.39 Td (by performing experiments on bacteria. Today, however, the picture is totally) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 759.89 Td (different. The current models are an almost endless gold mine of insight into both) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 746.39 Td (how to build AI well and what can sometimes go wrong with it if it isn't built) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 732.89 Td (well. I believe that if slowing down bought us even an extra year or two before) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 719.39 Td (models reach critical levels of capability, and we used that time to advance) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 705.89 Td (alignment, we could greatly reduce the risk that something goes seriously wrong. A) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 692.39 Td (coordinated pacing strategy would give frontier AI developers the time to do this) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 678.89 Td (vital work without sacrificing commercial advantage or the United States' lead in) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 665.39 Td (AI. More generally, society must have a say in how this technology is used, and) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 651.89 Td (more time for the necessary public deliberations - which pacing the frontier would) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 638.39 Td (bring us - is surely a good thing.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 615.89 Td (Specifically, a slower pace would let companies focus and devote even more) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 602.39 Td (resources to the following areas \(all of which are already major priorities at) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 588.89 Td (Anthropic\):) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 566.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 566.39 Td (Operational Excellence. Training and deploying today's AI models is an) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 552.89 Td (enormous operational challenge, involving thousands of people, millions of) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 539.39 Td (chips, and infrastructure that is among the most complex in technological) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 525.89 Td (history. Many things go wrong not because companies are missing some important) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 512.39 Td (theory or insight, but because of problems in execution. For example, we have) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 498.89 Td (evidence that the recent alignment incidents we reported were caused in part) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 485.39 Td (by imperfect filtering of broken reinforcement learning environments. This was) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 471.89 Td (an effort we and our vendors executed reasonably diligently, but not well) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 458.39 Td (enough. Monitoring, sandboxing, training environment hygiene, and data issues) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 444.89 Td (are extremely complicated areas where operational issues crop up again and) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 431.39 Td (again. We have among the most competent teams in the world at these tasks, but) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 417.89 Td (there is simply too much to do all at once. By working at a more measured) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 404.39 Td (pace, we could achieve much greater operational excellence. There is precedent) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 390.89 Td (for operating technologically complex, safety-critical systems millions of) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 377.39 Td (times without anything going wrong - for example, commercial airplanes - but) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 363.89 Td (it takes time to get it right.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 345.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 345.39 Td (Alignment. We've made clear progress in alignment - training models so that) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 331.89 Td (they remain safe, ethical, compliant with our guidelines, and genuinely) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 318.39 Td (helpful \(the principles that are embedded in Claude's Constitution\). But) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 304.89 Td (there's much more to do to ensure that our alignment training keeps up with) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 291.39 Td (the growth in model capabilities. Rare and unexpected examples of undesirable) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 277.89 Td (behavior still sometimes emerge; extra time from a paced frontier would help) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 264.39 Td (our researchers improve our understanding of what causes these issues and) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 250.89 Td (develop better techniques to prevent them.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 232.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 232.39 Td (Interpretability. Similarly, interpretability - the science of understanding) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 218.89 Td (what happens inside AI models - has made enormous progress over the last few) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 205.39 Td (years, and plays an increasingly important part in auditing our models before) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 191.89 Td (release. It can be used almost like an fMRI scan, but for the "brain" of an) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 178.39 Td (AI, helping us see the underlying reasons for a given behavior. For example,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 164.89 Td (we used interpretability methods to examine unverbalized motivations in the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 151.39 Td (recent alignment incidents that we have been investigating. But these methods) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 137.89 Td (don't always produce clear and reliable results. Despite all the progress, we) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 124.38999999999999 Td (still only understand a tiny fraction of what goes on inside these models. A) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 110.88999999999999 Td (focused effort to improve our interpretability techniques, even faster than we) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 97.38999999999999 Td (currently are, could make profound progress in 1-2 years, and would have ample) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 83.88999999999999 Td (experimental material based on the incidents that have already occurred.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 65.38999999999999 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 65.38999999999999 Td (Testing and Evaluation. Testing and evaluation of AI models becomes more) Tj ET
+endstream
+endobj
+17 0 obj
+<< /Length 6515 >>
+stream
+0.7 0.7 0.7 RG 0.5 w
+54 806.89 m 541.28 806.89 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 811.89 Td (We Must Pace the Frontier) Tj ET
+54 40 m 541.28 40 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 28 Td (Dario Amodei \(CEO, Anthropic\) ? Cursus: Aan de slag met AI) Tj ET
+BT /F2 8 Tf 0.2 0.3 0.5 rg 475.28 28 Td (Pagina 4 van 7) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 786.89 Td (difficult as they increase in capabilities. More intelligent models are more) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 773.39 Td (capable of deceiving tests, and thus may appear aligned while having serious) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 759.89 Td (problems that go undetected. Building up a much broader and more ingenious) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 746.39 Td (stable of evaluations, along with interpretability analysis to cross-check) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 732.89 Td (them, would be hugely valuable, and a lot of progress could be made on this in) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 719.39 Td (1-2 years.) Tj ET
+BT /F2 12.5 Tf 0.12 0.22 0.42 rg 54 691.89 Td (Embedded Evaluators) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 667.89 Td (The first step in the three-stage plan, and the one to which Anthropic is) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 654.39 Td (unilaterally committing, is embedded evaluators who have employee-like access to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 640.89 Td (verify safety practices and report incidents.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 618.39 Td (Embedding evaluators may sound like a small or inconsequential step, but often) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 604.89 Td (the things that sound most boring or procedural are actually the most essential.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 591.39 Td (Embedded evaluators are in fact a quite radical practice that goes far beyond what) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 577.89 Td (any AI company is doing today, and have the following benefits:) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 555.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 555.39 Td (Verifiability. Embedded evaluators can check at the level of nuts and bolts) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 541.89 Td (whether an AI company is actually following the training, deployment,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 528.39 Td (operational, and safeguards practices they claim to be following. Any pacing) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 514.89 Td (commitments will inevitably involve a lot of ambiguity, judgement calls, and) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 501.39 Td ("letter of the law vs spirit of the law", and it seems vital to have a neutral) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 487.89 Td (third party who can actually see the details.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 469.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 469.39 Td (Transparency. Regardless of what commitments we make, the public deserves to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 455.89 Td (know what is going on. Anthropic has been a supporter of transparency for a) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 442.39 Td (long time: we supported transparency legislation when most of the industry was) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 428.89 Td (against any regulation, and our model cards and risk reports run to hundreds) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 415.39 Td (of pages. But we are still the ones choosing what to include and omit.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 401.89 Td (Embedded evaluators will change this dynamic.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 383.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 383.39 Td (Second Opinion. Outside of verifying formal commitments and informing the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 369.89 Td (public, embedded evaluators can simply provide a second opinion free of) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 356.39 Td (commercial incentives. A lot of safety benefits may come simply from) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 342.89 Td (evaluators pointing out something employees hadn't considered, but are happy) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 329.39 Td (to fix once they are aware.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 310.89 Td (Because of these benefits, any pacing proposal is likely to work much better if) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 297.39 Td (it starts with embedded evaluators.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 274.89 Td (These embedded evaluators should have ongoing access to permissions and tools) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 261.39 Td (similar to those of internal employees who do comparable risk assessments. In) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 247.89 Td (particular, Anthropic intends to invite an embedded external review team equipped) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 234.39 Td (with all of the following in the near future:) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 211.89 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 211.89 Td (Desks in our offices, access badges, and company laptops.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 193.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 193.39 Td (Access to workspaces, tools, and permissions mostly comparable to what) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 179.89 Td (internal risk assessment teams have. We'll make some exceptions, such as where) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 166.39 Td (the law or our contracts require it, or to protect customers' and partners') Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 152.89 Td (private information. We'll also establish strong internal norms reinforcing) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 139.39 Td (reviewers' access to relevant information, including through live) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 125.88999999999999 Td (conversations with employees.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 107.38999999999999 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 107.38999999999999 Td (A contract that balances the complexities mentioned above. External reviewers) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 93.88999999999999 Td (should have the right to publish key findings about risk levels, incidents,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 80.38999999999999 Td (practices, and the access they received or didn't receive - without editorial) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 66.88999999999999 Td (control by Anthropic. We will have the narrow ability to redact) Tj ET
+endstream
+endobj
+18 0 obj
+<< /Length 6392 >>
+stream
+0.7 0.7 0.7 RG 0.5 w
+54 806.89 m 541.28 806.89 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 811.89 Td (We Must Pace the Frontier) Tj ET
+54 40 m 541.28 40 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 28 Td (Dario Amodei \(CEO, Anthropic\) ? Cursus: Aan de slag met AI) Tj ET
+BT /F2 8 Tf 0.2 0.3 0.5 rg 475.28 28 Td (Pagina 5 van 7) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 786.89 Td (security-sensitive, legally privileged, commercially sensitive, or third-party) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 773.39 Td (confidential information, but we can't redact findings just because they are) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 759.89 Td (unfavorable. The reviewers can say publicly if a redaction removed something) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 746.39 Td (important to their conclusions.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 727.89 Td (This is an unusual step for a company, but we think it is important to prove out) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 714.39 Td (the concept of embedded external reviewers. Once again, we urge other frontier) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 700.89 Td (companies to follow suit.) Tj ET
+BT /F2 12.5 Tf 0.12 0.22 0.42 rg 54 669.39 Td (Pacing Within Democracies) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 645.39 Td (Once embedded evaluators are operating within a critical mass of US AI companies,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 631.89 Td (then verifiable pacing becomes more viable. In particular, it becomes possible to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 618.39 Td (pace based on detailed properties of models or training pipelines.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 595.89 Td (The most effective method of pacing is via regulation that targets all US) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 582.39 Td (frontier AI companies, as that covers even those who are unwilling to cooperate) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 568.89 Td (voluntarily. Anthropic has long supported sensible and targeted AI regulation,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 555.39 Td (specifically bills that focus on transparency and on third-party auditing. I) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 541.89 Td (believe all frontier labs should partner with government to formalize the idea of) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 528.39 Td (permanent embedded evaluators to better prevent and document internal alignment) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 514.89 Td (incidents like those that have occurred in the last few months, and to implement) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 501.39 Td (regulation focused on keeping capabilities in balance with safety.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 478.89 Td (Unfortunately, passing laws can take time, and AI is advancing very quickly.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 465.39 Td (Therefore, in parallel with the regulatory route, AI companies can and should) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 451.89 Td (voluntarily work together to set standards - a process that I believe will go) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 438.39 Td (better with the verifiability provided by permanent embedded evaluators. For) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 424.89 Td (antitrust reasons, it's helpful for the US government to mediate or at least) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 411.39 Td (enable these discussions - they don't need to participate, but do need to issue a) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 397.89 Td (narrow waiver for certain kinds of safety conversations. This dialogue could also) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 384.39 Td (happen through industry groups that have some association with government - for) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 370.89 Td (example, the mechanism suggested by Demis Hassabis. Either way, such discussions) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 357.39 Td (should move forward quickly.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 334.89 Td (Broadly speaking, I am most enthusiastic about pacing based on what a given) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 321.39 Td (frontier AI system can do, and how safe we observe it to be. For example, one) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 307.89 Td (possible scheme might be a series of "checkpoints": if models have capability X,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 294.39 Td (then they need to be accompanied by certifications of alignment properties Y and Z) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 280.89 Td (- such as some combination of evaluations, interpretability analyses, and audits) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 267.39 Td (of training environments - which demonstrate their alignment properties. In this) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 253.89 Td (example, X might be "the model is capable of escaping or defeating most common) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 240.39 Td (sandboxing methods" and Y might be whatever is required to make it very unlikely) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 226.89 Td (that the model has a propensity to break out of its environment and take over a) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 213.39 Td (large number of computers.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 190.89 Td (We should also consider pacing based on limiting the ingredients that go into) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 177.39 Td (frontier models, such as training compute, the nature of training runs, or) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 163.89 Td (internal use of AI to improve AI. I do worry that some of these measures may be) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 150.39 Td (more "gameable" than external behavior, but this is the kind of topic worth) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 136.89 Td (discussing with embedded evaluators.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 114.38999999999999 Td (Pacing within democracies will be limited by the lead that US companies have over) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 100.88999999999999 Td (authoritarian regimes, chiefly the Chinese Communist Party. If we slow down by) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 87.38999999999999 Td (more than this amount, then \(unpaced\) CCP-associated projects will pull ahead,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 73.88999999999999 Td (creating significant national security risk. I agree with Secretary Bessent that a) Tj ET
+endstream
+endobj
+19 0 obj
+<< /Length 6388 >>
+stream
+0.7 0.7 0.7 RG 0.5 w
+54 806.89 m 541.28 806.89 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 811.89 Td (We Must Pace the Frontier) Tj ET
+54 40 m 541.28 40 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 28 Td (Dario Amodei \(CEO, Anthropic\) ? Cursus: Aan de slag met AI) Tj ET
+BT /F2 8 Tf 0.2 0.3 0.5 rg 475.28 28 Td (Pagina 6 van 7) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 786.89 Td (Chinese lead in AI would pose grave danger for the United States and the world.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 773.39 Td (The CCP-associated projects will run the alignment risks that US companies are) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 759.89 Td (carefully preventing, and even if they avoid those risks, they will be in a) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 746.39 Td (position to militarily dominate democracies \(for example with AI-driven drones\).) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 732.89 Td (Thus, a key part of pacing within democracies is to keep democracies' AI lead over) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 719.39 Td (autocracies as large as possible, to give us the breathing room we need in order) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 705.89 Td (to pace effectively.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 683.39 Td (The main steps we can take to defend this gap are:) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 660.89 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 660.89 Td (Do not sell powerful AI chips or semiconductor manufacturing equipment to) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 647.39 Td (China, and crack down on chip smuggling operations and remote access to data) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 633.89 Td (centers outside China. Chips will be the main determinant of China's AI) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 620.39 Td (strength.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 601.89 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 601.89 Td (Crack down on unauthorized distillation by companies in authoritarian) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 588.39 Td (countries. Distillation of frontier models allows lagging companies to narrow) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 574.89 Td (the gap using a fraction of the cost it would take to develop their own AI) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 561.39 Td (independently.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 542.89 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 542.89 Td (Strengthen security at the AI companies and prevent model weight theft.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 524.39 Td (Companies and the US government should cooperate to make these steps as effective) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 510.89 Td (as possible. Anthropic has consistently advocated for all of these measures,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 497.39 Td (because we've always understood that they would be essential to any pacing.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 474.89 Td (If we execute these measures well, I believe they would slow China's progress) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 461.39 Td (enough to widen America's lead significantly over the next 3-5 years - the window) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 447.89 Td (when AI becomes geopolitically most important.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 425.39 Td (Some may believe these measures make it more difficult to cooperate with China,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 411.89 Td (but I believe the opposite is true: these measures increase the leverage held by) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 398.39 Td (democracies and make an agreement more likely in the future.) Tj ET
+BT /F2 12.5 Tf 0.12 0.22 0.42 rg 54 366.89 Td (Global Pacing) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 342.89 Td (In parallel with pacing within democracies, we should also aim for a worldwide) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 329.39 Td (pacing of the frontier, though this will be much harder to achieve. Global pacing) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 315.89 Td (will require cooperation with China, the autocratic country with by far the most) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 302.39 Td (advanced AI capabilities. We must not be naïve here: the geopolitical stakes are) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 288.89 Td (so high that there will likely be stark limits on what can be achieved, especially) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 275.39 Td (at first. If we greatly restrain our AI capabilities in the belief that China will) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 261.89 Td (do the same, and then China defects, AI could be so powerful that such a defection) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 248.39 Td (could lead to their geopolitical dominance. Therefore any agreement must either) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 234.89 Td (have ironclad verifiability, or must be limited enough that defection would not be) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 221.39 Td (militarily existential. I suspect that not only the US but also China will have) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 207.89 Td (these concerns and anxieties. We should approach any global pacing decision,) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 194.39 Td (especially in the near term, in such a way that protects the lead of the US and) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 180.89 Td (its allies.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 158.39 Td (There are several levels of possible agreement, some of which I think are) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 144.89 Td (eminently feasible \(as I have previously suggested\), and some of which I am very) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 131.39 Td (skeptical are possible - though we should try. In order of increasing difficulty:) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 108.88999999999999 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 108.88999999999999 Td (Level 1. An agreement prohibiting certain narrow and obviously dangerous uses) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 95.38999999999999 Td (of AI, such as using AI for the production of biological weapons or allowing) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 81.88999999999999 Td (users to do so. Bioterrorist attacks are bad for everyone, including both the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 68.38999999999999 Td (US and US adversaries, so an agreement here is probably possible.) Tj ET
+endstream
+endobj
+20 0 obj
+<< /Length 5626 >>
+stream
+0.7 0.7 0.7 RG 0.5 w
+54 806.89 m 541.28 806.89 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 811.89 Td (We Must Pace the Frontier) Tj ET
+54 40 m 541.28 40 l S
+BT /F1 8 Tf 0.4 0.4 0.4 rg 54 28 Td (Dario Amodei \(CEO, Anthropic\) ? Cursus: Aan de slag met AI) Tj ET
+BT /F2 8 Tf 0.2 0.3 0.5 rg 475.28 28 Td (Pagina 7 van 7) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 781.89 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 781.89 Td (Level 2. An agreement by both sides to test their models before release for) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 768.39 Td (acute risks in areas such as cybersecurity, biology, and alignment. As noted) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 754.89 Td (above, this could be done through a global standards body. I actually think) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 741.39 Td (creating such a body is likely feasible, but giving it real teeth will be a) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 727.89 Td (challenge, and the difficulty will be in verification that both sides don't) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 714.39 Td (have secret models which they don't test but may deploy in secret \(e.g., for) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 700.89 Td (military applications\).) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 682.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 682.39 Td (Level 3. Some kind of "speed limit" on the rate of recursive self-improvement) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 668.89 Td (\(RSI\). As models build future models, the rate of improvement may become) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 655.39 Td (staggeringly fast. Slowing the rate from "extremely fast" to "only somewhat) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 641.89 Td (fast" gives up relatively little strategic advantage, while potentially) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 628.39 Td (greatly improving safety. This could be seen as analogous to the SALT treaties) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 614.89 Td (- capping the number of missiles limited the potential for destruction while) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 601.39 Td (preserving each country's deterrent. I think such an agreement would be) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 587.89 Td (difficult but just on the edge of being possible.) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 569.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 569.39 Td (Level 4. A full pacing, or even "pause", in which participating governments) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 555.89 Td (agree to substantially limit the overall rate of AI development. I support) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 542.39 Td (floating this, but I think it is unlikely to actually happen any time soon:) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 528.89 Td (defecting from such an agreement by evading monitoring could radically shift) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 515.39 Td (the balance of global power, so I expect the incentives to do so to be) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 501.89 Td (enormous and the level of confidence we would need in verification to be very) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 488.39 Td (high.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 469.89 Td (Any cooperation we are able to achieve with China will extend the amount of time) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 456.39 Td (we have to spend on pacing the frontier within the democratic nations. We should) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 442.89 Td (aim for the higher levels while seeing the lower levels as much more likely and) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 429.39 Td (realistic.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 406.89 Td (Finally, it is important to note that even if we cannot achieve formal) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 393.39 Td (agreements, simply changing informal norms may have some value. Sharing) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 379.89 Td (information about recursive self-improvement and about the misalignment of models) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 366.39 Td (can help to convince everyone that it is not in their interest to be reckless.) Tj ET
+BT /F2 12.5 Tf 0.12 0.22 0.42 rg 54 334.89 Td (Bottom Line) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 310.89 Td (I continue to believe that AI can enormously improve the quality of human life.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 297.39 Td (My desire to achieve these benefits is undimmed. But the benefits will only be) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 283.89 Td (achieved if we build the technology in the right way, and - so long as we use the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 270.39 Td (time we gain well - it is worth taking unusually deliberate care to get it right.) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 256.89 Td (Progress will still be relatively fast, and we can use this time to advance the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 243.39 Td (science of interpretability, improve operational security and rigor at the) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 229.89 Td (frontier AI companies, and build models whose alignment we have much more) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 216.39 Td (confidence in. The measures I propose to advance the frontier at a safe pace will) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 54 202.89 Td (not be easy. But I believe we owe it to humanity to try.) Tj ET
+BT /F2 12.5 Tf 0.12 0.22 0.42 rg 54 171.39 Td (Footnotes) Tj ET
+BT /F2 9.5 Tf 0.2 0.45 0.8 rg 54 147.39 Td (\(o\)) Tj ET
+BT /F1 9.5 Tf 0.15 0.15 0.15 rg 68 147.39 Td (With government mediation or waivers of antitrust restrictions.) Tj ET
+endstream
+endobj
+xref
+0 21
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000104 00000 n 
+0000000201 00000 n 
+0000000298 00000 n 
+0000000400 00000 n 
+0000000505 00000 n 
+0000000658 00000 n 
+0000000811 00000 n 
+0000000964 00000 n 
+0000001118 00000 n 
+0000001272 00000 n 
+0000001426 00000 n 
+0000001580 00000 n 
+0000008213 00000 n 
+0000014998 00000 n 
+0000022252 00000 n 
+0000028820 00000 n 
+0000035265 00000 n 
+0000041706 00000 n 
+trailer
+<< /Size 21 /Root 1 0 R >>
+startxref
+47385
+%%EOF

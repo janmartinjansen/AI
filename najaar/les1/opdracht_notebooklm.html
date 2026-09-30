@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Huiswerkopdracht: Strijd der AI-Titanen • NotebookLM | Les 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-body: #334155;
+      --accent-blue: #2563eb;
+      --accent-blue-light: #eff6ff;
+      --accent-blue-border: #bfdbfe;
+      --accent-purple: #7c3aed;
+      --accent-purple-light: #f5f3ff;
+      --accent-emerald: #059669;
+      --radius: 16px;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      background-image: radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.5) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.5) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.65;
+      padding: 2.5rem 1.25rem 4rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 860px;
+      width: 100%;
+    }
+
+    /* Navigation */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 8px 16px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+
+    .back-link:hover {
+      background: var(--accent-blue-light);
+      border-color: var(--accent-blue-border);
+      transform: translateX(-2px);
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 2.5rem;
+    }
+
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-purple {
+      background: var(--accent-purple-light);
+      color: var(--accent-purple);
+      border: 1px solid #ddd6fe;
+    }
+
+    .badge-blue {
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+      border: 1px solid var(--accent-blue-border);
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.2rem;
+    }
+
+    .meta-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1rem 1.4rem;
+      font-size: 0.9rem;
+      color: var(--text-body);
+      box-shadow: var(--shadow);
+    }
+
+    .meta-item strong {
+      display: block;
+      color: var(--text-main);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .section-card h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 1.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-card p {
+      font-size: 0.98rem;
+      color: var(--text-body);
+      margin-bottom: 1rem;
+    }
+
+    .section-card ul, .section-card ol {
+      padding-left: 1.4rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.96rem;
+      color: var(--text-body);
+    }
+
+    .section-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Source Grid */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+
+    .source-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .source-card:hover {
+      border-color: var(--accent-blue-border);
+      background: #f0f7ff;
+      transform: translateY(-2px);
+    }
+
+    .source-header {
+      margin-bottom: 0.8rem;
+    }
+
+    .source-author {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent-blue);
+      margin-bottom: 4px;
+    }
+
+    .source-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .source-focus {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .source-footer {
+      display: flex;
+      gap: 8px;
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .btn-download-pdf {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-download-pdf:hover {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+    }
+
+    /* Download Banner */
+    .download-bundle-card {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 1.6rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3);
+    }
+
+    .download-bundle-text h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+
+    .download-bundle-text p {
+      font-size: 0.92rem;
+      opacity: 0.9;
+    }
+
+    .btn-zip-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      color: #1e3a8a;
+      font-weight: 700;
+      font-size: 0.98rem;
+      padding: 12px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+    }
+
+    .btn-zip-download:hover {
+      background: #f8fafc;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    /* Prompt Box with Copy Button */
+    .prompt-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0 1.5rem 0;
+      position: relative;
+    }
+
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .prompt-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: #38bdf8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-copy {
+      background: #1e293b;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+
+    .btn-copy.copied {
+      background: #059669;
+      border-color: #059669;
+    }
+
+    .prompt-content {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Callout Note */
+    .callout {
+      background: #f0fdf4;
+      border-left: 4px solid var(--accent-emerald);
+      padding: 1rem 1.2rem;
+      border-radius: 8px;
+      margin: 1.2rem 0;
+      font-size: 0.92rem;
+      color: #14532d;
+    }
+
+    .callout strong {
+      color: #0f5132;
+    }
+
+    .btn-notebooklm {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-purple);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-top: 0.5rem;
+    }
+
+    .btn-notebooklm:hover {
+      background: #6d28d9;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 680px) {
+      h1 { font-size: 1.8rem; }
+      .section-card { padding: 1.4rem; }
+      .download-bundle-card { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Navigation -->
+    <div class="top-nav">
+      <a href="index.html" class="back-link">← Terug naar Les 1 Overzicht</a>
+      <a href="../index.html" class="back-link">Cursushome</a>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <div class="badge-bar">
+        <span class="badge badge-purple">🏠 Huiswerkopdracht</span>
+        <span class="badge badge-blue">Google NotebookLM</span>
+      </div>
+      <h1>Strijd der AI-Titanen</h1>
+      <p class="subtitle">Onderzoek en vergelijk de botsende toekomstvisies van de absolute leiders in kunstmatige intelligentie.</p>
+      
+      <div class="meta-box">
+        <div class="meta-item">
+          <strong>Cursus</strong>
+          Aan de slag met AI (School 7)
+        </div>
+        <div class="meta-item">
+          <strong>Werkvorm</strong>
+          Zelfstandig of in tweetallen
+        </div>
+        <div class="meta-item">
+          <strong>Tool</strong>
+          Google NotebookLM (gratis)
+        </div>
+        <div class="meta-item">
+          <strong>Geschatte duur</strong>
+          60 – 90 minuten
+        </div>
+      </div>
+    </header>
+
+    <!-- Download Bundle Card -->
+    <div class="download-bundle-card">
+      <div class="download-bundle-text">
+        <h3>📦 Download de 5 Bron-PDF's in één klik</h3>
+        <p>Voorkom web-blokkades: sleep deze 5 PDF-documenten rechtstreeks in je eigen NotebookLM.</p>
+      </div>
+      <a href="bronnen_notebooklm_bundel.zip" download class="btn-zip-download">
+        ⬇️ Download ZIP-bundel (42 KB)
+      </a>
+    </div>
+
+    <!-- Leerdoelen -->
+    <div class="section-card">
+      <h2>🎯 Leerdoelen</h2>
+      <p>Na het afronden van deze opdracht kun je:</p>
+      <ol>
+        <li>Een eigen <strong>brongestuurde AI-kennisbank</strong> (notebook) opzetten met meerdere externe documenten.</li>
+        <li>Begrijpen hoe <em>grounding</em> (RAG) werkt en hoe brongestuurde AI hallucinaties effectief voorkomt.</li>
+        <li>Complexe, botsende standpunten van AI-leiders systematisch analyseren, categoriseren en vergelijken.</li>
+        <li>De <strong>inline citaten en voetnoten</strong> van NotebookLM verifiëren tegenover de originele tekst.</li>
+      </ol>
+    </div>
+
+    <!-- De 5 Bronnen -->
+    <div class="section-card">
+      <h2>📚 De 5 Bronnen</h2>
+      <p>De onderstaande essays en toespraken vormen het fundament van je onderzoek. Je kunt ze los bekijken/downloaden of de gezamenlijke ZIP-bundel hierboven gebruiken:</p>
+      
+      <div class="sources-grid">
+        
+        <!-- Bron 1 -->
+        <div class="source-card">
+          <div class="source-header">
+            <div class="source-author">Anthropic • Dario Amodei (CEO)</div>
+            <div class="source-title">We Must Pace the Frontier</div>
+            <div class="source-focus">Focus: Verantwoord tempo, nationale veiligheid, biosecurity en gecontroleerde schaling.</div>
+          </div>
+          <div class="source-footer">
+            <a href="bronnen/1_Dario_Amodei_We_Must_Pace_the_Frontier.pdf" target="_blank" class="btn-download-pdf">📄 Open PDF (7p)</a>
+          </div>
+        </div>
+
+        <!-- Bron 2 -->
+        <div class="source-card">
+          <div class="source-header">
+            <div class="source-author">Microsoft • Bill Gates (Medeoprichter)</div>
+            <div class="source-title">A Turbulent AI Era & Critical Choices</div>
+            <div class="source-focus">Focus: Maatschappelijke baten, armoedebestrijding, mondiale gezondheid en onderwijs.</div>
+          </div>
+          <div class="source-footer">
+            <a href="bronnen/2_Bill_Gates_A_Turbulent_AI_Era.pdf" target="_blank" class="btn-download-pdf">📄 Open PDF (2p)</a>
+          </div>
+        </div>
+
+        <!-- Bron 3 -->
+        <div class="source-card">
+          <div class="source-header">
+            <div class="source-author">OpenAI • Jakub Pachocki (Chief Scientist)</div>
+            <div class="source-title">An Alien Mind</div>
+            <div class="source-focus">Focus: De filosofische aard van synthetische intelligentie, redeneren en onvoorspelbaarheid.</div>
+          </div>
+          <div class="source-footer">
+            <a href="bronnen/3_Jakub_Pachocki_An_Alien_Mind.pdf" target="_blank" class="btn-download-pdf">📄 Open PDF (2p)</a>
+          </div>
+        </div>
+
+        <!-- Bron 4 -->
+        <div class="source-card">
+          <div class="source-header">
+            <div class="source-author">OpenAI • Sam Altman & Jakub Pachocki</div>
+            <div class="source-title">Built to Benefit Everyone: Our Plan</div>
+            <div class="source-focus">Focus: De roadmap naar AGI, economische herverdeling en inclusieve wereldwijde toegang.</div>
+          </div>
+          <div class="source-footer">
+            <a href="bronnen/4_Sam_Altman_Jakub_Pachocki_Built_to_Benefit_Everyone.pdf" target="_blank" class="btn-download-pdf">📄 Open PDF (2p)</a>
+          </div>
+        </div>
+
+        <!-- Bron 5 -->
+        <div class="source-card">
+          <div class="source-header">
+            <div class="source-author">Meta • Mark Zuckerberg (CEO)</div>
+            <div class="source-title">The Future is for Everyone</div>
+            <div class="source-focus">Focus: Open-source AI (Llama) als breekijzer tegen monopolies en gesloten machtsblokken.</div>
+          </div>
+          <div class="source-footer">
+            <a href="bronnen/5_Mark_Zuckerberg_The_Future_is_for_Everyone.pdf" target="_blank" class="btn-download-pdf">📄 Open PDF (12p)</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Stap 1: Opzetten -->
+    <div class="section-card">
+      <h2>🛠️ Stap 1: Je NotebookLM Kennisbank Opzetten</h2>
+      <ol>
+        <li>Open <strong><a href="https://notebooklm.google.com/" target="_blank" rel="noopener">Google NotebookLM</a></strong> in je browser en meld je aan met je Google-account.</li>
+        <li>Klik op <strong>+ New Notebook</strong> (Nieuw notitieblok) en geef het project de naam: <code>Onderzoek AI-Titanen</code>.</li>
+        <li>Voeg de 5 bronnen toe:
+          <ul>
+            <li>Pak de uitgepakte map met de 5 PDF-bestanden erbij.</li>
+            <li>Sleep alle 5 PDF's simpelweg in één keer naar het venster van NotebookLM (drag & drop).</li>
+            <li>NotebookLM verwerkt de documenten binnen enkele seconden.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="callout">
+        💡 <strong>Taaltip:</strong> Hoewel alle bronnen Engelstalig zijn, beantwoordt NotebookLM al je vragen vloeiend in het <strong>Nederlands</strong>. Je hoeft je prompts dus niet in het Engels te vertalen!
+      </div>
+
+      <a href="https://notebooklm.google.com/" target="_blank" rel="noopener" class="btn-notebooklm">
+        🚀 Ga direct naar Google NotebookLM ↗
+      </a>
+    </div>
+
+    <!-- Stap 2: Analyse Prompts -->
+    <div class="section-card">
+      <h2>🔍 Stap 2: Analyse & Vergelijking (Kopieerbare Prompts)</h2>
+      <p>Gebruik onderstaande prompts in de chatbalk onderaan in NotebookLM om de documenten te bevragen.</p>
+
+      <h3>2A: De Grote Vergelijkingstabel</h3>
+      <p>Start met een overzichtelijke synthese over alle vijf auteurs tegelijk:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag">PROMPT 1 • SYNTHESE</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt1')">📋 Kopieer prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt1">Maak een overzichtelijke markdown-tabel waarin je de visies van de auteurs vergelijkt op basis van:
+1. De grootste belofte / kans van AI
+2. Het grootste risico of gevaar
+3. De aanpak van innovatie (bijv. open source vs. gesloten / versnellen vs. temporiseren)
+4. De rol van overheden en regulering</div>
+      </div>
+
+      <h3>2B: Diepte-interviews & Botsende Visies</h3>
+      <p>Voer daarna deze gerichte verdiepingsvragen in:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag">PROMPT 2 • OPEN VS GESLOTEN</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt2')">📋 Kopieer prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt2">Zet de filosofie van Mark Zuckerberg (Meta) over open-source AI lijnrecht tegenover de visie van Dario Amodei (Anthropic). Waar botsen hun argumenten het scherpst en waarom wantrouwt Amodei het ongecontroleerd vrijgeven van grensverleggende modellen?</div>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag">PROMPT 3 • TEMPO & VEILIGHEID</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt3')">📋 Kopieer prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt3">Wat bedoelt Dario Amodei met 'pacing the frontier' en hoe verschilt dit van het optimistische groeipad dat Sam Altman en Jakub Pachocki presenteren in 'Built to benefit everyone'?</div>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag">PROMPT 4 • DE AARD VAN AI</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt4')">📋 Kopieer prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt4">Wat bedoelt Jakub Pachocki als hij AI omschrijft als een 'alien mind'? Hoe verhoudt die filosofische verwondering zich tot de praktische maatschappelijke insteek van Bill Gates?</div>
+      </div>
+    </div>
+
+    <!-- Stap 3: De Broncheck -->
+    <div class="section-card">
+      <h2>🕵️‍♂️ Stap 3: De Feiten- en Broncheck</h2>
+      <p>NotebookLM plaatst achter beweringen kleine grijze cijfertjes (voetnoten). Dit is de essentie van betrouwbare AI:</p>
+      <ol>
+        <li>Klik bij ten minste <strong>twee antwoorden</strong> op een cijfer/voetnoot.</li>
+        <li>Het venster springt links automatisch naar het exacte citaat in het originele document.</li>
+        <li>Beoordeel zelf:
+          <ul>
+            <li>Heeft de AI de strekking en nuance van de auteur correct overgenomen?</li>
+            <li>Of is er sprake van te veel versimpeling of uit zijn verband getrokken tekst?</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Stap 4: Audio Overview of Debat -->
+    <div class="section-card">
+      <h2>🎧 Stap 4: Creatieve Synthese (Kies één)</h2>
+      <p>Kies één van onderstaande werkvormen om de opdracht af te ronden:</p>
+
+      <ul>
+        <li>
+          <strong>Optie A: De 'Audio Overview' (AI-Podcast):</strong><br>
+          Klik rechtsboven in NotebookLM op de knop <em>Generate</em> bij <strong>Audio Overview</strong>. Er wordt een levendige Engelse dialoog gegenereerd tussen twee virtuele podcast-hosts die jouw documenten bespreken. Luister 5 minuten en noteer hoe zij de spanning tussen Amodei en Zuckerberg duiden.
+        </li>
+        <li style="margin-top: 1rem;">
+          <strong>Optie B: Fictief Rondetafelgesprek (Paneldebat):</strong><br>
+          Laat NotebookLM een dialoog schrijven met de onderstaande prompt:
+        </li>
+      </ul>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-tag">PROMPT 5 • PANELDEBAT</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt5')">📋 Kopieer prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt5">Schrijf een levendige dialoog van een fictieve paneldiscussie onder leiding van een scherpe moderator, waarin Sam Altman, Dario Amodei, Bill Gates en Mark Zuckerberg met elkaar in debat gaan over de stelling: 'Het openbaar vrijgeven van de gewichten van grensverleggende AI-modellen is een onverantwoord veiligheidsrisico voor de mensheid.' Laat elk personage trouw blijven aan zijn eigen geschreven standpunten en argumenten.</div>
+      </div>
+    </div>
+
+    <!-- Afronding -->
+    <div class="section-card">
+      <h2>📝 Reflectie & Inleveren</h2>
+      <p>Beantwoord voor jezelf (of neem mee naar Les 2):</p>
+      <ol>
+        <li><strong>Jouw eigen standpunt:</strong> Met welke van de vijf auteurs ben je het na deze grondige analyse het meest eens? Wie heeft volgens jou de meest realistische kijk op de toekomst?</li>
+        <li><strong>AI-ervaring:</strong> Wat is het belangrijkste verschil dat je hebt ervaren tussen een 'kale' chatbot (zoals standaard ChatGPT) en een brongestuurde AI-omgeving zoals NotebookLM?</li>
+      </ol>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Jan Martin Jansen • Cursus "Aan de slag met AI" (MM2704) • School 7, Den Helder</p>
+    </footer>
+
+  </div>
+
+  <script>
+    function copyPrompt(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✅ Gekopieerd!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        alert('Kopiëren mislukt. Selecteer de tekst handmatig.');
+      });
+    }
+  </script>
+</body>
+</html>
