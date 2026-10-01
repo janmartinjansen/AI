@@ -145,6 +145,48 @@
       border-color: #cbd5e1;
     }
 
+    .lesson-card.active-lesson {
+      border: 2px solid var(--accent-blue);
+      background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 100%);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .lesson-card.active-lesson:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 34px -4px rgba(37, 99, 235, 0.18);
+      border-color: #1d4ed8;
+    }
+
+    .btn-lesson-nav {
+      margin-top: auto;
+      padding-top: 1.2rem;
+    }
+
+    .btn-lesson-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--accent-blue);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 10px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-lesson-primary:hover {
+      background: #1d4ed8;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+    }
+
     .lesson-badge {
       font-size: 0.8rem;
       font-weight: 700;
@@ -219,10 +261,184 @@
       color: var(--text-muted);
     }
 
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 2.2rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      text-align: center;
+      animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0.94); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.2rem;
+      background: transparent;
+      border: none;
+      font-size: 1.3rem;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      border-radius: 6px;
+      transition: color 0.15s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: #0f172a;
+    }
+
+    .modal-icon {
+      width: 56px;
+      height: 56px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-subtitle {
+      font-size: 0.92rem;
+      color: #64748b;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-align: center;
+      text-transform: uppercase;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      color: #0f172a;
+      background: #f8fafc;
+      transition: all 0.2s ease;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .input-group input:focus {
+      border-color: var(--accent-blue);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .modal-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1.2rem;
+    }
+
+    .btn-modal-primary {
+      flex: 2;
+      background: var(--accent-blue);
+      color: #ffffff;
+      border: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-modal-primary:hover {
+      background: #1d4ed8;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-modal-secondary {
+      flex: 1;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 12px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-modal-secondary:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .modal-hint {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
     @media (max-width: 680px) {
       h1 { font-size: 2.2rem; }
       body { padding: 2.5rem 1rem 2rem 1rem; }
       .practical-card { padding: 1.5rem; }
+      .modal-card { padding: 1.8rem 1.4rem; }
     }
   </style>
 </head>
@@ -248,16 +464,24 @@
     <div class="lessons-grid">
       
       <!-- Les 1 -->
-      <div class="lesson-card">
-        <div class="lesson-badge">Les 1</div>
+      <div class="lesson-card active-lesson" onclick="checkAccessAndNavigate(event, 'les1/index.html')">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <div class="lesson-badge">Les 1</div>
+          <span style="font-size: 0.75rem; font-weight: 700; background: #dbeafe; color: #1e40af; padding: 3px 10px; border-radius: 999px;">Nu beschikbaar</span>
+        </div>
         <h3>✍️ De Slimme Schrijver & Prompting</h3>
         <p>We starten met de basisprincipes van grote taalmodellen en ontdekken de kunst van effectief vragen stellen (prompting).</p>
         <ul>
           <li>Werken met ChatGPT, Gemini en Copilot</li>
-          <li>Brieven, e-mails en teksten redigeren</li>
+          <li>Prompten volgens de RCTK-methode</li>
           <li>Lange artikelen en verslagen samenvatten</li>
           <li>Creatief brainstormen & persona-prompts</li>
         </ul>
+        <div class="btn-lesson-nav">
+          <button type="button" class="btn-lesson-primary" onclick="checkAccessAndNavigate(event, 'les1/index.html')">
+            Naar Les 1 (Presentatie & Opdrachten) →
+          </button>
+        </div>
       </div>
 
       <!-- Les 2 -->
@@ -268,21 +492,34 @@
         <ul>
           <li>Afbeeldingen genereren vanuit tekst</li>
           <li>Foto's bewerken en stijlen toepassen</li>
-          <li>Vision: foto's uploaden en laten analyseren</li>
-          <li>Herkennen van planten, objecten & documenten</li>
+          <li>AI laten meekijken met camera of upload</li>
+          <li>Praktische toepassingen voor ontwerp</li>
         </ul>
       </div>
 
       <!-- Les 3 -->
       <div class="lesson-card">
         <div class="lesson-badge">Les 3</div>
-        <h3>🤖 Persoonlijke Assistent & Betrouwbaarheid</h3>
-        <p>Laat AI voor je plannen en ontdek hoe je veilig en kritisch omgaat met de resultaten.</p>
+        <h3>📊 Data, Documenten & Werk Slimmer</h3>
+        <p>Zet AI in voor je administratie, data-analyse en het doorzoeken van grote documenten.</p>
         <ul>
-          <li>Dag-, week- en vakantieplanningen maken</li>
-          <li>AI als sparringpartner en denk-assistent</li>
-          <li>Factchecken & omgaan met hallucinaties</li>
-          <li>Privacy, veiligheid & deepfakes herkennen</li>
+          <li>PDF's en rapporten laten analyseren</li>
+          <li>Excel-tabellen en gegevens verwerken</li>
+          <li>Slimme e-mailassistenten inrichten</li>
+          <li>Google NotebookLM & gepersonaliseerde bronnen</li>
+        </ul>
+      </div>
+
+      <!-- Les 4 -->
+      <div class="lesson-card">
+        <div class="lesson-badge">Les 4</div>
+        <h3>🚀 Geavanceerd, Maatschappij & Jouw Toekomst</h3>
+        <p>Kijk vooruit naar de impact van AI, privacy, agents en wat dit voor jou betekent.</p>
+        <ul>
+          <li>Autonome AI-agents & automatisering</li>
+          <li>Privacy, ethiek en auteursrecht</li>
+          <li>Kritisch beoordelen van AI-uitkomsten</li>
+          <li>Persoonlijk actieplan na de cursus</li>
         </ul>
       </div>
 
@@ -290,17 +527,154 @@
 
     <!-- Praktische Informatie -->
     <div class="practical-card">
-      <h3>💡 Praktische Informatie & Voorbereiding</h3>
-      <p>In tegenstelling tot puur theoretische lezingen gaan we tijdens deze cursus <strong>actief zelf aan de slag</strong> met de tools. Neem daarom naar elke bijeenkomst je <strong>eigen laptop of tablet</strong> mee (en zorg dat deze opgeladen is).</p>
-      <p>Je hebt geen technische voorkennis of programmeervaardigheden nodig. Een nieuwsgierige houding en digitale basisvaardigheden zijn voldoende!</p>
+      <h3>ℹ️ Praktische Informatie & Voorbereiding</h3>
+      <p>
+        <strong>Locatie:</strong> School 7 (Bibliotheek Den Helder), Keizersgracht 94, Den Helder.<br>
+        <strong>Benodigdheden:</strong> Neem een eigen opgeladen laptop of tablet mee.
+      </p>
+      <p>
+        <strong>Accounts vooraf:</strong> Zorg dat je voor aanvang toegang hebt tot ten minste één gratis AI-account (zoals een gratis Google-account voor Gemini, of een gratis OpenAI-account voor ChatGPT).
+      </p>
     </div>
 
     <!-- Footer -->
     <footer>
-      <p>© 2026 Jan Martin Jansen • Cursus "Aan de slag met AI" (MM2704) • School 7, Den Helder</p>
+      <p>© 2026 Jan Martin Jansen • Praktijkcursus "Aan de slag met AI" (MM2704) • School 7, Den Helder</p>
     </footer>
 
   </div>
+
+  <!-- Modal Cursuscode -->
+  <div id="codeModalOverlay" class="modal-overlay" style="display: none;" onclick="closeModalOnOutside(event)">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeAccessModal()" aria-label="Sluiten">✕</button>
+      <div class="modal-icon">🔐</div>
+      <h3 class="modal-title">Toegang tot de Cursuslessen</h3>
+      <p class="modal-subtitle">
+        De lessen en opdrachten zijn exclusief toegankelijk voor cursisten van School 7. Voer hieronder de cursuscode in:
+      </p>
+
+      <form id="codeForm" onsubmit="submitAccessCode(event)">
+        <div class="input-group">
+          <input 
+            type="text" 
+            id="cursusCodeInput" 
+            placeholder="Bijv. AI2026" 
+            autocomplete="off" 
+            autocorrect="off" 
+            autocapitalize="characters" 
+            spellcheck="false"
+            required
+          />
+        </div>
+        <div id="codeError" class="modal-error" style="display: none;">
+          ⚠️ Onjuiste cursuscode. Controleer de code in je e-mail of vraag het aan de docent.
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-secondary" onclick="closeAccessModal()">Annuleren</button>
+          <button type="submit" class="btn-modal-primary">Ontgrendelen & Naar Les 1 →</button>
+        </div>
+      </form>
+
+      <p class="modal-hint">
+        💡 <em>Na het eenmalig invoeren onthoudt deze browser je toegang automatisch!</em>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const ACCESS_CODE = "AI2026";
+    const STORAGE_KEY = "school7_ai_access";
+    let pendingUrl = "les1/index.html";
+
+    function isAccessGranted() {
+      try {
+        return (localStorage.getItem(STORAGE_KEY) || "").trim().toUpperCase() === ACCESS_CODE;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function checkAccessAndNavigate(event, targetUrl) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      pendingUrl = targetUrl || "les1/index.html";
+      
+      if (isAccessGranted()) {
+        window.location.href = pendingUrl;
+      } else {
+        openAccessModal();
+      }
+    }
+
+    function openAccessModal() {
+      const modal = document.getElementById("codeModalOverlay");
+      const input = document.getElementById("cursusCodeInput");
+      const errorDiv = document.getElementById("codeError");
+      if (errorDiv) errorDiv.style.display = "none";
+      if (modal) modal.style.display = "flex";
+      setTimeout(() => { 
+        if (input) { 
+          input.value = ""; 
+          input.focus(); 
+        } 
+      }, 60);
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeAccessModal() {
+      const modal = document.getElementById("codeModalOverlay");
+      if (modal) modal.style.display = "none";
+      document.body.style.overflow = "";
+    }
+
+    function closeModalOnOutside(event) {
+      if (event.target.id === "codeModalOverlay") {
+        closeAccessModal();
+      }
+    }
+
+    function submitAccessCode(event) {
+      if (event) event.preventDefault();
+      const input = document.getElementById("cursusCodeInput");
+      const errorDiv = document.getElementById("codeError");
+      const enteredCode = (input ? input.value : "").trim().toUpperCase();
+
+      if (enteredCode === ACCESS_CODE) {
+        try {
+          localStorage.setItem(STORAGE_KEY, ACCESS_CODE);
+        } catch (e) {}
+        closeAccessModal();
+        window.location.href = pendingUrl;
+      } else {
+        if (errorDiv) {
+          errorDiv.style.display = "block";
+        }
+        if (input) {
+          input.focus();
+          input.select();
+        }
+      }
+    }
+
+    // Auto-detect code uit URL query param (?code=AI2026 of ?toegang=AI2026)
+    (function checkUrlParam() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const code = (params.get("code") || params.get("toegang") || "").trim().toUpperCase();
+        if (code === ACCESS_CODE) {
+          localStorage.setItem(STORAGE_KEY, ACCESS_CODE);
+        }
+      } catch (e) {}
+    })();
+
+    // Sluit modal met Escape-toets
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") closeAccessModal();
+    });
+  </script>
 
 </body>
 </html>
