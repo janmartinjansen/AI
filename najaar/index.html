@@ -559,7 +559,7 @@
           <input 
             type="text" 
             id="cursusCodeInput" 
-            placeholder="Bijv. AI2026" 
+            placeholder="Voer cursuscode in..." 
             autocomplete="off" 
             autocorrect="off" 
             autocapitalize="characters" 
@@ -659,7 +659,7 @@
       }
     }
 
-    // Auto-detect code uit URL query param (?code=AI2026 of ?toegang=AI2026)
+    // Auto-detect code uit URL query param (bijv. ?code=... of ?toegang=...)
     (function checkUrlParam() {
       try {
         const params = new URLSearchParams(window.location.search);

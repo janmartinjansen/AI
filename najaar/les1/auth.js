@@ -1,12 +1,11 @@
 /**
  * Cursus Toegangsbeveiliging (School 7 - Aan de slag met AI)
- * Code: AI2026
  */
 (function () {
   const ACCESS_CODE = "AI2026";
   const STORAGE_KEY = "school7_ai_access";
 
-  // Controleer of er een code in de URL staat (bijv. ?code=AI2026 of ?toegang=AI2026)
+  // Controleer of er een code in de URL staat (bijv. ?code=... of ?toegang=...)
   try {
     const params = new URLSearchParams(window.location.search);
     const paramCode = (params.get("code") || params.get("toegang") || "").trim().toUpperCase();
@@ -122,7 +121,7 @@
           <input 
             type="text" 
             id="auth-code-input" 
-            placeholder="Bijv. AI2026" 
+            placeholder="Voer cursuscode in..." 
             autocomplete="off" 
             autocorrect="off" 
             autocapitalize="characters" 
