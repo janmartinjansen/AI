@@ -18,6 +18,8 @@
 
 // Basisinformatie en URL van het intakeformulier
 const BASE_INTAKE_URL = "https://janmartinjansen.github.io/AI/najaar/intake.html";
+const BASE_LES1_URL = "https://janmartinjansen.github.io/AI/najaar/les1/?code=AI2026";
+const ACCESS_CODE_VAL = "AI2026";
 const SHEET_NAME_DEELNEMERS = "Deelnemers";
 const SHEET_NAME_ANTWOORDEN = "Intake Antwoorden";
 const SHEET_NAME_BERICHTEN = "Berichten";
@@ -291,7 +293,7 @@ function setupMessagesSheet() {
 
     // Uitleg tags
     sheet.getRange("A8").setValue("Beschikbare tags:").setFontWeight("bold").setFontColor("#64748b");
-    sheet.getRange("B8").setValue("{voornaam} = Voornaam | {naam} = Volledige naam | {link} = Intakelink | {nummer} = Inschrijfnummer")
+    sheet.getRange("B8").setValue("{voornaam} = Voornaam | {les1} = Link Les 1 (auto-login) | {code} = Code (AI2026) | {link} = Intakelink")
       .setFontColor("#64748b").setFontStyle("italic");
 
     sheet.setColumnWidth(1, 150);
@@ -424,6 +426,9 @@ function processCustomMessage(isDraftOnly) {
       .replace(/{voornaam}/gi, voornaam)
       .replace(/{naam}/gi, deelnemer || voornaam)
       .replace(/{link}/gi, link)
+      .replace(/{les1}/gi, BASE_LES1_URL)
+      .replace(/{les1link}/gi, BASE_LES1_URL)
+      .replace(/{code}/gi, ACCESS_CODE_VAL)
       .replace(/{nummer}/gi, id);
 
     const htmlBodyFormatted = formatPlainTextToHtml(personalizedPlain);
