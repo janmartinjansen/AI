@@ -477,6 +477,25 @@
           <li>Lange artikelen en verslagen samenvatten</li>
           <li>Creatief brainstormen & persona-prompts</li>
         </ul>
+
+        <!-- Gesproken Audio-overzicht Les 1 -->
+        <div class="audio-summary-card" onclick="event.stopPropagation()" style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 0.85rem 1rem; margin-top: 1rem; margin-bottom: 0.5rem; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.06);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;">
+            <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.85rem; color: #1e40af;">
+              <span>🎙️ Gesproken overzicht</span>
+              <span style="font-size: 0.75rem; font-weight: 600; color: #64748b;">(12 min)</span>
+            </div>
+            <a href="audio/gesproken_overzicht_les1.mp3" download="AI_waarschijnlijkheidsmachine_Les1.mp3" onclick="event.stopPropagation()" style="font-size: 0.75rem; color: #2563eb; text-decoration: none; font-weight: 600;" title="Download MP3">⬇️ Download</a>
+          </div>
+          <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.5rem; line-height: 1.35;">
+            <em>"AI is een hyperkrachtige waarschijnlijkheidsmachine"</em>
+          </div>
+          <audio controls preload="metadata" onclick="event.stopPropagation()" style="width: 100%; height: 34px; outline: none; border-radius: 6px;">
+            <source src="audio/gesproken_overzicht_les1.mp3" type="audio/mpeg">
+            Je browser ondersteunt deze audiospeler niet.
+          </audio>
+        </div>
+
         <div class="btn-lesson-nav">
           <button type="button" class="btn-lesson-primary" onclick="checkAccessAndNavigate(event, 'les1/index.html')">
             Naar Les 1 (Presentatie & Opdrachten) →
@@ -484,29 +503,42 @@
         </div>
       </div>
 
-      <!-- Les 2 -->
+      <!-- Les 2 (Morgen activeren: class="active-lesson" onclick="checkAccessAndNavigate(event, 'les2/index.html')" toevoegen) -->
       <div class="lesson-card">
-        <div class="lesson-badge">Les 2</div>
-        <h3>🎨 Beeld, Ontwerp & Kijken met AI</h3>
-        <p>Ontdek de visuele en multimodale mogelijkheden van moderne AI-systemen.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <div class="lesson-badge">Les 2</div>
+          <span style="font-size: 0.75rem; font-weight: 700; background: #f1f5f9; color: #64748b; padding: 3px 10px; border-radius: 999px;">Binnenkort beschikbaar</span>
+        </div>
+        <h3>🎨 Beeld, Fotobewerking & Kijken met AI</h3>
+        <p>Ontdek stap voor stap de visuele mogelijkheden van AI en leer hoe je eigen foto's verbetert met behoud van gezichten.</p>
         <ul>
-          <li>Afbeeldingen genereren vanuit tekst</li>
-          <li>Foto's bewerken en stijlen toepassen</li>
-          <li>AI laten meekijken met camera of upload</li>
-          <li>Praktische toepassingen voor ontwerp</li>
+          <li>Afbeeldingen maken met de 4 bouwstenen</li>
+          <li>Foto's verbeteren & dingen toevoegen (Gezicht-op-Slot)</li>
+          <li>AI laten meekijken (menukaart & kamerplant)</li>
+          <li>Extra verdieping: Offline notuleren met Whisper</li>
         </ul>
+        <!-- Morgen aanzetten:
+        <div class="btn-lesson-nav">
+          <button type="button" class="btn-lesson-primary" onclick="checkAccessAndNavigate(event, 'les2/index.html')">
+            Naar Les 2 (Presentatie & Opdrachten) →
+          </button>
+        </div>
+        -->
       </div>
 
       <!-- Les 3 -->
       <div class="lesson-card">
-        <div class="lesson-badge">Les 3</div>
-        <h3>🤖 Persoonlijke Assistent & Betrouwbaarheid</h3>
-        <p>Laat AI voor je plannen en ontdek hoe je veilig en kritisch omgaat met de resultaten.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <div class="lesson-badge">Les 3</div>
+          <span style="font-size: 0.75rem; font-weight: 700; background: #f1f5f9; color: #64748b; padding: 3px 10px; border-radius: 999px;">In voorbereiding</span>
+        </div>
+        <h3>🤖 Persoonlijke Assistent, Agenten & Betrouwbaarheid</h3>
+        <p>Van slimme assistent tot zelfstandige AI-agent: ontdek hoe je AI veilig voor je laat plannen en werken.</p>
         <ul>
-          <li>Dag-, week- en vakantieplanningen maken</li>
-          <li>AI als sparringpartner en denk-assistent</li>
-          <li>Factchecken & omgaan met hallucinaties</li>
-          <li>Privacy, veiligheid & deepfakes herkennen</li>
+          <li>Wat zijn AI-agenten? (Van <em>Clippy</em> tot reisagent)</li>
+          <li>Het <em>Koning Midas</em>-probleem & digitale contracten</li>
+          <li>AI als persoonlijke planner en denk-assistent</li>
+          <li>Veiligheid, regie & <em>Question Zero</em></li>
         </ul>
       </div>
     </div>

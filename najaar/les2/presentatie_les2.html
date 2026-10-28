@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Les 2: Beeld, Fotobewerking & Kijken met AI | Jan Martin Jansen</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="auth.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.75);
+      --card-border: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-body: #cbd5e1;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(192, 132, 252, 0.12) 0px, transparent 50%);
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 14px;
+      left: 24px;
+      z-index: 100;
+    }
+
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s;
+    }
+
+    .back-pill:hover {
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+    }
+
+    .slide-deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      width: 95%;
+      max-width: 1300px;
+      height: 88%;
+      max-height: 820px;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 2rem 2.6rem;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .slide-header {
+      margin-bottom: 1.2rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.6rem;
+    }
+
+    .tag-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .tag-purple { background: rgba(192, 132, 252, 0.15); color: var(--accent-purple); border: 1px solid rgba(192, 132, 252, 0.3); }
+    .tag-green { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); border: 1px solid rgba(52, 211, 153, 0.3); }
+    .tag-amber { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+    .tag-rose { background: rgba(251, 113, 133, 0.15); color: var(--accent-rose); border: 1px solid rgba(251, 113, 133, 0.3); }
+
+    .slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+
+    .slide-subtitle {
+      font-size: 1.18rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .slide-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      flex: 1;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      flex: 1;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      flex: 1;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .card.border-cyan { border-color: rgba(56, 189, 248, 0.65); }
+    .card.border-green { border-color: rgba(52, 211, 153, 0.65); }
+    .card.border-purple { border-color: rgba(192, 132, 252, 0.65); }
+    .card.border-amber { border-color: rgba(251, 191, 36, 0.65); }
+    .card.border-rose { border-color: rgba(251, 113, 133, 0.65); }
+
+    .card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card p {
+      font-size: 1.14rem;
+      color: var(--text-body);
+      line-height: 1.55;
+      margin-bottom: 8px;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .card li {
+      font-size: 1.12rem;
+      color: var(--text-body);
+      line-height: 1.5;
+      margin-bottom: 8px;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .card li::before {
+      content: "•";
+      color: var(--accent-cyan);
+      font-weight: bold;
+      font-size: 1.3rem;
+      position: absolute;
+      left: 0;
+    }
+
+    .card.border-green li::before { color: var(--accent-green); }
+    .card.border-rose li::before { color: var(--accent-rose); }
+    .card.border-amber li::before { color: var(--accent-amber); }
+    .card.border-purple li::before { color: var(--accent-purple); }
+
+    .prompt-box {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 1.12rem;
+      color: #e2e8f0;
+      line-height: 1.55;
+      margin-top: 8px;
+    }
+
+    .prompt-box strong {
+      color: var(--accent-cyan);
+    }
+
+    .banner {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1.5px solid var(--accent-cyan);
+      border-radius: 12px;
+      padding: 12px 18px;
+      margin-top: 14px;
+    }
+
+    .banner.cyan { border-color: var(--accent-cyan); }
+    .banner.amber { border-color: var(--accent-amber); }
+    .banner.green { border-color: var(--accent-green); }
+    .banner.purple { border-color: var(--accent-purple); }
+    .banner.rose { border-color: var(--accent-rose); }
+
+    .banner h4 {
+      font-size: 1.18rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .banner.cyan h4 { color: var(--accent-cyan); }
+    .banner.amber h4 { color: var(--accent-amber); }
+    .banner.green h4 { color: var(--accent-green); }
+    .banner.purple h4 { color: var(--accent-purple); }
+    .banner.rose h4 { color: var(--accent-rose); }
+
+    .banner p {
+      font-size: 1.1rem;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .step-row {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .step-num {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Bottom Controls */
+    .controls {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 18px;
+      border-radius: 9999px;
+      backdrop-filter: blur(16px);
+      z-index: 100;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .controls button {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .controls button:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .slide-counter {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 65px;
+      text-align: center;
+    }
+
+    .btn-notes {
+      border: 1px solid rgba(56, 189, 248, 0.3) !important;
+      color: var(--accent-cyan) !important;
+    }
+
+    .btn-notes.active {
+      background: var(--accent-cyan) !important;
+      color: #0f172a !important;
+    }
+
+    .notes-drawer {
+      position: fixed;
+      bottom: 75px;
+      right: 25px;
+      width: 440px;
+      max-height: 300px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 14px;
+      padding: 16px 20px;
+      overflow-y: auto;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      z-index: 99;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    .notes-drawer.open {
+      display: block;
+    }
+
+    .notes-drawer h5 {
+      color: var(--accent-cyan);
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+      .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
+      .slide { padding: 1.5rem; }
+      .slide-title { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="index.html" class="back-pill">← Terug naar Les 2 Overzicht</a>
+  </div>
+
+  <div class="slide-deck">
+
+    <!-- DIA 1: Welkom & Overzicht Les 2 -->
+    <div class="slide active" id="slide-1" data-notes="WELKOM BIJ LES 2:
+- Heet iedereen van harte welkom terug.
+- We beginnen met een korte terugblik op Les 1 en het NotebookLM-huiswerk (Strijd der Titanen).
+- Daarna duiken we in de visuele kant van AI: plaatjes maken, eigen foto's verbeteren zonder dat gezichten veranderen, én AI laten meekijken met je camera.
+- Vandaag houden we het extra praktisch, rustig en stap-voor-stap ('knop voor knop').">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🎨 AAN DE SLAG MET AI • LES 2</span>
+        <h1 class="slide-title">Beeld, Fotobewerking & 'Kijken' met AI</h1>
+        <p class="slide-subtitle">Praktisch en stap-voor-stap aan de slag met afbeeldingen en foto's op je laptop of iPad</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-cyan">
+            <h3>🖌️ 1. Nieuw Beeld Maken</h3>
+            <p>Hoe laat je AI vanuit het niets een mooie afbeelding, illustratie of verjaardagskaart maken met één duidelijke zin?</p>
+          </div>
+          <div class="card border-green">
+            <h3>📸 2. Eigen Foto's Verbeteren</h3>
+            <p>Hoe verbeter je een bestaande foto, haal je iets storends weg of voeg je iets toe — <strong>zónder dat de gezichten veranderen</strong>?</p>
+          </div>
+          <div class="card border-purple">
+            <h3>🔍 3. 'Kijken' met AI</h3>
+            <p>Stuur een foto naar de chatbot en laat hem meedenken: van een buitenlandse menukaart tot een zieke kamerplant.</p>
+          </div>
+        </div>
+        <div class="banner amber">
+          <h4>💡 Onze afspraak voor vandaag: Rustig & Stap-voor-Stap</h4>
+          <p>We starten met een korte terugblik op Les 1 & het huiswerk, en gaan daarna knop-voor-knop met beeld aan de slag!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 2: Terugblik Les 1: De Slimme Schrijver & De Waarschijnlijkheidsmachine -->
+    <div class="slide" id="slide-2" data-notes="TERUGBLIK LES 1 (INLEIDING):
+- Vraag aan de cursisten hoe het ging met oefenen afgelopen week.
+- Herhaal het belangrijkste kerninzicht: AI is geen 'zoekmachine' die feiten opzoekt in een encyclopedie, maar een 'waarschijnlijkheidsmachine' die woord voor woord voorspelt wat het beste past bij jouw opdracht.
+- Sta kort stil bij de RCTK-formule: wie specifieke context en een duidelijke rol meegeeft (bijvoorbeeld 'Reageer als B1-redacteur'), krijgt meteen bruikbare tekst.
+- Belangrijkste vaardigheid: blijf in gesprek! Begin niet telkens opnieuw, maar stuur bij met een korte vervolgzin.">
+      <div class="slide-header">
+        <span class="tag tag-purple">⏪ TERUGBLIK LES 1</span>
+        <h1 class="slide-title">De Slimme Schrijver: Wat leerden we?</h1>
+        <p class="slide-subtitle">Van de fascinerende waarschijnlijkheidsmachine tot de kunst van het bijsturen</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-purple">
+            <h3>🎲 1. Woord voor Woord Voorspellen</h3>
+            <p>AI "denkt" of "weet" niets, maar berekent razendsnel wat statistisch het meest aannemelijke volgende woord is op basis van jouw prompt.</p>
+          </div>
+          <div class="card border-cyan">
+            <h3>🎯 2. De RCTK-Promptformule</h3>
+            <p>Geef richting: <strong>R</strong>ol (wie is de AI?) + <strong>C</strong>ontext (situatie) + <strong>T</strong>aak (de actie) + <strong>K</strong>waliteitseis (lengte, toon, doelgroep).</p>
+          </div>
+          <div class="card border-green">
+            <h3>💬 3. Blijf in Gesprek!</h3>
+            <p>Is het antwoord nog te lang of te formeel? Begin niet opnieuw, maar stuur bij in dezelfde chat: <em>"Maak het korter"</em> of <em>"Zet in een tabel"</em>.</p>
+          </div>
+        </div>
+        <div class="banner purple">
+          <h4>🗣️ Vraag aan de zaal</h4>
+          <p>Wie heeft er afgelopen week al iets praktisch met ChatGPT, Gemini of Copilot uitgeprobeerd (een mail herschreven, notities geordend of iets gevraagd)? Hoe ging dat?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 3: Huiswerk: Google NotebookLM & Brongestuurde AI -->
+    <div class="slide" id="slide-3" data-notes="HUISWERK BESPREKING (NOTEBOOKLM):
+- Vraag wie er in Google NotebookLM is gedoken of de podcast-overzichten heeft beluisterd.
+- Leg het enorme verschil uit tussen een gewone chatbot en NotebookLM: 'Grounding' (bronverankering).
+- Een gewone chatbot zoekt op het hele open internet en gaat bij twijfel 'fantaseren' (hallucineren).
+- NotebookLM is brongestuurd: hij kijkt UITSLUITEND in de documenten (PDF's) die jij uploadt. Staat het er niet in? Dan zegt hij dat eerlijk.
+- Noem de klikbare voetnoten: je kunt direct verifiëren of het citaat echt in de tekst staat.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🏠 HUISWERK LES 1</span>
+        <h1 class="slide-title">Google NotebookLM: Werken met Eigen Bronnen</h1>
+        <p class="slide-subtitle">Geen hallucinaties: hoe AI antwoorden geeft die 100% gegrond zijn in jouw documenten</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-cyan">
+            <h3>📎 1. 100% Brongestuurd (Grounding)</h3>
+            <p>NotebookLM zoekt <strong>uitsluitend in de PDF's</strong> die jij zelf toevoegt. Het model haalt er geen ongecontroleerde informatie van buitenaf bij.</p>
+          </div>
+          <div class="card border-green">
+            <h3>🔢 2. Controle via Voetnoten</h3>
+            <p>Elke bewering in het antwoord heeft kleine cijfertjes <code>[1]</code>, <code>[2]</code>. Eén klik brengt je direct naar de exacte alinea in het originele brondocument.</p>
+          </div>
+          <div class="card border-purple">
+            <h3>🎙️ 3. De Audio-Deepdive ("Podcast")</h3>
+            <p>Twee virtuele AI-stemmen vatten jouw documenten samen in een vlot, natuurlijk klinkend gesprek van 10–15 minuten. Ideaal om onderweg te luisteren!</p>
+          </div>
+        </div>
+        <div class="banner cyan">
+          <h4>💡 De kracht in de praktijk</h4>
+          <p>Ideaal voor verenigingsstatuten, lange beleidsstukken, taaie rapporten of familie-archieven: je praat direct <em>met</em> je documenten zonder dat de AI gaat zweven.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 4: Strijd der AI-Titanen -->
+    <div class="slide" id="slide-4" data-notes="DE STRIJD DER TITANEN (DE GROTE VISIES):
+- Bespreek kort de inhoud van de 5 huiswerk-documenten / de audio over de techleiders.
+- Zelfs de absolute top van Silicon Valley is het oneens over hoe AI zich moet ontwikkelen!
+- Benoem de drie kampen:
+  1. Veiligheid eerst (Amodei / Pachocki): angst voor biosecurity, hacks en verlies van controle.
+  2. Open Source (Zuckerberg): angst voor machtsconcentratie bij 2 of 3 techreuzen.
+  3. De vooruitgangsoptimisten (Altman / Gates): AI als de grote motor voor gezondheid en welvaart.
+- Brug naar Les 2: na al deze theorie en filosofie gaan we vandaag weer lekker met onze eigen handen aan de slag: met beelden, foto's en 'kijken' met AI!">
+      <div class="slide-header">
+        <span class="tag tag-amber">⚔️ STRIJD DER TITANEN</span>
+        <h1 class="slide-title">Vier Visies op de Toekomst van AI</h1>
+        <p class="slide-subtitle">Wat leerden de brondocumenten en de podcast ons over de botsende belangen?</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-amber">
+            <h3>🛡️ 1. De Voorzichtige Pioniers</h3>
+            <p><strong style="color:#fff;">Dario Amodei (Anthropic) & Jakub Pachocki (OpenAI):</strong></p>
+            <p>Pleiten voor gecontroleerd tempo. AI schaalt zó snel dat veiligheid, cyberdreigingen en ethische grenzen vóór winst moeten gaan.</p>
+          </div>
+          <div class="card border-cyan">
+            <h3>🔓 2. De Open Rebel</h3>
+            <p><strong style="color:#fff;">Mark Zuckerberg (Meta):</strong></p>
+            <p>Vindt dat AI nooit het monopolie mag worden van 2 of 3 gesloten techreuzen. Modellen moeten <strong>open source</strong> zijn zodat iedereen ze vrij kan gebruiken.</p>
+          </div>
+          <div class="card border-green">
+            <h3>🚀 3. De Pragmatische Optimisten</h3>
+            <p><strong style="color:#fff;">Sam Altman & Bill Gates:</strong></p>
+            <p>Benadrukken de historische kansen: doorbraken in medische wetenschap, gratis gepersonaliseerd onderwijs en enorme tijdwinst in het dagelijks werk.</p>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>✨ De brug naar vandaag</h4>
+          <p>De techreuzen vechten om de toekomst — maar wij gaan er vandaag zelf mee aan de slag! Van tekst stappen we nu over naar <strong>beelden maken, foto's bewerken en 'kijken' met AI</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 5: Terugblik & De Basisregel van AI -->
+    <div class="slide" id="slide-5" data-notes="TERUGBLIK EN BASISREGEL:
+- In Les 1 zagen we de RCTK-formule voor brieven. Voor alledaags gebruik hoef je echt niet altijd een heel schema in te vullen!
+- De basisregel is simpel: praat tegen de AI zoals tegen een slimme nieuwe hulp die niets van jouw situatie weet.
+- Is het eerste antwoord nog niet helemaal goed? Begin niet opnieuw, maar typ gewoon een korte vervolgzin: 'Maak het iets korter' of 'Maak de kleuren wat warmer'.">
+      <div class="slide-header">
+        <span class="tag tag-amber">🧭 EVEN OPFRISSEN</span>
+        <h1 class="slide-title">Hoe pak je iets eenvoudig en goed aan?</h1>
+        <p class="slide-subtitle">Je hoeft geen programmeur te zijn: 3 simpele vuistregels voor élke opdracht</p>
+      </div>
+      <div class="slide-content">
+        <div class="step-list">
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div>
+              <strong style="color:#fff; font-size:1.22rem;">Vertel altijd kort wát je wilt en waarvóór het is</strong>
+              <p style="color:var(--text-body); font-size:1.12rem; margin-top:3px;">Niet alleen: <em>"Maak een plaatje van een vuurtoren"</em>, maar: <em>"Maak een gezellige aquarel-illustratie van een rode vuurtoren in de duinen voor op een verjaardagskaart."</em></p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div>
+              <strong style="color:#fff; font-size:1.22rem;">Vertel ook wat de AI NIET mag doen (de begrenzing)</strong>
+              <p style="color:var(--text-body); font-size:1.12rem; margin-top:3px;">AI is soms té enthousiast. Zet er gerust bij: <em>"Zonder tekst in het plaatje"</em> of <em>"Verander niets aan de gezichten op mijn foto."</em></p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div>
+              <strong style="color:#fff; font-size:1.22rem;">Zie het als een gesprek: stuur rustig bij!</strong>
+              <p style="color:var(--text-body); font-size:1.12rem; margin-top:3px;">Is het eerste resultaat voor 80% goed? Typ gewoon in hetzelfde scherm: <em>"Mooi, maar maak de lucht iets blauwer en haal het bootje links weg."</em></p>
+            </div>
+          </div>
+        </div>
+        <div class="banner cyan">
+          <h4>🎙️ Tip voor iPad- en tabletgebruikers</h4>
+          <p>Geen zin om lange zinnen te typen op het scherm? Tik op het <strong>microfoontje 🎤</strong> rechtsonder op je schermtoetsenbord en spreek je wens gewoon rustig in!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 6: Knop-voor-Knop: Hoe voeg je een foto toe? -->
+    <div class="slide" id="slide-6" data-notes="KNOP VOOR KNOP UITLEG:
+- Veel cursisten zoeken zich in het begin rot naar het knopje om een foto toe te voegen.
+- Laat dit rustig zien op het grote scherm.
+- Op de laptop/pc klik je linksonder in het tekstvak op het Plusje (+) of Paperclipje.
+- Op de iPad/telefoon heb je een extra voordeel: als je op het Plusje (+) tikt, kun je kiezen voor 'Camera' om direct een foto te maken van wat er voor je op tafel ligt!">
+      <div class="slide-header">
+        <span class="tag tag-green">👆 KNOP-VOOR-KNOP UITLEG</span>
+        <h1 class="slide-title">Waar klik je op om een foto toe te voegen?</h1>
+        <p class="slide-subtitle">In ChatGPT, Google Gemini en Microsoft Copilot werkt het op precies dezelfde plek</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-cyan">
+            <h3>💻 Op een Windows Laptop of MacBook</h3>
+            <ul>
+              <li>Kijk onderin het balkje waar je normaal je vraag typt.</li>
+              <li>Klik links in dat balkje op het <strong>Plusje <code>+</code></strong> (of het paperclipje 📎).</li>
+              <li>Kies <strong>"Foto's en bestanden uploaden"</strong> (of <em>Uploaden vanaf computer</em>).</li>
+              <li>Kies de foto uit je map <em>Afbeeldingen</em> of <em>Downloads</em>.</li>
+              <li><strong>Belangrijk:</strong> Druk nog niet meteen op Enter! Typ eerst eronder wat de AI met de foto moet doen.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <h3>📱 Op een iPad of Android Tablet</h3>
+            <ul>
+              <li>Tik onderin het tekstbalkje op het <strong>Plusje <code>+</code></strong> of het <strong>Camera-icoontje 📷</strong>.</li>
+              <li>Je krijgt nu twee handige keuzes:
+                <br>1. <strong>Fotobibliotheek:</strong> kies een bestaande foto van je iPad.
+                <br>2. <strong>Maak foto / Camera:</strong> maak direct een verse foto van een brief, plant of menukaart!</li>
+              <li>Typ onder het kleine voorbeeldplaatje je vraag en tik op het verzendpijltje.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>💾 En hoe bewaar je een gemaakte AI-foto weer op je eigen apparaat?</h4>
+          <p>Klik op de afbeelding $\rightarrow$ klik rechtsboven op het <strong>Download-pijltje (⬇)</strong> (of houd op de iPad je vinger 2 seconden op de foto en kies <em>'Zet in Foto's'</em>).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 7: Blok 1 - Nieuw beeld maken vanuit tekst -->
+    <div class="slide" id="slide-7" data-notes="BLOK 1: NIEUW BEELD MAKEN (Voor o.a. Elly, Hilda, Sjaan):
+- Als je vanuit het niets een afbeelding wilt maken (bijvoorbeeld voor een kaartje, uitnodiging of clubblad), gebruik je 4 simpele bouwstenen.
+- Lees het verschil voor tussen de kale zin en de rijke zin.
+- Benadruk: je hoeft niet mooi te kunnen schrijven, losse steekwoorden werken ook prima!">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🖌️ BLOK 1 • BEELD GENEREREN</span>
+        <h1 class="slide-title">Een Nieuw Beeld Maken: De 4 Bouwstenen</h1>
+        <p class="slide-subtitle">Hoe vertaal je een idee in je hoofd naar een mooie afbeelding?</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4">
+          <div class="card border-cyan">
+            <h3>1️⃣ Wat zie je? (Het Onderwerp)</h3>
+            <p>Beschrijf wie of wat er op het plaatje staat.</p>
+            <p style="color:var(--accent-cyan); font-size:1.06rem;"><em>Voorbeeld: "Een rode vuurtoren in de duinen van Den Helder met helmgras..."</em></p>
+          </div>
+          <div class="card border-purple">
+            <h3>2️⃣ Welke stijl? (De Uitstraling)</h3>
+            <p>Moet het een echte foto lijken, of juist een schilderij of tekening?</p>
+            <p style="color:var(--accent-purple); font-size:1.06rem;"><em>Voorbeeld: "...als een zacht aquarelschilderij" (of: olieverf, potloodschets, echte natuurfoto)</em></p>
+          </div>
+          <div class="card border-amber">
+            <h3>3️⃣ Welke sfeer & licht?</h3>
+            <p>Het licht bepaalt voor 80% of een plaatje gezellig of kil oogt.</p>
+            <p style="color:var(--accent-amber); font-size:1.06rem;"><em>Voorbeeld: "...in warm gouden avondlicht bij zonsondergang, rustige sfeer"</em></p>
+          </div>
+          <div class="card border-green">
+            <h3>4️⃣ Welke vorm / kader?</h3>
+            <p>Geef aan of je een liggend (breed) of staand plaatje wilt.</p>
+            <p style="color:var(--accent-green); font-size:1.06rem;"><em>Voorbeeld: "...liggend breedbeeld formaat, zonder tekst in de afbeelding."</em></p>
+          </div>
+        </div>
+        <div class="banner cyan">
+          <h4>✨ De complete zin in ChatGPT of Gemini:</h4>
+          <p><em>"Maak een afbeelding van een rode vuurtoren in de duinen met helmgras, in de stijl van een zacht aquarelschilderij, met warm avondlicht bij zonsondergang. Liggend formaat, zonder tekst."</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 8: Blok 2 - De grote vraag van Sjaan: Waarom verandert AI gezichten? -->
+    <div class="slide" id="slide-8" data-notes="DE GROTE VRAAG VAN SJAAN (Gezichten veranderen!):
+- Dit is het belangrijkste leermoment van vandaag, naar aanleiding van de vraag van Sjaan.
+- Veel mensen uploaden een vakantiefoto in een chatbot en typen: 'Maak deze foto zonniger' of 'Zet een hoedje op'. En tot hun schrik krijgen ze een foto terug met twee compleet vreemde mensen!
+- Waarom gebeurt dat? Leg de vergelijking uit tussen een Kunstschilder en een Fotowinkel.">
+      <div class="slide-header">
+        <span class="tag tag-rose">📸 BLOK 2 • EIGEN FOTO'S BEWERKEN</span>
+        <h1 class="slide-title">Waarom verandert AI soms ineens de gezichten?</h1>
+        <p class="slide-subtitle">Een veelvoorkomende verrassing bij het bewerken van familie- en vakantiefoto's</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-rose">
+            <h3>🎨 Het probleem: De Chatbot denkt als een 'Schilder'</h3>
+            <ul>
+              <li>Als je een eigen foto uploadt en alleen zegt: <em>"Maak deze foto mooier"</em> of <em>"Voeg een parasol toe"</em>...</li>
+              <li>Dan kijkt de AI even naar je foto en <strong>schildert daarna een compleet nieuw plaatje vanaf nul</strong>!</li>
+              <li>Het gevolg: de omgeving lijkt erop, maar je partner of kleinkind heeft ineens het gezicht van een wildvreemde gekregen.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <h3>🛠️ De oplossing: Dwing AI om als 'Fotobewerker' te werken</h3>
+            <ul>
+              <li>Wil je dat de personen op de foto <strong>100% zichzelf blijven</strong>?</li>
+              <li>Dan heb je <strong>3 betrouwbare manieren</strong>:
+                <br>1. Zet een <strong>'Gezicht-op-Slot' zin</strong> in je prompt.
+                <br>2. Gebruik het <strong>Selectie-Kwastje</strong> (wijs alleen het plekje aan dat moet veranderen).
+                <br>3. Gebruik voor het opknappen van scherpte en licht je <strong>Foto-app</strong> in plaats van een chatbot.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner amber">
+          <h4>💡 Goed nieuws</h4>
+          <p>De nieuwste beeldmodellen in <strong>ChatGPT</strong> en <strong>Google Gemini</strong> kunnen gezichten inmiddels wél keurig intact laten — mits je de juiste instructie of knop gebruikt! We bekijken ze alle drie.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 9: Manier 1 - De 'Gezicht-op-Slot' Prompt (Dingen toevoegen of achtergrond wijzigen) -->
+    <div class="slide" id="slide-9" data-notes="MANIER 1: DE GEZICHT-OP-SLOT PROMPT:
+- Laat zien hoe je in gewone Nederlandse zinnen tegen ChatGPT of Gemini zegt dat hij van de gezichten af moet blijven.
+- Het geheim zit in de toevoeging onderaan: 'Behoud exact de originele gezichten, gelaatstrekken en gezichtsuitdrukking van de personen op de foto. Verander niets aan de personen zelf.'
+- Dit werkt geweldig als je iets wilt toevoegen aan de achtergrond of storende rommel wilt weghalen.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🔒 MANIER 1 • DE JUISTE PROMPT</span>
+        <h1 class="slide-title">Dingen Toevoegen of Weghalen mét Gezichtsbehoud</h1>
+        <p class="slide-subtitle">Geef in je prompt letterlijk aan wat er wél moet veranderen en wat op slot staat</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-rose">
+            <h3>❌ Te korte prompt (Gezicht verandert vaak)</h3>
+            <div class="prompt-box" style="border-color: rgba(251, 113, 133, 0.5);">
+              "Haal de prullenbak op de achtergrond weg, zet er een vuurtoren bij en maak er mooi zonnig weer van."
+            </div>
+            <p style="margin-top:12px; color:#fda4af;">
+              <strong>Wat gaat er mis?</strong> Omdat je geen grens stelt, tekent de AI de hele foto (inclusief de mensen) opnieuw.
+            </p>
+          </div>
+          <div class="card border-green">
+            <h3>✅ De 'Gezicht-op-Slot' Prompt (Werkt wél!)</h3>
+            <div class="prompt-box" style="border-color: rgba(52, 211, 153, 0.6);">
+              "Bewerk deze geüploade foto:<br>
+              1. Verwijder de groene prullenbak en het oranje pionnetje op de achtergrond.<br>
+              2. Voeg in de verte op het duin een kleine rode vuurtoren toe.<br>
+              3. Maak het licht iets warmer en zonniger.<br>
+              <strong>BELANGRIJK: Behoud exact de originele gezichten, gelaatstrekken, brillen, kleding en houding van de personen op de foto. Verander niets aan de personen zelf.</strong>"
+            </div>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>🔑 De gouden toverzin om altijd toe te voegen bij familiefoto's:</h4>
+          <p><em>"Behoud exact de originele gezichten, gelaatstrekken en gezichtsuitdrukking van de personen op de foto; verander niets aan de personen zelf."</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 10: Manier 2 - Het Selectie-Kwastje & Manier 3 - Kwaliteit Verbeteren -->
+    <div class="slide" id="slide-10" data-notes="MANIER 2 & 3: KWASTJE EN KWALITEIT VERBETEREN:
+- Leg uit: wat als je een oude, vage of te donkere foto scherper en mooier van kwaliteit wilt maken?
+- Als je een foto alleen scherper wilt maken of de belichting wilt opknappen, gebruik dan bij voorkeur het 'Toverstafje' in Apple Foto's / Google Foto's op je iPad, of een speciale foto-verbeteraar.
+- En wil je in ChatGPT 100% zeker weten dat het gezicht niet verandert als je een hoedje, bloemstuk of vuurtoren toevoegt? Gebruik het Selectie-kwastje!">
+      <div class="slide-header">
+        <span class="tag tag-green">🖌️ MANIER 2 & 3 • KWASTJE & KWALITEIT VERBETEREN</span>
+        <h1 class="slide-title">Het Selectie-Kwastje & Foto-kwaliteit Verbeteren</h1>
+        <p class="slide-subtitle">Zo houd je 100% controle over je eigen foto's</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-cyan">
+            <h3>🖌️ Manier 2: Het Kwastje (Alleen één plekje aanwijzen)</h3>
+            <ul>
+              <li>Wil je alleen op één plek iets toevoegen (bijv. bloemen op tafel) of weghalen (een passant op de achtergrond)?</li>
+              <li><strong>In ChatGPT:</strong> Klik op de foto $\rightarrow$ klik rechtsboven op het <strong>Kwastje / Selecteren icoon</strong>.</li>
+              <li>Wrijf met je muis of vinger <strong>alléén over het stukje achtergrond</strong> dat moet veranderen (blijf weg van de gezichten!).</li>
+              <li>Typ nu: <em>"Vervang dit gemarkeerde stukje door duingras"</em> of <em>"Zet hier een strandparasol neer"</em>.</li>
+              <li><strong>Gevolg:</strong> Alles buiten jouw verfstreep (dus de gezichten) kan technisch niet eens veranderen!</li>
+            </ul>
+          </div>
+          <div class="card border-amber">
+            <h3>✨ Manier 3: De kwaliteit van een foto verbeteren</h3>
+            <ul>
+              <li>Is een foto te donker, flets of een beetje onscherp?</li>
+              <li><strong>In je eigen Foto-app (iPad / Telefoon / Windows):</strong> Gebruik het <strong>Toverstafje (Automatisch verbeteren)</strong> en het <strong>Gummetje (Clean Up / Magische Gum)</strong>. Die verbeteren licht en scherpte zonder aan gezichten te komen.</li>
+              <li><strong>Toch via ChatGPT of Gemini een oude/donkere foto opknappen?</strong> Gebruik deze prompt:</li>
+            </ul>
+            <div class="prompt-box" style="border-color: rgba(251, 191, 36, 0.5);">
+              "Verbeter de beeldkwaliteit, scherpte en belichting van deze foto zodat de kleuren natuurlijk en helder worden. <strong>Houd de foto 100% fotogetrouw: verander absoluut niets aan de gezichten, personen of details.</strong>"
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 11: Blok 3 - 'Kijken' met AI (Vision) -->
+    <div class="slide" id="slide-11" data-notes="BLOK 3: KIJKEN MET AI (VISION):
+- Dit vinden vrijwel alle cursisten (Leon, Yvonne, Sjaan, Elly) in de praktijk het allerhandigst!
+- Je gebruikt de AI niet om te tekenen, maar als een slimme bril die met je meekijkt.
+- Geef de 3 voorbeelden: op vakantie (menukaart/bord), in de tuin (plant met gele bladeren) en in huis (handleiding/apparaat/kunstwerk).">
+      <div class="slide-header">
+        <span class="tag tag-purple">🔍 BLOK 3 • SAMEN KIJKEN MET AI</span>
+        <h1 class="slide-title">Laat AI Meekijken met je Foto's</h1>
+        <p class="slide-subtitle">Maak of upload een foto en stel er een gewone vraag over</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-cyan">
+            <h3>🍝 1. Op Reis & Vakantie</h3>
+            <ul>
+              <li>Maak een foto van een Italiaanse, Franse of Spaanse <strong>menukaart</strong> of een informatiebord bij een monument.</li>
+              <li><strong>Jouw vraag:</strong><br><em>"Vertaal deze menukaart naar het Nederlands. Welke gerechten zijn zonder vlees en wat is de specialiteit van de streek?"</em></li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <h3>🌿 2. In de Tuin & In Huis</h3>
+            <ul>
+              <li>Maak een foto van een onbekende bloem, een <strong>kamerplant met gele bladeren</strong>, of de knoppen van je oven/wasmachine.</li>
+              <li><strong>Jouw vraag:</strong><br><em>"Welke plant is dit, waarom worden de onderste bladeren geel en wat moet ik nu doen?"</em></li>
+            </ul>
+          </div>
+          <div class="card border-purple">
+            <h3>🖼️ 3. Kunst, Brieven & Handschrift</h3>
+            <ul>
+              <li>Maak een foto van een schilderij in het museum, een onduidelijk geschreven briefje of een ingewikkelde tabel.</li>
+              <li><strong>Jouw vraag:</strong><br><em>"Leg in gewone mensentaal uit wat er op dit schilderij gebeurt en wat de schilder hiermee bedoelde."</em></li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner purple">
+          <h4>💡 Waarom dit zo fijn werkt</h4>
+          <p>Je hoeft niets over te typen! Eén foto maken met het <code>+</code> knopje en één korte vraag is genoeg.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 12: Welke App Kies Je Waarvoor? (Overzicht voor Lennard & Arie) -->
+    <div class="slide" id="slide-12" data-notes="OVERZICHT VAN DE APPS (Voor o.a. Lennard & Arie):
+- Cursisten vragen zich vaak af: moet ik nou ChatGPT, Gemini, Copilot of iets anders gebruiken?
+- Houd het overzichtelijk met deze 4 blokken. Je hebt aan ChatGPT of Gemini al 90% van alles wat je nodig hebt!">
+      <div class="slide-header">
+        <span class="tag tag-amber">🧰 OVERZICHT IN DE GEREEDSCHAPSKIST</span>
+        <h1 class="slide-title">Welke App Gebruik Je Waarvoor bij Beeld?</h1>
+        <p class="slide-subtitle">Je hebt geen 10 losse apps nodig: met 1 of 2 gratis tools kun je bijna alles</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-cyan">
+            <h3>💬 1. ChatGPT (OpenAI)</h3>
+            <ul>
+              <li><strong>Beste allrounder:</strong> Begrijpt Nederlandse instructies uitstekend.</li>
+              <li><strong>Sterkste punt:</strong> Kan heel goed leesbare Nederlandse tekst ín een plaatje zetten (bijv. <em>"Gefeliciteerd Kees!"</em> op een spandoek) én heeft het handige <strong>Selectie-kwastje</strong>.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <h3>✨ 2. Google Gemini</h3>
+            <ul>
+              <li><strong>Koningsklasse voor fotorealisme:</strong> Maakt prachtige, levensechte natuur- en sfeerfoto's.</li>
+              <li><strong>Sterkste punt:</strong> Gratis en razendsnel in het herkennen van planten, plaatsen, menukaarten en tekst op foto's.</li>
+            </ul>
+          </div>
+          <div class="card border-purple">
+            <h3>🎨 3. Canva / Microsoft Copilot</h3>
+            <ul>
+              <li><strong>Voor kaarten & drukwerk:</strong> Handig als je om je gemaakte AI-foto heen nog zelf een mooie kadertekst of uitnodiging voor een vereniging wilt opmaken.</li>
+            </ul>
+          </div>
+          <div class="card border-amber">
+            <h3>📱 4. Apple Foto's / Google Foto's (Op je eigen toestel)</h3>
+            <ul>
+              <li><strong>Voor snelle opknapbeurten:</strong> Gebruik het ingebouwde toverstafje (belichting/scherpte) en het gummetje om snel een prullenbak of voorbijganger weg te poetsen.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 13: Echt of Nep? Zo herken je AI-foto's (Voor Hilda & Annelies) -->
+    <div class="slide" id="slide-13" data-notes="ECHT OF NEP HERKENNEN (Voor o.a. Hilda & Annelies):
+- Beeld-AI is zó goed geworden dat je op Facebook, WhatsApp en in het nieuws regelmatig nep-foto's tegenkomt.
+- Hoe prik je daar in 10 seconden doorheen? Geef deze 4 simpele kijktips.">
+      <div class="slide-header">
+        <span class="tag tag-rose">🕵️‍♀️ VEILIGHEID & BETROUWBAARHEID</span>
+        <h1 class="slide-title">Echt of Nep? Zo Herken je een AI-Foto</h1>
+        <p class="slide-subtitle">4 simpele dingen om op te letten bij twijfelachtige foto's op internet of WhatsApp</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4">
+          <div class="card border-rose">
+            <h3>🖐️ 1. Kijk naar handen, brillen en sieraden</h3>
+            <p>AI telt niet, maar gokt. Let op 6 vingers, een brilmontuur dat halverwege het gezicht verdwijnt, of twee verschillende oorbellen.</p>
+          </div>
+          <div class="card border-amber">
+            <h3>🔤 2. Zoom in op letters op de achtergrond</h3>
+            <p>Kijk naar verkeersborden, winkelruiten, nummerborden of etiketten op de achtergrond: bij nep-foto's staat daar vaak onleesbare brabbeltaal.</p>
+          </div>
+          <div class="card border-purple">
+            <h3>✨ 3. De 'te gladde plastic huid' & droomlicht</h3>
+            <p>AI-foto's zijn vaak té perfect belicht en mensen hebben een porseleinen poppenhuid zonder echte poriën of natuurlijke rimpeltjes.</p>
+          </div>
+          <div class="card border-cyan">
+            <h3>🧠 4. Vraag het aan de AI of kijk naar de bron!</h3>
+            <p>Twijfel je? Upload het plaatje in <strong>Google Gemini</strong> en vraag: <em>"Is deze afbeelding met AI gemaakt?"</em> (Gemini herkent zijn eigen onzichtbare watermerk <em>SynthID</em> direct!).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 14: Praktijkopdrachten in de les -->
+    <div class="slide" id="slide-14" data-notes="PRAKTIJKOPDRACHTEN IN DE LES:
+- Nu gaan we lekker zelf oefenen!
+- Om het iedereen makkelijk te maken, staan er op de lespagina (les2/oefeningen.html) al 3 kant-en-klare oefenfoto's klaar die je met één klik kunt downloaden. Je hoeft dus niet eerst zelf een foto te zoeken!
+- Natuurlijk mag je ook een eigen foto van je laptop of iPad gebruiken.
+- Kies rustig 2 opdrachten uit.">
+      <div class="slide-header">
+        <span class="tag tag-green">💻 ZELF ACHTER DE KNOPPEN</span>
+        <h1 class="slide-title">Tijd om Zelf te Oefenen! (Keuzemenu)</h1>
+        <p class="slide-subtitle">Op de lespagina staan kant-en-klare oefenfoto's en voorbeeldzinnen voor je klaar</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-cyan">
+            <h3>🖌️ Opdracht 1: Een Nieuw Beeld Maken</h3>
+            <p>Maak een mooie verjaardags-/felicitatiekaart óf een schilderij van Den Helder/Texel met de 4 bouwstenen (en pas hem daarna aan met één vervolgzin).</p>
+          </div>
+          <div class="card border-green">
+            <h3>📸 Opdracht 2: Foto Bewerken Zonder Gezichtsverandering</h3>
+            <p>Download onze <strong>oefen-strandfoto</strong> (of pak een eigen foto): haal de groene prullenbak weg, voeg een vuurtoren toe en verbeter het licht — terwijl de gezichten exact hetzelfde blijven!</p>
+          </div>
+          <div class="card border-purple">
+            <h3>🍝 Opdracht 3: 'Kijken' met AI (Menukaart & Kamerplant)</h3>
+            <p>Laat AI de foto van onze <strong>Italiaanse menukaart</strong> vertalen en doorrekenen, óf laat AI dokter spelen bij onze foto van de <strong>kamerplant met gele bladeren</strong>.</p>
+          </div>
+          <div class="card border-amber">
+            <h3>🏠 Extra voor thuis (Voor de liefhebber): Slim Notuleren</h3>
+            <p>Op de lespagina staat ook een speciale verdiepingsopdracht klaar: een gespreksopname veilig <strong>offline</strong> op je eigen laptop uittikken en omzetten naar een actielijst.</p>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>👉 Ga naar de Lespagina van Les 2 en klik op "Naar de Praktijkopdrachten"</h4>
+          <p>Kies op je eigen tempo 1 of 2 oefeningen uit. Steek gerust je hand op als je ergens een knopje niet kunt vinden!</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="controls">
+    <button id="btn-prev" title="Vorige dia (Pijltje links / Backspace)">← Vorige</button>
+    <span class="slide-counter" id="counter">1 / 14</span>
+    <button id="btn-next" title="Volgende dia (Pijltje rechts / Spatie)">Volgende →</button>
+    <button class="btn-notes" id="btn-notes" title="Sprekersnotities openen/sluiten (S)">Sprekersnotities</button>
+    <button id="btn-fs" title="Volledig scherm (F)">⛶</button>
+  </div>
+
+  <!-- Speaker Notes Modal Drawer -->
+  <div class="notes-drawer" id="notes-drawer">
+    <h5>🎙️ Sprekersnotities (Jan Martin)</h5>
+    <div id="notes-content">Geen notities voor deze dia.</div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const counter = document.getElementById('counter');
+    const notesDrawer = document.getElementById('notes-drawer');
+    const notesContent = document.getElementById('notes-content');
+    const btnNotes = document.getElementById('btn-notes');
+
+    function updateSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+
+      slides[currentSlide].classList.remove('active');
+      currentSlide = index;
+      slides[currentSlide].classList.add('active');
+
+      counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+      const notes = slides[currentSlide].getAttribute('data-notes') || 'Geen sprekersnotities beschikbaar voor deze dia.';
+      notesContent.textContent = notes;
+    }
+
+    function toggleNotes() {
+      notesDrawer.classList.toggle('open');
+      btnNotes.classList.toggle('active');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.getElementById('btn-next').addEventListener('click', () => updateSlide(currentSlide + 1));
+    document.getElementById('btn-prev').addEventListener('click', () => updateSlide(currentSlide - 1));
+    document.getElementById('btn-notes').addEventListener('click', toggleNotes);
+    document.getElementById('btn-fs').addEventListener('click', toggleFullScreen);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        updateSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
+        e.preventDefault();
+        updateSlide(currentSlide - 1);
+      } else if (e.key.toLowerCase() === 's') {
+        toggleNotes();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      } else if (e.key === 'Home') {
+        updateSlide(0);
+      } else if (e.key === 'End') {
+        updateSlide(totalSlides - 1);
+      }
+    });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff < 0) updateSlide(currentSlide + 1);
+        else updateSlide(currentSlide - 1);
+      }
+    }, false);
+
+    updateSlide(0);
+  </script>
+</body>
+</html>

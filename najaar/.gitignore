@@ -3,3 +3,11 @@
 extracted_images/
 extracted_slides_text.txt
 index_les1_actief.html
+credentials.json
+token.json
+.agents/credentials.json
+.agents/token.json
+.agents/mcp_config.json
+.agents/*.json
+mcp_config.json
+*.secret

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Praktijkopdrachten • Keuzemenu | Les 2: Beeld, Fotobewerking & Vision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <script src="auth.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-body: #334155;
+      --accent-blue: #2563eb;
+      --accent-blue-light: #eff6ff;
+      --accent-blue-border: #bfdbfe;
+      --accent-emerald: #059669;
+      --accent-emerald-light: #ecfdf5;
+      --accent-amber: #d97706;
+      --accent-amber-light: #fffbeb;
+      --accent-purple: #7c3aed;
+      --accent-purple-light: #f5f3ff;
+      --radius: 16px;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      background-image: radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.5) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(254, 243, 199, 0.4) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding: 2.5rem 1.25rem 4rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 860px;
+      width: 100%;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      color: var(--text-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+      border-color: var(--accent-blue-border);
+      transform: translateX(-3px);
+    }
+
+    header {
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: var(--accent-amber-light);
+      border: 1px solid #fde68a;
+      color: var(--accent-amber);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 740px;
+      margin-bottom: 1.4rem;
+      line-height: 1.5;
+    }
+
+    /* Quick How-To Card */
+    .howto-card {
+      background: #ffffff;
+      border: 2px solid var(--accent-blue-border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.8rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .howto-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .howto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .howto-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      font-size: 0.92rem;
+      color: var(--text-body);
+    }
+
+    .howto-box strong {
+      color: var(--text-main);
+    }
+
+    /* Menu Banner */
+    .menu-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
+    }
+
+    .menu-banner h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-banner p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 1.2rem;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .menu-pill {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #f8fafc;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .menu-pill:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Exercise Cards */
+    .exercise-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .badge-blue { background: var(--accent-blue-light); color: var(--accent-blue); border: 1px solid var(--accent-blue-border); }
+    .badge-emerald { background: var(--accent-emerald-light); color: var(--accent-emerald); border: 1px solid #a7f3d0; }
+    .badge-purple { background: var(--accent-purple-light); color: var(--accent-purple); border: 1px solid #ddd6fe; }
+    .badge-amber { background: var(--accent-amber-light); color: var(--accent-amber); border: 1px solid #fde68a; }
+
+    .exercise-card h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .exercise-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 1.5rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .exercise-card p {
+      font-size: 0.96rem;
+      color: var(--text-body);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .exercise-card ol, .exercise-card ul {
+      padding-left: 1.4rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+      color: var(--text-body);
+    }
+
+    .exercise-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Photo Download Box */
+    .photo-showcase {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 1.4rem;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 1.2rem;
+      margin: 1rem 0 1.4rem 0;
+      align-items: center;
+    }
+
+    .photo-showcase img {
+      width: 100%;
+      height: 165px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .btn-download-photo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-blue);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      margin-top: 0.6rem;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      transition: all 0.2s;
+    }
+
+    .btn-download-photo:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    /* Prompt Box */
+    .prompt-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0 1.4rem 0;
+    }
+
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .prompt-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: #38bdf8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .prompt-content {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .btn-copy {
+      background: #1e293b;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+
+    .btn-copy.copied {
+      background: #059669;
+      border-color: #059669;
+      color: #ffffff;
+    }
+
+    .tip-box {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      font-size: 0.92rem;
+      margin: 1rem 0;
+    }
+
+    .warn-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      font-size: 0.92rem;
+      margin: 1rem 0;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 680px) {
+      h1 { font-size: 2rem; }
+      .exercise-card { padding: 1.5rem; }
+      .photo-showcase { grid-template-columns: 1fr; }
+      .photo-showcase img { height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="top-nav">
+      <a href="index.html" class="back-btn">← Terug naar Les 2 Overzicht</a>
+      <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Les 2 • Praktijk</span>
+    </div>
+
+    <header>
+      <div class="tag">🎨 Zelf Doen • Stap-voor-Stap</div>
+      <h1>Praktijkopdrachten Les 2: Beeld & Vision</h1>
+      <p class="subtitle">Oefen op je eigen tempo met het maken van afbeeldingen, het verbeteren van foto's (mét behoud van gezichten) en het laten meekijken van AI.</p>
+    </header>
+
+    <!-- SPIEKKAART: HOE VOEG JE EEN FOTO TOE -->
+    <div class="howto-card">
+      <h3>👆 Spiekkaart: Hoe zet je een foto in ChatGPT of Google Gemini?</h3>
+      <div class="howto-grid">
+        <div class="howto-box">
+          <strong>💻 Op een Windows Laptop of MacBook:</strong><br>
+          1. Klik bij een oefening hieronder op <em>"Download deze oefenfoto"</em> (hij komt dan in je map <strong>Downloads</strong> te staan).<br>
+          2. Ga naar ChatGPT of Gemini en klik linksonder in het tekstvak op het <strong>Plusje <code>+</code></strong>.<br>
+          3. Kies <em>"Foto's en bestanden uploaden"</em> en selecteer de foto uit je map <strong>Downloads</strong>.
+        </div>
+        <div class="howto-box">
+          <strong>📱 Op een iPad of Android Tablet:</strong><br>
+          1. Tik op <em>"Download deze oefenfoto"</em> (of houd je vinger even op het plaatje en kies <strong>'Zet in Foto's'</strong>).<br>
+          2. Ga naar ChatGPT of Gemini, tik onderin op het <strong>Plusje <code>+</code></strong> en kies <strong>Fotobibliotheek</strong>.<br>
+          3. <em>Tip:</em> Je mag met het <strong>Camera-knopje 📷</strong> ook direct een foto maken van iets in het lokaal!
+        </div>
+      </div>
+    </div>
+
+    <!-- KEZEMENU BANNER -->
+    <div class="menu-banner">
+      <h3>🎯 Het Keuzemenu: Kies rustig 2 opdrachten!</h3>
+      <p>Je hoeft niet alles af te krijgen. Kies de twee oefeningen die je het leukst of handigst vindt:</p>
+      <div class="menu-grid">
+        <a href="#opdracht1" class="menu-pill">🖌️ 1. Nieuw Beeld Maken</a>
+        <a href="#opdracht2" class="menu-pill">📸 2. Foto Bewerken (Gezicht-op-Slot)</a>
+        <a href="#opdracht3" class="menu-pill">🍝 3. Italiaanse Menukaart</a>
+        <a href="#opdracht4" class="menu-pill">🌿 4. De Plantendokter</a>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 1 -->
+    <div class="exercise-card" id="opdracht1">
+      <div class="badge-bar">
+        <span class="badge badge-blue">🖌️ Opdracht 1</span>
+        <span class="badge badge-amber">Beeld Genereren</span>
+        <span class="badge badge-emerald">Geen eigen foto nodig</span>
+      </div>
+      <h2>Een Nieuw Beeld Maken vanuit Tekst (De 4 Bouwstenen)</h2>
+      <p>
+        We laten de chatbot vanuit het niets een afbeelding tekenen. Je merkt direct hoeveel mooier het resultaat wordt als je de 4 simpele bouwstenen gebruikt: <strong>1. Wat zie je + 2. Welke stijl + 3. Welk licht/sfeer + 4. Welk formaat</strong>.
+      </p>
+
+      <h3>Stap A: Maak een schilderij van de Kust bij Den Helder / Texel</h3>
+      <p>Kopieer onderstaande prompt en plak hem in ChatGPT, Google Gemini of Microsoft Copilot:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 1A • AQUAREL VAN DE VUURTOREN</span>
+          <button class="btn-copy" onclick="copySnippet('prompt1a', this)">📋 Kopieer deze prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt1a">Maak een afbeelding van een klassieke rode vuurtoren in de duinen van Noord-Holland met wuivend helmgras en een kronkelend zandpad naar de zee.
+Stijl: Een sfeervol, handgeschilderd aquarelschilderij met zachte penseelstreken.
+Licht & sfeer: Warm gouden avondlicht bij zonsondergang met enkele meeuwen in de lucht.
+Vorm: Liggend breedbeeld formaat, zonder tekst in de afbeelding.</div>
+      </div>
+
+      <h3>Stap B: Stuur nu bij met één korte vervolgzin!</h3>
+      <p>Blijf in hetzelfde chatgesprek en kijk hoe makkelijk je het plaatje aanpast:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 1B • VERVOLGVRAAG (SEIZOEN VERANDEREN)</span>
+          <button class="btn-copy" onclick="copySnippet('prompt1b', this)">📋 Kopieer vervolgzin</button>
+        </div>
+        <div class="prompt-content" id="prompt1b">Mooi! Maak ditzelfde tafereel nu in de winter bij schemering, met een dun laagje verse sneeuw op de duinen en warm geel licht dat uit het raampje van de vuurtoren schijnt.</div>
+      </div>
+
+      <h3>Stap C (Optioneel): Een Verjaardagskaart mét Naam erop</h3>
+      <p>Wil je een persoonlijke felicitatiekaart maken voor WhatsApp of om uit te printen? Vervang de naam en leeftijd gerust door iemand die je kent:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 1C • VERJAARDAGSKAART OP MAAT</span>
+          <button class="btn-copy" onclick="copySnippet('prompt1c', this)">📋 Kopieer kaart-prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt1c">Maak een vrolijke, feestelijke illustratie voor een verjaardagskaart. Op een gezellige houten tuintafel staat een versgebakken appeltaart met slagroom, twee kopjes koffie en een boeket veldbloemen. Achter de tafel hangt een slinger met daarop duidelijk leesbaar de tekst: "Gefeliciteerd Sjaan!". Warme, zonnige aquarelstijl.</div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 2 -->
+    <div class="exercise-card" id="opdracht2">
+      <div class="badge-bar">
+        <span class="badge badge-emerald">📸 Opdracht 2</span>
+        <span class="badge badge-blue">Eigen Foto Bewerken</span>
+        <span class="badge badge-amber">Gezichten 100% Behouden!</span>
+      </div>
+      <h2>Foto Verbeteren & Dingen Toevoegen (Zonder dat Gezichten Veranderen)</h2>
+      <p>
+        Dit is de oefening naar aanleiding van de vraag van Sjaan: hoe haal je iets lelijks weg van een vakantiefoto, voeg je iets toe én maak je het licht mooier, <strong>terwijl de gezichten van de personen op de foto precies hetzelfde blijven</strong>?
+      </p>
+
+      <div class="photo-showcase">
+        <img src="afbeeldingen/oefenfoto_portret_strand.jpg" alt="Oefenfoto echtpaar op het strand met groene prullenbak en oranje pion">
+        <div>
+          <h4 style="font-size:1.05rem; font-weight:800; color:#0f172a; margin-bottom:4px;">📥 Stap 1: Pak onze Oefen-Strandfoto (of een eigen foto)</h4>
+          <p style="font-size:0.9rem; margin-bottom:6px;">
+            Op deze vakantiefoto staan een groene gemeente-container en een feloranje pion die het uitzicht verpesten, en het weer is een beetje grauw.
+          </p>
+          <a href="afbeeldingen/oefenfoto_portret_strand.jpg" download="oefenfoto_portret_strand.jpg" class="btn-download-photo">
+            ⬇️ Download deze Oefenfoto (.jpg)
+          </a>
+        </div>
+      </div>
+
+      <h3>Stap 2: Upload de foto met het <code>+</code> knopje en plak de 'Gezicht-op-Slot' Prompt</h3>
+      <p>Voeg de gedownloade foto toe in <strong>ChatGPT</strong> of <strong>Google Gemini</strong> en plak onderstaande tekst erbij voordat je op verzenden drukt:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 2A • FOTO BEWERKEN MET GEZICHT-OP-SLOT</span>
+          <button class="btn-copy" onclick="copySnippet('prompt2a', this)">📋 Kopieer de Gezicht-op-Slot prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt2a">Bewerk deze geüploade foto:
+1. Verwijder de groene prullenbak en de oranje verkeerspion aan de rechterkant en vervang die plek door natuurlijk duinzand en helmgras.
+2. Voeg rechts in de verte op de duintop een kleine rood-witte vuurtoren toe.
+3. Verbeter de belichting zodat het zonnig, helder en warm weer lijkt.
+
+BELANGRIJK: Behoud exact de originele gezichten, gelaatstrekken, gezichtsuitdrukking, brillen, kapsels en jassen van de twee personen op de foto. Verander absoluut niets aan de personen zelf.</div>
+      </div>
+
+      <div class="tip-box">
+        💡 <strong>Extra tip (Het Selectie-Kwastje in ChatGPT):</strong> Werk je in ChatGPT? Klik eens op je geüploade foto en kies rechtsboven het <strong>Kwastje (Selecteren)</strong>. Als je alleen over de groene prullenbak veegt en typt <em>"Vervang door duingras"</em>, raakt de AI de rest van de foto (en dus de gezichten!) helemaal niet aan.
+      </div>
+    </div>
+
+    <!-- OPDRACHT 3 -->
+    <div class="exercise-card" id="opdracht3">
+      <div class="badge-bar">
+        <span class="badge badge-purple">🍝 Opdracht 3</span>
+        <span class="badge badge-blue">Kijken met AI (Vision)</span>
+        <span class="badge badge-emerald">Handig op Reis!</span>
+      </div>
+      <h2>'Kijken' met AI: De Italiaanse Menukaart</h2>
+      <p>
+        Op vakantie in het buitenland hoef je nooit meer losse woorden op te zoeken. Maak een foto van de menukaart en laat AI direct vertalen, adviseren en rekenen!
+      </p>
+
+      <div class="photo-showcase">
+        <img src="afbeeldingen/oefenfoto_menukaart.jpg" alt="Oefenfoto Italiaanse menukaart Trattoria del Mare">
+        <div>
+          <h4 style="font-size:1.05rem; font-weight:800; color:#0f172a; margin-bottom:4px;">📥 Stap 1: Download de Italiaanse Menukaart</h4>
+          <p style="font-size:0.9rem; margin-bottom:6px;">
+            Een foto van de menukaart van <em>Trattoria del Mare</em> met voorgerechten, pasta's/risotto, nagerechten en kleine lettertjes onderaan.
+          </p>
+          <a href="afbeeldingen/oefenfoto_menukaart.jpg" download="oefenfoto_menukaart.jpg" class="btn-download-photo">
+            ⬇️ Download Oefenfoto Menukaart (.jpg)
+          </a>
+        </div>
+      </div>
+
+      <h3>Stap 2: Voeg de foto toe met <code>+</code> en stel je vraag</h3>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 3 • MENUKAART VERTALEN & DOORREKENEN</span>
+          <button class="btn-copy" onclick="copySnippet('prompt3', this)">📋 Kopieer deze prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt3">Bekijk deze foto van de Italiaanse menukaart en help mij met 3 dingen:
+1. Vertaal alle gerechten en prijzen overzichtelijk naar het Nederlands.
+2. Zet een groen vinkje (✅) bij de gerechten die volledig vegetarisch zijn (zonder vlees of vis).
+3. Wat betalen wij in totaal als wij met 2 personen allebei de Bruschetta, de Risotto en de Tiramisù bestellen (let ook op de kleine lettertjes onderaan de kaart)?</div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 4 -->
+    <div class="exercise-card" id="opdracht4">
+      <div class="badge-bar">
+        <span class="badge badge-emerald">🌿 Opdracht 4</span>
+        <span class="badge badge-purple">Kijken met AI (Vision)</span>
+        <span class="badge badge-amber">In Huis & Tuin</span>
+      </div>
+      <h2>'Kijken' met AI: De Plantendokter</h2>
+      <p>
+        Heb je een plant in de tuin of vensterbank die er niet gelukkig uitziet, of een apparaat waarvan je een knopje niet begrijpt? Stuur een foto en vraag AI om raad.
+      </p>
+
+      <div class="photo-showcase">
+        <img src="afbeeldingen/oefenfoto_kamerplant.jpg" alt="Oefenfoto kamerplant met gele bladeren">
+        <div>
+          <h4 style="font-size:1.05rem; font-weight:800; color:#0f172a; margin-bottom:4px;">📥 Stap 1: Download de Foto van de Kamerplant</h4>
+          <p style="font-size:0.9rem; margin-bottom:6px;">
+            Deze kamerplant op de vensterbank krijgt onderaan ineens gele bladeren met bruine randjes. Wat is er aan de hand?
+          </p>
+          <a href="afbeeldingen/oefenfoto_kamerplant.jpg" download="oefenfoto_kamerplant.jpg" class="btn-download-photo">
+            ⬇️ Download Oefenfoto Kamerplant (.jpg)
+          </a>
+        </div>
+      </div>
+
+      <h3>Stap 2: Upload de foto met <code>+</code> en vraag een diagnose</h3>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">PROMPT 4 • PLANTENDOKTER DIAGNOSE</span>
+          <button class="btn-copy" onclick="copySnippet('prompt4', this)">📋 Kopieer deze prompt</button>
+        </div>
+        <div class="prompt-content" id="prompt4">Bekijk de foto van mijn kamerplant:
+1. Welke plant is dit precies (Nederlandse naam)?
+2. Waarom worden de onderste bladeren geel met bruine randjes? Geef de 2 meest waarschijnlijke oorzaken.
+3. Geef mij een simpel stappenplan in 3 punten hoe ik deze plant weer gezond krijg en hoe vaak hij water nodig heeft.</div>
+      </div>
+    </div>
+
+    <!-- AFRONDING BANNER -->
+    <div class="menu-banner" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);">
+      <h3>🎉 Klaar met oefenen?</h3>
+      <p style="color: #eff6ff;">
+        Laat je gemaakte of bewerkte foto eens zien aan je buurman of buurvrouw! En wil je thuis ontdekken hoe je met een gratis offline programma op je laptop een heel gesprek uittikt en samenvat tot notulen? Bekijk dan de verdiepingsopdracht!
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="index.html" class="back-btn" style="color: #1e3a8a;">← Terug naar Les 2 Overzicht</a>
+        <a href="opdracht_notuleren.html" class="back-btn" style="background: #ffffff; color: #7c3aed; border-color: #ddd6fe;">🎙️ Bekijk Huiswerk voor de Liefhebber (Notuleren) →</a>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Jan Martin Jansen • Praktijkcursus "Aan de slag met AI" (MM2704) • School 7, Den Helder</p>
+    </footer>
+
+  </div>
+
+  <script>
+    function copySnippet(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✅ Gekopieerd!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        alert('Kopiëren mislukt. Selecteer de tekst handmatig.');
+      });
+    }
+  </script>
+</body>
+</html>
