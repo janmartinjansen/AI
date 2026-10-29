@@ -7,8 +7,8 @@
 ---
 
 ## 👆 Spiekkaart: Hoe voeg je een foto toe?
-* **Op een Windows Laptop of MacBook:** Klik linksonder in het tekstvak op het **Plusje (`+`)** $\rightarrow$ kies *"Foto's en bestanden uploaden"* $\rightarrow$ kies de foto uit je map *Downloads* of *Afbeeldingen*.
-* **Op een iPad of Android Tablet:** Tik onderin op het **Plusje (`+`)** of het **Camera-knopje (`📷`)** $\rightarrow$ kies *Fotobibliotheek* (of maak direct een verse foto met de camera).
+* **Op een Windows Laptop of MacBook:** Klik linksonder in het tekstvak op het **Plusje (`+`)** → kies *"Foto's en bestanden uploaden"* → kies de foto uit je map *Downloads* of *Afbeeldingen*.
+* **Op een iPad of Android Tablet:** Tik onderin op het **Plusje (`+`)** of het **Camera-knopje (`📷`)** → kies *Fotobibliotheek* (of maak direct een verse foto met de camera).
 
 ---
 
