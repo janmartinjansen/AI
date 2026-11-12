@@ -47,6 +47,11 @@ Geef mij alleen de complete HTML-code in één codeblok zodat ik die direct kan 
 3. Open **Kladblok** (Windows) of **Teksteditor** (Mac), plak de gekopieerde code erin en sla op als: **`index.html`** *(Let op bij Windows: kies bij 'Opslaan als type' voor 'Alle bestanden (*.*)')*.
 4. Dubbelklik op `index.html` in je mapje: je browser opent hem meteen! Werkt zelfs offline zonder internet.
 
+> 📱 **Handige tip voor iPad- en tabletgebruikers:**  
+> Werk je op een tablet en wil je niet eerst bestanden downloaden of opslaan? Voeg aan je prompt toe:  
+> **"Open het resultaat in Canvas"** (bij ChatGPT of Gemini) of **"Maak een interactieve preview"**.  
+> De AI toont je website dan direct interactief in een venster naast je chatvenster!
+
 ### Stap 3: Binnen 5 Seconden Gratis Live met Netlify Drop
 1. Surf in je browser naar: **[app.netlify.com/drop](https://app.netlify.com/drop)**.
 2. Pak het mapje **`mijn-website`** vast met de muis en sleep het in het grote gestippelde vak op het scherm: *"Drag and drop your site folder here"*.
@@ -88,6 +93,10 @@ Zet alles in één enkel compleet codeblok zodat ik het direct kan opslaan als r
 ```
 *Tip:* Sla dit bestandje op als `rekenaar.html` in hetzelfde mapje als je `index.html`. Sleep het hele mapje naar Netlify Drop: beide pagina's en de rekentool werken direct live op internet!  
 👉 **Bekijk de live website van de docent:** [janmartinhypo.netlify.app](https://janmartinhypo.netlify.app)
+
+> 📱 **Tablet-tip voor de Hypotheekcalculator:**  
+> Laat cursisten op een iPad aan hun prompt toevoegen: **"Open het resultaat in Canvas"** (bij ChatGPT of Gemini) of **"Maak een interactieve preview"**.  
+> Dan hoef je helemaal niets te downloaden of op te slaan: de interactieve calculator verschijnt direct naast het chatvenster en je kunt meteen met de getallen en sliders spelen!
 
 #### 🚀 Al snel klaar? 3 Leuke Bonus Uitbreidingen (Differentiatie)
 Heb je de basisrekenaar al werkend op internet? Je hoeft **niet opnieuw te beginnen**! Plak een van deze vervolgprompts gewoon in **hetzelfde chatgesprek** met je AI:
