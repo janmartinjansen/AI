@@ -3,7 +3,7 @@
 **Titel:** Eigenlijk was Clippy al een AI-agent. ‘Maar naarmate er meer agenten zijn, neemt de kans op onvoorspelbaar gedrag toe’  
 **Subtitel:** Kunstmatige intelligentie – Softwareagenten bestaan al decennia. Zulke programma’s kunnen zelfstandig beslissen en handelen. Soms loopt dat uit de hand. „We kunnen AI inzetten om AI veiliger te maken.”  
 **Auteur:** Bennie Mols  
-**Bron:** [NRC (23 oktober 2026)](https://www.nrc.nl/nieuws/2026/10/23/appview?app=accda257-e218-4844-b7ab-e0a811b89cfd) • **Leestijd:** 8 minuten  
+**Bron:** NRC (23 oktober 2026) • **Leestijd:** 8 minuten  
 **Geïnterviewde experts:**
 * **Prof. dr. Han La Poutré** – Senior onderzoeker intelligente en autonome systemen (CWI Amsterdam) & hoogleraar intelligente energiesystemen (TU Delft)
 * **Prof. dr. Mehdi Dastani** – Hoogleraar intelligente systemen & filosoof (Universiteit Utrecht)

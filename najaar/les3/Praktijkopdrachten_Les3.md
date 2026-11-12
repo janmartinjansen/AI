@@ -222,7 +222,7 @@ Spelregels voor ons rollenspel:
 
 ### Stap B: Een bron toevoegen
 * Upload een PDF (bijvoorbeeld een verenigingsverslag, een huurcontract of een artikel), óf plak een link naar een website.
-* *(Tip: op de lespagina staat een oefen-PDF klaar van ons NRC-artikel over softwareagenten!)*
+* *(Tip: upload een eigen PDF of document, of gebruik een achtergrondartikel zoals het NRC-artikel van 23 oktober 2026 over softwareagenten)*
 
 ### Stap C: Vragen stellen zonder hallucinaties
 Typ in het vragenbalkje onderin:
