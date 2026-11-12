@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Les 3: Persoonlijke Assistent, AI-Agenten & Betrouwbaarheid • Aan de slag met AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="auth.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-body: #334155;
+      --accent-blue: #2563eb;
+      --accent-blue-light: #eff6ff;
+      --accent-blue-border: #bfdbfe;
+      --accent-purple: #7c3aed;
+      --accent-purple-light: #f5f3ff;
+      --accent-purple-border: #ddd6fe;
+      --accent-emerald: #059669;
+      --accent-emerald-light: #ecfdf5;
+      --accent-amber: #d97706;
+      --accent-amber-light: #fffbeb;
+      --radius: 16px;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      background-image: radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.5) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(241, 245, 249, 0.8) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding: 2.5rem 1.25rem 4rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 860px;
+      width: 100%;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      color: var(--text-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+      border-color: var(--accent-blue-border);
+      transform: translateX(-3px);
+    }
+
+    .nav-tag {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    header {
+      margin-bottom: 3rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: var(--accent-blue-light);
+      border: 1px solid var(--accent-blue-border);
+      color: var(--accent-blue);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 740px;
+      margin-bottom: 1.6rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-body);
+    }
+
+    .meta-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .module-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .module-card:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: #cbd5e1;
+    }
+
+    .module-card.featured {
+      border-color: var(--accent-blue-border);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    .badge-blue { background: var(--accent-blue-light); color: var(--accent-blue); border: 1px solid var(--accent-blue-border); }
+    .badge-purple { background: var(--accent-purple-light); color: var(--accent-purple); border: 1px solid var(--accent-purple-border); }
+
+    .module-card h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .module-card p {
+      font-size: 0.98rem;
+      color: var(--text-body);
+      margin-bottom: 1.4rem;
+      line-height: 1.6;
+    }
+
+    .module-card ul {
+      margin-bottom: 1.4rem;
+      padding-left: 1.3rem;
+      font-size: 0.95rem;
+      color: var(--text-body);
+    }
+
+    .module-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent-blue);
+      border: 1px solid var(--accent-blue-border);
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-blue-light);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 680px) {
+      h1 { font-size: 2.1rem; }
+      body { padding: 1.5rem 1rem 3rem 1rem; }
+      .module-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Nav -->
+    <div class="top-nav">
+      <a href="../index.html" class="back-btn">← Terug naar cursusoverzicht</a>
+      <span class="nav-tag">MM2704 • School 7</span>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <div class="tag">🌐 Bijeenkomst 3 • Slotles</div>
+      <h1>Les 3: Zelf een Website Bouwen met AI & De Toekomst van AI-Agenten</h1>
+      <p class="subtitle">Direct aan de slag: bouw je eigen website over een favoriet onderwerp en zet hem live met Netlify Drop! Na de pauze: de volgende revolutie met autonome AI-agenten.</p>
+      
+      <div class="meta-bar">
+        <div class="meta-pill">👨‍🏫 Docent: Jan Martin Jansen</div>
+        <div class="meta-pill">📍 School 7, Den Helder</div>
+        <div class="meta-pill">⏱️ Duur: 1,5 uur</div>
+        <div class="meta-pill">💻 Laptop of iPad / Tablet</div>
+      </div>
+    </header>
+
+    <!-- MODULE 1 (EERST): ZELF EEN WEBSITE BOUWEN MET AI & NETLIFY DROP -->
+    <div class="module-card featured" style="border-top: 4px solid var(--accent-purple);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.8rem;">
+        <span class="card-badge badge-purple" style="margin-bottom: 0;">🌐 Deel 1 • Direct Zelf Doen (9 Dia's)</span>
+        <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-purple); background: var(--accent-purple-light); padding: 3px 10px; border-radius: 999px; border: 1px solid var(--accent-purple-border);">Iedereen Live op Internet!</span>
+      </div>
+      <h2>Deel 1: Zelf een Website Bouwen met AI & Netlify Drop</h2>
+      <p>
+        We trappen de afsluitende bijeenkomst direct af met een feestelijk en tastbaar succes! We ontrafelen hoe websites écht werken, bouwen een website over jouw favoriete onderwerp, koppelen <strong>meerdere pagina's (Home & Subpagina's)</strong> aan elkaar en zetten een <strong>interactieve JavaScript hypotheek- of rekenmodule</strong> live. Binnen 5 seconden 100% gratis op internet via <strong>Netlify Drop</strong>!
+      </p>
+
+      <ul>
+        <li><strong>Dia 1–3 (De Basis Ontrafeld):</strong> Geen programmeertaal leren, maar begrijpen wat HTML (skelet), CSS (stijl) en JavaScript (spieren) doen. Waarom 95% van je hobby- of verenigingswensen perfect statisch kan (sneller, veiliger en gratis).</li>
+        <li><strong>Dia 4–6 (Meerdere Pagina's & JavaScript):</strong> De toverprompt voor jouw passie, het koppelen van <code>index.html</code> aan subpagina's via hyperlinks, én JavaScript in actie met een interactieve 30-jarige Annuïteiten Hypotheekcalculator!</li>
+        <li><strong>Dia 7–9 (Lokaal Testen, Netlify Drop & Brug):</strong> Bewaren in één mapje, slepen naar <em>app.netlify.com/drop</em>, de 4 gouden regels én de brug naar de AI-agenten in Deel 2!</li>
+      </ul>
+
+      <div class="btn-row" style="margin-top: 1.4rem;">
+        <a href="presentatie_website_bouwen.html" class="btn btn-primary" style="background: var(--accent-purple); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);">
+          ▶️ Start Presentatie Deel 1: Website Bouwen (9 Dia's)
+        </a>
+      </div>
+      <p style="margin-top: 1rem; margin-bottom: 0; font-size: 0.85rem; color: var(--text-muted);">
+        ⌨️ <em>Bediening: gebruik de spatiebalk, pijltjestoetsen of veeg op je touchscreen. Druk op de toets 'S' voor sprekersnotities.</em>
+      </p>
+    </div>
+
+    <!-- MODULE 2 (DAARNA): PRESENTATIE AI-AGENTEN & PERSOONLIJKE ASSISTENT -->
+    <div class="module-card">
+      <span class="card-badge badge-blue">🤖 Deel 2 • De Volgende Revolutie (13 Dia's)</span>
+      <h2>Deel 2: AI-Agenten, Assistenten & De Toekomst van Werk</h2>
+      <p>
+        De verdieping na de pauze: van een losse webpagina laten genereren naar autonome software-agenten. Met het wetenschappelijke kader uit het <em>NRC</em> (Bennie Mols), een exclusief kijkje achter de schermen bij hoe de docent zélf software ontwikkelt met AI-agenten, het grote toekomstvergezicht (2024–2030), het Gereedschapskompas (antwoorden op vragen van cursisten), en 6 alledaagse praktijktoepassingen.
+      </p>
+
+      <ul>
+        <li><strong>Dia 1–4 (De Basis & Risico's):</strong> Van thermostaat en paperclip <em>Clippy</em> naar het slimme stroomnet, het <em>Koning Midas</em>-probleem en <em>AI als politieagent</em>.</li>
+        <li><strong>Dia 5–8 (Het Grote Plaatje & De Toekomst):</strong> Hoe Jan Martin software bouwt met agenten, de 3 fasen van de agent-revolutie (2024➔2030), de transformatie van werk (van 'doener' naar 'dirigent'), en wat dit thuis betekent.</li>
+        <li><strong>Dia 9 (Gereedschap & Vragen uit de zaal):</strong> Welke app kies je waarvoor (ChatGPT, Gemini, Perplexity, NotebookLM), kan AI een website maken? (Arie), en schone tabellen voor Excel (Yvonne).</li>
+        <li><strong>Dia 10–11 (Toepassingen voor cursisten):</strong> De dynamische reisplanner (Utrecht), diepgaand consumentenonderzoek (e-bikes), de Franse/Italiaanse taalcoach (spraak) en document-analyses met <em>NotebookLM</em>.</li>
+        <li><strong>Dia 12–13 (Regie & Praktijk):</strong> <em>Question Zero</em> van Virginia Dignum, de 3 gouden spelregels én het keuzemenu met de praktijkopdrachten.</li>
+      </ul>
+
+      <div class="btn-row">
+        <a href="presentatie_les3.html" class="btn btn-primary">
+          ▶️ Start Presentatie Deel 2: AI-Agenten (13 Dia's)
+        </a>
+        <a href="../md_viewer.html?file=les3/Bron_NRC_Softwareagenten_2026.md" class="btn btn-outline">
+          📰 Bekijk NRC-Bronartikel
+        </a>
+      </div>
+      <p style="margin-top: 1rem; margin-bottom: 0; font-size: 0.85rem; color: var(--text-muted);">
+        ⌨️ <em>Bediening: gebruik de spatiebalk, pijltjestoetsen of veeg op je touchscreen. Druk op de toets 'S' voor sprekersnotities.</em>
+      </p>
+    </div>
+
+    <!-- MODULE 3: PRAKTIJKOPDRACHTEN IN DE LES -->
+    <div class="module-card" style="border-top: 4px solid var(--accent-emerald);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.8rem;">
+        <span class="card-badge" style="background: var(--accent-emerald-light); color: var(--accent-emerald); border: 1px solid #a7f3d0; margin-bottom: 0;">✏️ Tijdens de bijeenkomst • Zelf doen</span>
+        <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-emerald); background: var(--accent-emerald-light); padding: 3px 10px; border-radius: 999px; border: 1px solid #a7f3d0;">Inclusief Hoofdopdracht Website Bouwen!</span>
+      </div>
+      <h2>Praktijkopdrachten in de Les</h2>
+      <p>
+        We gaan zelf achter de knoppen zitten met onze eigen laptop of iPad. Op de opdrachtenpagina staat de <strong>hoofdopdracht om je eigen website te bouwen en live te zetten</strong>, plus 5 uitdagende agent-opdrachten met kant-en-klare prompts.
+      </p>
+
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 0.85rem; padding: 10px 14px; background: rgba(124, 58, 237, 0.06); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 10px;">
+          <strong style="color: var(--accent-purple); font-size: 1.05rem;">🌐 Hoofdopdracht (Voor Iedereen): Jouw Eigen Website over je Favoriete Onderwerp</strong><br>
+          <span style="color:var(--text-body); font-size:0.92rem;">Bedenk een onderwerp (hobby, Texel/Italië, appeltaart-recept, vogelspotten of vereniging), laat AI één <code>index.html</code> bestand schrijven en sleep hem naar <strong>Netlify Drop</strong>. Binnen 5 seconden staat jouw site echt live op internet!</span>
+        </li>
+        <li style="margin-bottom: 0.75rem;"><strong>🗺️ Keuze 1: De Autonome Dagschema- & Reisplanner</strong><br><span style="color:var(--text-muted); font-size:0.9rem;">Plan een dagje Utrecht met tijdschema en budget, en kijk hoe de AI direct het hele schema overdekt ombouwt als het om 13:30 uur gaat stortregenen!</span></li>
+        <li style="margin-bottom: 0.75rem;"><strong>🔍 Keuze 2: De Diepgaande Onderzoeker (Deep Research)</strong><br><span style="color:var(--text-muted); font-size:0.9rem;">Laat de AI 3 elektrische stadsfietsen met lage instap vergelijken op motor, gewicht, actieradius en minpunten volgens fietstesten.</span></li>
+        <li style="margin-bottom: 0.75rem;"><strong>🗣️ Keuze 3: De Interactieve Taalcoach & Rollenspel</strong><br><span style="color:var(--text-muted); font-size:0.9rem;">Bestel in het Frans of Italiaans een tafeltje en drankje bij een geduldige bistro-ober die je foutjes vriendelijk verbetert (ideaal met de microfoon!).</span></li>
+        <li style="margin-bottom: 0.75rem;"><strong>📚 Keuze 4: NotebookLM – Jouw Eigen Document-Agent</strong><br><span style="color:var(--text-muted); font-size:0.9rem;">Laad het NRC-artikel of een eigen PDF in, stel vragen zonder hallucinaties én luister naar de twee AI-sprekers in de automatische podcast.</span></li>
+        <li style="margin-bottom: 0.75rem;"><strong>🏛️ Keuze 5: Bestuur & Excel (Voor Kees, Ben & Yvonne)</strong><br><span style="color:var(--text-muted); font-size:0.9rem;">Schrijf een formele sponsor-/subsidiebrief mét een strakke begrotingstabel die je met één klik 1-op-1 in Excel kunt plakken.</span></li>
+      </ul>
+
+      <div class="btn-row" style="margin-top: 1.4rem;">
+        <a href="oefeningen.html" class="btn btn-primary" style="background: var(--accent-emerald); box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);">
+          👉 Naar de Praktijkopdrachten & Kopiëren →
+        </a>
+        <a href="../md_viewer.html?file=les3/Praktijkopdrachten_Les3.md" class="btn btn-outline" style="color: var(--accent-emerald); border-color: #a7f3d0;">
+          📄 Bekijk Tekstversie (.md)
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Jan Martin Jansen • Praktijkcursus "Aan de slag met AI" (MM2704) • School 7, Den Helder</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

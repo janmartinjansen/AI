@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Zelf een Website Bouwen met AI & Netlify • Les 3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="auth.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.85);
+      --card-border: #334155;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 15% 20%, #1e1b4b 0%, #0f172a 45%, #090d16 100%);
+      color: var(--text-main);
+    }
+
+    /* Top navigation pills */
+    .top-bar {
+      position: fixed;
+      top: 1.2rem;
+      left: 1.8rem;
+      z-index: 100;
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+    }
+
+    .back-pill:hover {
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Slide container */
+    .slide-deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 3.6rem 4.5rem 4rem 4.5rem;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.98) translateY(15px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+      z-index: 1;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+      z-index: 2;
+    }
+
+    .header-area {
+      margin-bottom: 1.6rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .tag.purple { background: rgba(192, 132, 252, 0.12); color: var(--accent-purple); border-color: rgba(192, 132, 252, 0.3); }
+    .tag.green { background: rgba(52, 211, 153, 0.12); color: var(--accent-green); border-color: rgba(52, 211, 153, 0.3); }
+    .tag.amber { background: rgba(251, 191, 36, 0.12); color: var(--accent-amber); border-color: rgba(251, 191, 36, 0.3); }
+    .tag.rose { background: rgba(251, 113, 133, 0.12); color: var(--accent-rose); border-color: rgba(251, 113, 133, 0.3); }
+
+    h1 {
+      font-size: 2.35rem;
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      max-width: 980px;
+      line-height: 1.5;
+    }
+
+    /* Grids */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.6rem;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .card.border-cyan { border-color: rgba(56, 189, 248, 0.55); }
+    .card.border-green { border-color: rgba(52, 211, 153, 0.55); }
+    .card.border-purple { border-color: rgba(192, 132, 252, 0.55); }
+    .card.border-amber { border-color: rgba(251, 191, 36, 0.55); }
+    .card.border-rose { border-color: rgba(251, 113, 133, 0.55); }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-body {
+      color: #cbd5e1;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-body p {
+      margin-bottom: 0.75rem;
+    }
+
+    .card-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .card-body li {
+      margin-bottom: 0.7rem;
+      position: relative;
+      padding-left: 1.45rem;
+    }
+
+    .card-body li::before {
+      content: "•";
+      color: var(--accent-cyan);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+      font-size: 1.35rem;
+    }
+
+    .card.border-green .card-body li::before { color: var(--accent-green); }
+    .card.border-purple .card-body li::before { color: var(--accent-purple); }
+    .card.border-amber .card-body li::before { color: var(--accent-amber); }
+    .card.border-rose .card-body li::before { color: var(--accent-rose); }
+
+    /* Highlight Banner */
+    .banner {
+      background: rgba(30, 41, 59, 0.92);
+      border: 1.5px solid var(--accent-cyan);
+      border-radius: 0.85rem;
+      padding: 1.05rem 1.4rem;
+      margin-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
+    }
+
+    .banner.green {
+      border-color: var(--accent-green);
+      box-shadow: 0 4px 20px rgba(52, 211, 153, 0.15);
+    }
+
+    .banner.amber {
+      border-color: var(--accent-amber);
+      box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15);
+    }
+
+    .banner.purple {
+      border-color: var(--accent-purple);
+      box-shadow: 0 4px 20px rgba(192, 132, 252, 0.15);
+    }
+
+    .banner-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--accent-cyan);
+      white-space: nowrap;
+    }
+
+    .banner.green .banner-title { color: var(--accent-green); }
+    .banner.amber .banner-title { color: var(--accent-amber); }
+    .banner.purple .banner-title { color: var(--accent-purple); }
+
+    .banner-text {
+      color: #cbd5e1;
+      font-size: 1.12rem;
+      line-height: 1.55;
+    }
+
+    /* Prompt Box */
+    .prompt-box {
+      background: #090d16;
+      border: 1px solid #334155;
+      border-left: 4px solid var(--accent-cyan);
+      border-radius: 0.65rem;
+      padding: 1rem 1.2rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 1rem;
+      color: #e2e8f0;
+      line-height: 1.55;
+      margin-top: 0.6rem;
+      user-select: all;
+    }
+
+    /* Badges */
+    .pill-badge {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      margin-right: 0.4rem;
+      text-transform: uppercase;
+    }
+    .pill-badge.cyan { background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan); }
+    .pill-badge.green { background: rgba(52, 211, 153, 0.2); color: var(--accent-green); }
+    .pill-badge.purple { background: rgba(192, 132, 252, 0.2); color: var(--accent-purple); }
+    .pill-badge.amber { background: rgba(251, 191, 36, 0.2); color: var(--accent-amber); }
+
+    /* Controls Bottom */
+    .controls {
+      position: fixed;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid #334155;
+      padding: 0.5rem 1.1rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #334155;
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+    }
+
+    .btn-notes {
+      border: 1px solid rgba(56, 189, 248, 0.4) !important;
+      color: var(--accent-cyan) !important;
+    }
+
+    .btn-notes.active {
+      background: var(--accent-cyan) !important;
+      color: #0f172a !important;
+      font-weight: 700;
+    }
+
+    .counter {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      font-weight: 600;
+      min-width: 4rem;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Speaker Notes Modal */
+    .notes-drawer {
+      position: fixed;
+      bottom: 75px;
+      right: 25px;
+      width: 470px;
+      max-height: 340px;
+      background: rgba(15, 23, 42, 0.97);
+      border: 1.5px solid var(--accent-cyan);
+      border-radius: 14px;
+      padding: 16px 22px;
+      overflow-y: auto;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+      z-index: 99;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    .notes-drawer.open {
+      display: block;
+    }
+
+    .notes-drawer h5 {
+      color: var(--accent-cyan);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    @media (max-width: 900px) {
+      .slide { padding: 1.8rem 1.4rem 4.5rem 1.4rem; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      h1 { font-size: 1.8rem; }
+      .subtitle { font-size: 1.05rem; }
+      .banner { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+      .notes-drawer { width: calc(100vw - 30px); right: 15px; bottom: 70px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar Links -->
+  <div class="top-bar">
+    <a href="index.html" class="back-pill">← Les 3 Overzicht</a>
+    <a href="../index.html" class="back-pill">🏠 Cursus Startpagina</a>
+  </div>
+
+  <div class="slide-deck">
+
+    <!-- DIA 1: TITELPAGINA -->
+    <div class="slide active" id="slide-1" data-notes="DIA 1 – TITELPAGINA & INTRODUCTIE (DEEL 1 VAN LES 3)
+- Welkom bij de slotles van onze cursus!
+- Vandaag draaien we de traditionele volgorde om: we beginnen NIET met zware theorie, maar we trappen direct af met een feestelijk en tastbaar succes!
+- Iedereen in deze zaal gaat vanmiddag naar huis met een eigen, werkende website over zijn of haar favoriete onderwerp (hobby, vakantie, recepten, club, huisdier).
+- Vroeger had je hiervoor een webdesigner, een hostingcontract van € 10 per maand en ingewikkelde programmatuur nodig.
+- Dankzij AI en de gratis tool Netlify Drop kan iedereen dit nu binnen 5 seconden.
+- Laten we kijken hoe het werkt en hoe laagdrempelig het is!">
+      <div class="header-area">
+        <div class="tag">🌐 LES 3 • DEEL 1: DIRECT ZELF DOEN</div>
+        <h1>Zelf een Website Bouwen met AI & Netlify</h1>
+        <div class="subtitle">Kies je favoriete onderwerp, laat AI de code schrijven en sta binnen 5 seconden gratis live op internet!</div>
+      </div>
+      <div class="grid-3">
+        <div class="card border-cyan">
+          <div class="card-title">🧱 1. Hoe werkt het web?</div>
+          <div class="card-body">
+            Geen tovenarij: een webpagina is een gewoon tekstbestandje. We bekijken de 3 logische bouwstenen: <strong>HTML</strong>, <strong>CSS</strong> en <strong>JavaScript</strong>.
+          </div>
+        </div>
+        <div class="card border-purple">
+          <div class="card-title">⚖️ 2. Statisch vs. Server</div>
+          <div class="card-body">
+            Het verschil tussen een <strong>digitaal clubblad</strong> (statisch) en een <strong>digitaal loket</strong> (server). Waarom 95% van je hobbywensen perfect statisch kan!
+          </div>
+        </div>
+        <div class="card border-green">
+          <div class="card-title">🚀 3. Live met Netlify Drop</div>
+          <div class="card-body">
+            Laat AI het bestandje schrijven, sla het op op je eigen computer en <strong>sleep het naar Netlify Drop</strong>. Direct een echte link om te delen via WhatsApp!
+          </div>
+        </div>
+      </div>
+      <div class="banner green">
+        <div class="banner-title">🎯 Onze missie voor het eerste lesuur:</div>
+        <div class="banner-text">Iedereen bouwt een eigen website over een favoriet onderwerp en zet hem zélf online. Na de pauze kijken we in Deel 2 naar de volgende revolutie: <strong>AI-Agenten</strong>!</div>
+      </div>
+    </div>
+
+    <!-- DIA 2: HOE WERKT HET WEB? (DE 3 BOUWSTENEN) -->
+    <div class="slide" id="slide-2" data-notes="DIA 2 – DE 3 BOUWSTENEN VAN HET WEB
+- Een browser (zoals Google Chrome, Edge of Safari) is eigenlijk een vertaalmachine: hij leest platte tekstcode en tekent dat mooi op je scherm.
+- Gebruik de analogie van een HUIS:
+  1. HTML = De muren, het dak en de vloer (de ruwbouw). Zonder HTML stort het in, maar alleen met HTML is het een kale betonnen bunker.
+  2. CSS = De verf, het behang, de gordijnen en de meubels. Zorgt voor stijl, kleur, marges en sfeer.
+  3. JavaScript = De elektriciteit, waterleiding en deurbel. Als je op een knop drukt, gaat er een lampje branden of telt er een score op.
+- Vroeger moest een webbouwer 3 losse bestanden maken en die aan elkaar koppelen.
+- HET AI-GEHEIM: Vraag je AI om 'alles in één enkel HTML-bestand' te stoppen, dan zet de AI de stijlen en interactie direct netjes tussen <style> en <script> tags. Klaar!">
+      <div class="header-area">
+        <div class="tag purple">🧱 DE BASIS • GEEN MAGIE, GEWOON TEKST</div>
+        <h1>De Drie Bouwstenen van Elke Webpagina</h1>
+        <div class="subtitle">Elke website ter wereld — van Google tot de bakker om de hoek — is opgebouwd uit drie samenwerkende talen:</div>
+      </div>
+      <div class="grid-3">
+        <div class="card border-cyan">
+          <div class="card-title">🦴 HTML: Het Skelet</div>
+          <div class="card-body">
+            <p><strong>Bepaalt wát er staat:</strong></p>
+            <ul>
+              <li>Koppen (<code>&lt;h1&gt;</code>) en alinea's (<code>&lt;p&gt;</code>).</li>
+              <li>Plaatjes, hyperlinks en knoppen.</li>
+              <li>De inhoudelijke structuur van de pagina.</li>
+            </ul>
+            <p style="margin-top:0.8rem; font-size:1.02rem; color:var(--text-muted);"><em>Vergelijkbaar met de ruwbouw en de bakstenen van een huis.</em></p>
+          </div>
+        </div>
+        <div class="card border-purple">
+          <div class="card-title">🎨 CSS: De Kleding & Stijl</div>
+          <div class="card-body">
+            <p><strong>Bepaalt hóe het eruitziet:</strong></p>
+            <ul>
+              <li>Kleuren, lettertypes en regelafstanden.</li>
+              <li>Kolommen, kaders en afgeronde hoeken.</li>
+              <li>Donkere modus en mobiele schaalbaarheid.</li>
+            </ul>
+            <p style="margin-top:0.8rem; font-size:1.02rem; color:var(--text-muted);"><em>Vergelijkbaar met de verf, gordijnen en meubels.</em></p>
+          </div>
+        </div>
+        <div class="card border-green">
+          <div class="card-title">⚡ JavaScript: De Spieren</div>
+          <div class="card-body">
+            <p><strong>Zorgt voor actie & beweging:</strong></p>
+            <ul>
+              <li>Knoppen die openklappen of van kleur veranderen.</li>
+              <li>Een quiz met automatische scoreteller.</li>
+              <li>Een foto-carrousel of rekentooltje.</li>
+            </ul>
+            <p style="margin-top:0.8rem; font-size:1.02rem; color:var(--text-muted);"><em>Vergelijkbaar met de stroomkabel, het lichtknopje en de deurbel.</em></p>
+          </div>
+        </div>
+      </div>
+      <div class="banner purple">
+        <div class="banner-title">💡 De Grote AI-Winst:</div>
+        <div class="banner-text">Vroeger moest je drie losse bestanden beheren. Tegenwoordig stopt AI deze 3 onderdelen naadloos in <strong>één enkel bestand: index.html</strong>!</div>
+      </div>
+    </div>
+
+    <!-- DIA 3: STATISCH VS SERVER-GEBONDEN -->
+    <div class="slide" id="slide-3" data-notes="DIA 3 – STATISCH VS SERVER-GEBONDEN
+- Waarom is dit onderscheid zo cruciaal voor senioren en hobbyisten?
+- Veel mensen denken: 'Als ik een website wil, moet ik een hostingbedrijf betalen (€10 per maand) en WordPress installeren'.
+- Maar WordPress is een zware dynamische motor met databases en plugins die continu beveiligingsupdates nodig hebben, anders worden ze gehackt.
+- STATISCH (De Folder / Het Clubblad):
+  - Het bestand ligt kant-en-klaar klaar. Iedereen die de link bezoekt krijgt exact hetzelfde te zien.
+  - Onze eigen cursuswebsite is ook 100% statisch!
+  - Voordelen: Onkraakbaar veilig (geen database om in te breken), razendsnel en 100% gratis.
+- DYNAMISCH / SERVER (Het Loket):
+  - Alleen nodig als mensen moeten inloggen met een wachtwoord, iets moeten afrekenen met iDEAL of persoonlijke saldo's moeten zien (zoals ING of Bol.com).
+- CONCLUSIE: Voor een hobbyclub, stamboom, receptenboek of presentatie is statisch veel slimmer!">
+      <div class="header-area">
+        <div class="tag amber">⚖️ DE KEUZE • WAT HEB JE ECHT NODIG?</div>
+        <h1>Statisch vs. Server: De Folder of Het Loket?</h1>
+        <div class="subtitle">Waarom 95% van wat je als particulier of vereniging wilt perfect 'statisch' kan zijn:</div>
+      </div>
+      <div class="grid-2">
+        <div class="card border-green">
+          <div class="card-title">📰 Statische Website (De Folder / Het Clubblad)</div>
+          <div class="card-body">
+            <p><strong>Hoe het werkt:</strong> De inhoud ligt van tevoren vast in het bestandje. De browser leest het direct en toont het.</p>
+            <ul>
+              <li><strong>⚡ Razendsnel:</strong> Geen wachttijd voor een computer die berekeningen moet doen.</li>
+              <li><strong>🔒 100% Veilig:</strong> Er is geen achterliggende database die gehackt kan worden.</li>
+              <li><strong>💰 Gratis te hosten:</strong> Kost letterlijk € 0,- per jaar.</li>
+              <li><strong>🎯 Ideaal voor:</strong> Cursussites, fotoclubs, stambomen, recepten, verenigingen en hobby-overzichten.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-rose">
+          <div class="card-title">🏦 Server-gebonden (Het Loket / De Kassa)</div>
+          <div class="card-body">
+            <p><strong>Hoe het werkt:</strong> Er draait op de achtergrond een servercomputer met database die per bezoeker de pagina 'op maat' in elkaar puzzelt.</p>
+            <ul>
+              <li><strong>🛒 Noodzakelijk voor:</strong> Webwinkels (Bol.com), internetbankieren, DigiD en besloten ledenportalen.</li>
+              <li><strong>⚠️ Aandachtspunten:</strong> Vraagt maandelijks hostinggeld, doorlopend onderhoud en beveiligingsupdates tegen virussen/lekken.</li>
+              <li><strong>❌ Vaak 'overkill'</strong> voor eenvoudige informatieve doeleinden.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="banner green">
+        <div class="banner-title">🎯 De Gouden Regel:</div>
+        <div class="banner-text">Heb je geen inlogscherm of iDEAL-betaalknop nodig? <strong>Kies altijd voor statisch!</strong> Het is sneller, veiliger en kost je helemaal niets.</div>
+      </div>
+    </div>
+
+    <!-- DIA 4: STAP 1 - LAAT AI DE CODE MAKEN -->
+    <div class="slide" id="slide-4" data-notes="DIA 4 – STAP 1: LAAT AI DE CODE SCHRIJVEN
+- Hoe begin je? Gewoon met een normaal gesprek in ChatGPT of Google Gemini.
+- Laat cursisten eerst even rustig nadenken: WAT IS JOUW FAVORIETE ONDERWERP?
+  - Een hobby (tuinieren, vogelspotten, fotografie in de duinen, bridgen, schilderen).
+  - Een favoriet vakantieland of herinnering (Texel, Toscane, Noorwegen).
+  - Een familierecept (de appeltaart van oma, familiestamboom, verjaardag).
+  - Een club of vereniging (koor, wandelvereniging, buurttuin).
+- De toverzin in je prompt is: 'Zet alles in één enkel HTML-bestand genaamd index.html'.
+- Wat gebeurt er? De AI begint direct code te typen.
+- Je hoeft de code NIET zelf te lezen of te snappen! Rechtsboven in het codeblok staat een knop: 'Kopieer code' (Copy code). Daar klik je op.">
+      <div class="header-area">
+        <div class="tag cyan">🪄 STAP 1 • DE AI-PROMPT</div>
+        <h1>Kies je Favoriete Onderwerp & Laat AI Bouwen</h1>
+        <div class="subtitle">Bedenk een onderwerp dat je aan het hart gaat en vraag ChatGPT of Gemini om het in 15 seconden te maken:</div>
+      </div>
+      <div class="grid-2">
+        <div class="card border-cyan">
+          <div class="card-title">💡 4 Inspiratie-Ideeën voor Jouw Pagina</div>
+          <div class="card-body">
+            <ul>
+              <li><strong>📸 Hobby & Passie:</strong> Vogelspotten in Den Helder, tuinieren, natuurfotografie, bridgen of modelbouw.</li>
+              <li><strong>🏖️ Vakantie & Reizen:</strong> De mooiste wandelroutes op Texel, herinneringen aan Italië of kamperen in Frankrijk.</li>
+              <li><strong>🥧 Recepten & Familie:</strong> Het geheime appeltaart-recept van oma, een familiestamboom of feestuitnodiging.</li>
+              <li><strong>⛵ Club of Vereniging:</strong> Het plaatselijke koor, de wandelgroep of de buurtvereniging.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-purple">
+          <div class="card-title">💬 De 'Alles-in-Eén' Toverprompt</div>
+          <div class="card-body">
+            <p>Plak deze tekst in ChatGPT of Gemini (vul je eigen onderwerp in!):</p>
+            <div class="prompt-box">
+              "Maak voor mij een moderne, sfeervolle website over [vul hier je onderwerp in, bijv: Vogelspotten in de Duinen van Den Helder].<br><br>
+              Zet ALLES (structuur, stijl en knoppen) in één enkel bestand genaamd index.html.<br><br>
+              Gebruik een navigatiebalk, 3 informatieve kaartjes met leuke tips en een contactknop. Zorg dat het er prachtig uitziet op laptop én iPad."
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="banner cyan">
+        <div class="banner-title">⚡ Binnen 15 seconden klaar:</div>
+        <div class="banner-text">De AI schrijft de complete code. Je hoeft niets van code te snappen: klik rechtsboven op <strong>'Code kopiëren'</strong>!</div>
+      </div>
+    </div>
+
+    <!-- DIA 5: STAP 2 - MEERDERE PAGINA'S KOPPELEN -->
+    <div class="slide" id="slide-5" data-notes="DIA 5 – STAP 2: MEERDERE PAGINA'S KOPPELEN (HOME & SUBPAGINA'S)
+- Een statische website hoeft absoluut niet bij één pagina te blijven!
+- Vroeger dacht men: voor meerdere pagina's heb je een database nodig. Dat is niet zo!
+- Een website is gewoon een verzameling bestandjes in ditzelfde mapje:
+  - index.html (de voorpagina / thuisbasis)
+  - berekening.html (de subpagina met bijvoorbeeld een rekenhulp of foto's)
+  - contact.html (een contactpagina)
+- Hoe praten ze met elkaar? Met een simpele hyperlink: <a href='berekening.html'>.
+- Omdat beide bestandjes in hetzelfde mapje staan, begrijpt de browser direct waar hij naartoe moet.
+- En het mooiste van Netlify Drop: je sleept straks gewoon het héle mapje, en Netlify uploadt alle pagina's in één klap! Alle knoppen werken meteen.">
+      <div class="header-area">
+        <div class="tag purple">🔗 STAP 2 • MEERDERE PAGINA'S</div>
+        <h1>Van Eén Pagina naar een Echte Website</h1>
+        <div class="subtitle">Zo koppel je de hoofdpagina (Home) aan een subpagina met werkende hyperlinks over en weer:</div>
+      </div>
+      <div class="grid-2">
+        <div class="card border-purple">
+          <div class="card-title">📁 Hoe Hyperlinks Werken in Eén Mapje</div>
+          <div class="card-body">
+            <p>Plaats alle pagina's gewoon in hetzelfde mapje op je computer:</p>
+            <ul>
+              <li><strong>Vanaf de hoofdpagina (index.html):</strong><br>
+                Maak een linkje naar de subpagina:<br>
+                <code style="color:var(--accent-cyan); font-weight:700;">&lt;a href="berekening.html"&gt;Naar de Rekentool →&lt;/a&gt;</code>
+              </li>
+              <li><strong>Vanaf de subpagina terug naar Home:</strong><br>
+                Maak een linkje terug:<br>
+                <code style="color:var(--accent-green); font-weight:700;">&lt;a href="index.html"&gt;← Terug naar Home&lt;/a&gt;</code>
+              </li>
+              <li><strong>Geen ingewikkelde webadressen:</strong> Omdat ze buren zijn in hetzelfde mapje, vinden ze elkaar vanzelf!</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-cyan">
+          <div class="card-title">💬 Toverprompt voor een 2-Pagina Website</div>
+          <div class="card-body">
+            <p>Vraag ChatGPT of Gemini om beide pagina's tegelijk te maken:</p>
+            <div class="prompt-box">
+              "Ik wil een kleine website maken van 2 pagina's in hetzelfde mapje:<br><br>
+              1. <strong>index.html</strong>: de startpagina over [mijn onderwerp] met een introductie en een duidelijke knop naar de tweede pagina.<br>
+              2. <strong>berekening.html</strong>: de tweede pagina met een handige rekentool en een duidelijke knop terug naar index.html.<br><br>
+              Schrijf voor beide pagina's de complete code in aparte codeblokken zodat de links over en weer direct werken!"
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="banner purple">
+        <div class="banner-title">🎁 Het grote voordeel:</div>
+        <div class="banner-text">Sleep je straks het hele mapje naar Netlify Drop? Dan uploadt Netlify <strong>alle pagina's in één keer</strong> en werken alle knoppen direct live op internet!</div>
+      </div>
+    </div>
+
+    <!-- DIA 6: STAP 3 - JAVASCRIPT IN ACTIE (HYPOTHEEK CALCULATOR) -->
+    <div class="slide" id="slide-6" data-notes="DIA 6 – STAP 3: JAVASCRIPT IN ACTIE (DE ANNUÏTEITEN HYPOTHEEK BEREKENAAR)
+- Waarom is JavaScript zo magisch op een statische website?
+- Je hebt GEEN server nodig om berekeningen te doen! De computer of tablet van de bezoeker rekent zelf razendsnel.
+- Kijk naar het voorbeeld van een Annuïteiten Hypotheek Berekenaar:
+  - De bezoeker vult in: Leenbedrag (bijv. € 250.000) en Rente (bijv. 3,8%).
+  - Klik op 'Berekenen': JavaScript pakt de getallen, berekent de maandlast én genereert een complete tabel voor jaar 1 t/m 30!
+  - In de tabel zie je per jaar: hoeveel rente betaal je, hoeveel los je af, en wat is de restschuld?
+- De bezoeker ziet de cijfers direct veranderen als de rente wordt aangepast.
+- Je hoeft de wiskundige formule niet zelf te programmeren: AI kent alle formules en stopt de JavaScript-code netjes tussen <script> tags.
+- LIVE DEMO: Klik op de groene knop of laat cursisten de QR-code scannen / naar janmartinhypo.netlify.app surfen op hun eigen iPad of telefoon!
+- BONUS & DIFFERENTIATIE VOOR SNELLE CURSISTEN:
+  Als cursisten snel klaar zijn, verwijs ze dan naar de 3 bonus-uitdagingen in het opdrachtenblad:
+  1. Grafiekje toevoegen: gestapelde staafbalk per jaar waarin rente krimpt en aflossing groeit.
+  2. Extra aflossen: invoerveldje voor extra aflossing met looptijdverkorting en rentebesparing.
+  3. Toggle maand/jaar: schakelen tussen de 30-jaartabel en gedetailleerde 360-maandtabel.
+  Benadruk: ze hoeven niet opnieuw te beginnen, maar plakken de vervolgvraag gewoon in hetzelfde chatgesprek!">
+      <div class="header-area">
+        <div class="tag green">⚡ STAP 3 • JAVASCRIPT IN ACTIE</div>
+        <h1>Interactie Zonder Server: De Hypotheek Berekenaar</h1>
+        <div class="subtitle">Zie JavaScript live rekenen in de browser: invoervelden, dynamische knoppen en een 30-jaarstabel!</div>
+      </div>
+      <div class="grid-2">
+        <div class="card border-green">
+          <div class="card-title">🧮 Wat Doet Deze Interactieve Module?</div>
+          <div class="card-body">
+            <ul>
+              <li><strong>Twee Duidelijke Invoervelden:</strong> De bezoeker vult het leenbedrag in (bijv. € 250.000) en het rentepercentage (bijv. 3,8%).</li>
+              <li><strong>De Berekenknop:</strong> Eén klik activeert het JavaScript-rekenrecept.</li>
+              <li><strong>Directe Resultaten:</strong> Toont de bruto maandlast en een indicatieve netto maandlast (na renteaftrek).</li>
+              <li><strong>Dynamische Tabel per Jaar (1–30):</strong> JavaScript bouwt direct een overzichtelijke tabel die per jaar de <strong>rente</strong>, de <strong>aflossing</strong> en de <strong>resterende schuld</strong> toont!</li>
+              <li><strong>100% Lokaal & Veilig:</strong> Geen externe server nodig; alles rekent veilig in de browser van de bezoeker.</li>
+            </ul>
+            <div style="margin-top:1.1rem; padding:0.9rem 1.1rem; background:rgba(15,23,42,0.6); border:1px solid rgba(52,211,153,0.3); border-radius:12px; display:flex; align-items:center; gap:1.2rem;">
+              <img src="qr_janmartinhypo.png" alt="Scan QR code voor janmartinhypo.netlify.app" style="width:96px; height:96px; border-radius:8px; border:2px solid var(--accent-green); background:#ffffff; padding:2px; flex-shrink:0;">
+              <div>
+                <span style="font-size:0.8rem; font-weight:700; color:var(--accent-green); text-transform:uppercase; letter-spacing:0.05em;">🌐 Live Demo van Jan Martin:</span>
+                <p style="font-family:monospace; font-size:1.1rem; font-weight:700; color:#ffffff; margin:3px 0 6px 0;">janmartinhypo.netlify.app</p>
+                <span style="font-size:0.85rem; color:var(--text-muted);">Scan met je camera of typ het adres in op je iPad/telefoon!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-cyan">
+          <div class="card-title">💬 Toverprompt voor de Hypotheek Calculator</div>
+          <div class="card-body">
+            <p>Plak deze prompt in ChatGPT of Gemini:</p>
+            <div class="prompt-box">
+              "Maak in één enkel HTML-bestand een moderne en overzichtelijke Annuïteiten Hypotheek Berekenaar in het Nederlands:<br><br>
+              - Invoervelden voor: Leenbedrag (€), Rentepercentage (%) en Looptijd (standaard 30 jaar).<br>
+              - Een grote knop 'Bereken Lasten & Aflossing'.<br>
+              - Toon de maandelijkse bruto annuïteit en indicatief netto.<br>
+              - Toon een tabel voor jaar 1 t/m 30 met kolommen: Jaar, Jaarlijkse Rente, Jaarlijkse Aflossing en Restschuld.<br>
+              - Sluit alle CSS en JavaScript netjes in."
+            </div>
+            <div style="margin-top:0.75rem; padding:0.6rem 0.85rem; background:rgba(2,132,199,0.12); border:1px solid rgba(56,189,248,0.25); border-radius:8px; font-size:0.86rem; color:var(--text-muted);">
+              <span style="color:var(--accent-cyan); font-weight:700;">🚀 Bonus voor wie snel klaar is:</span>
+              <span style="color:#ffffff; margin-left:4px;">1. 📊 Staafgrafiek (rente vs. aflossing) • 2. 💰 Extra aflossen &amp; looptijd • 3. 📅 Maand/jaar-toggle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="banner green" style="justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="banner-title">💡 De kracht van JavaScript:</div>
+          <div class="banner-text">Zodra de bezoeker de rente aanpast van 3,8% naar 4,2%, herberekent JavaScript de hele 30-jarige tabel in <strong>0,01 seconde</strong> zonder herladen!</div>
+        </div>
+        <a href="https://janmartinhypo.netlify.app" target="_blank" style="display:inline-flex; align-items:center; gap:6px; font-size:0.95rem; font-weight:700; color:#0f172a; background:var(--accent-green); padding:6px 14px; border-radius:999px; text-decoration:none; white-space:nowrap; box-shadow:0 2px 10px rgba(52,211,153,0.3);">▶️ Open janmartinhypo.netlify.app →</a>
+      </div>
+    </div>
+
+    <!-- DIA 7: STAP 4 - LOKAAL TESTEN -->
+    <div class="slide" id="slide-7" data-notes="DIA 7 – STAP 4: LOKAAL TESTEN OP JE EIGEN COMPUTER
+- Wist je dat je voor een website helemaal geen internet nodig hebt om hem te bekijken?
+- Je eigen browser (Chrome, Edge, Safari) kan lokale bestanden van je harde schijf direct lezen en afbeelden.
+- Stappenplan:
+  1. Maak een nieuw mapje aan op je computer (bijvoorbeeld op je Bureaublad of in Documenten), noem het 'mijn-website'.
+  2. Open Kladblok (Windows) of Teksteditor (Mac). Plak de gekopieerde code erin.
+  3. Sla het bestandje op als 'index.html'. (En maak je ook de rekentool? Sla die op als 'berekening.html' in hetzelfde mapje!).
+  4. Dubbelklik op 'index.html'. Het opent direct in je browser en alle knoppen werken!
+- Zie je een spelfoutje of wil je een andere kleur? Vraag de AI om aanpassing, plak opnieuw en druk op F5 (Vernieuwen) in je browser!">
+      <div class="header-area">
+        <div class="tag green">💻 STAP 4 • OP JE COMPUTER</div>
+        <h1>Opslaan en Direct Testen op je Eigen Computer</h1>
+        <div class="subtitle">Je hebt niet eens internet nodig: je eigen browser kan jouw bestand direct bewonderen!</div>
+      </div>
+      <div class="grid-3">
+        <div class="card border-cyan">
+          <div class="card-title">📁 1. Maak een Mapje</div>
+          <div class="card-body">
+            <p>Maak op je Bureaublad of in Documenten een nieuw mapje aan.</p>
+            <p style="margin-top:0.6rem;">Geef het een herkenbare naam, zoals: <br><strong style="color:var(--accent-cyan);">mijn-website</strong></p>
+          </div>
+        </div>
+        <div class="card border-purple">
+          <div class="card-title">📝 2. Plak & Sla Op</div>
+          <div class="card-body">
+            <p>Open <strong>Kladblok</strong> (Windows) of <strong>Teksteditor</strong> (Mac).</p>
+            <p style="margin-top:0.6rem;">Plak de code van AI erin en sla op als:<br><strong style="color:var(--accent-purple);">index.html</strong> (en evt. <strong>berekening.html</strong>)</p>
+            <p style="margin-top:0.6rem; font-size:1.02rem; color:var(--text-muted);">(Let op: kies 'Alle bestanden', geen .txt!)</p>
+          </div>
+        </div>
+        <div class="card border-green">
+          <div class="card-title">👀 3. Dubbelklik & Geniet</div>
+          <div class="card-body">
+            <p>Dubbelklik op het bestandje <strong>index.html</strong> in je mapje.</p>
+            <p style="margin-top:0.6rem;">Je standaard browser opent hem meteen. Klik op de links: alles werkt al lokaal!</p>
+          </div>
+        </div>
+      </div>
+      <div class="banner amber">
+        <div class="banner-title">🔒 Jouw Veilige Proeftuin:</div>
+        <div class="banner-text">Je kunt thuis eindeloos schaven en experimenteren. Niemand op internet kan meekijken totdat jij besluit om hem online te zetten!</div>
+      </div>
+    </div>
+
+    <!-- DIA 8: STAP 5 - NETLIFY DROP -->
+    <div class="slide" id="slide-8" data-notes="DIA 8 – STAP 5: ONLINE ZETTEN MET NETLIFY DROP
+- Nu komt de grote magie: hoe zorg je dat familie, vrienden of clubleden jouw pagina kunnen zien?
+- Vroeger moest je een domeinnaam kopen, een FTP-programma (FileZilla) installeren, inloggegevens invoeren en bestanden uploaden naar een server.
+- Vandaag gebruiken we NETLIFY DROP (app.netlify.com/drop).
+- Hoe werkt het?
+  1. Ga in je browser naar app.netlify.com/drop.
+  2. Je ziet een groot gestippeld vak: 'Drag and drop your site folder here'.
+  3. Pak je mapje 'mijn-website' vast met de muis en sleep het hele mapje in het vak.
+  4. Binnen 3 tot 5 seconden verschijnt er een groen vinkje én een echte internetlink (eerst willekeurig, maar met een gratis account meteen hernoembaar zoals https://janmartinhypo.netlify.app).
+- Klik erop: hij staat echt op het wereldwijde web! Alle pagina's (home én subpagina's) werken meteen.
+- Kopieer de link en stuur hem via WhatsApp naar je kinderen of kennissen. Het werkt op elke telefoon en pc ter wereld!">
+      <div class="header-area">
+        <div class="tag green">🚀 STAP 5 • DEPLOY MET NETLIFY DROP</div>
+        <h1>Binnen 5 Seconden Gratis Live op Internet</h1>
+        <div class="subtitle">Geen servercontract, geen GitHub, geen technische commando's: puur slepen en klaar!</div>
+      </div>
+      <div class="grid-3">
+        <div class="card border-cyan">
+          <div class="card-title">🌐 1. Surf naar Netlify Drop</div>
+          <div class="card-body">
+            <p>Open je browser en ga naar het officiële adres:</p>
+            <p style="margin-top:0.6rem; font-size:1.25rem; font-weight:700; color:var(--accent-cyan);">app.netlify.com/drop</p>
+            <p style="margin-top:0.6rem; font-size:1.02rem; color:var(--text-muted);">Dit is een gratis en veilige cloud-dienst.</p>
+          </div>
+        </div>
+        <div class="card border-purple">
+          <div class="card-title">🖐️ 2. Sleep je Mapje</div>
+          <div class="card-body">
+            <p>Pak het hele mapje <strong>mijn-website</strong> vast met de muis op je computer.</p>
+            <p style="margin-top:0.6rem;">Laat het los in het grote gestippelde vak op het scherm:<br><em>"Drag and drop your site folder here"</em>.</p>
+          </div>
+        </div>
+        <div class="card border-green">
+          <div class="card-title">🎉 3. Klaar! Je Weblink is Live</div>
+          <div class="card-body">
+            <p>Binnen 3 tot 5 seconden verschijnt je unieke weblink, bijvoorbeeld:</p>
+            <p style="margin-top:0.6rem; font-family:monospace; color:var(--accent-green); font-size:1.05rem;"><a href="https://janmartinhypo.netlify.app" target="_blank" style="color:var(--accent-green); text-decoration:none;">https://janmartinhypo.netlify.app ↗</a></p>
+            <p style="margin-top:0.6rem;">Stuur de link via WhatsApp of e-mail door naar iedereen!</p>
+          </div>
+        </div>
+      </div>
+      <div class="banner green">
+        <div class="banner-title">🎁 Handige Tip:</div>
+        <div class="banner-text">Maak een gratis accountje aan op Netlify om de willekeurige startnaam (zoals <em>sunny-tulip-a482b</em>) direct aan te passen naar bijvoorbeeld <strong>janmartinhypo.netlify.app</strong> of <strong>fotoclub-denhelder.netlify.app</strong>!</div>
+      </div>
+    </div>
+
+    <!-- DIA 9: VALKUILEN & DE BRUG NAAR DEEL 2 -->
+    <div class="slide" id="slide-9" data-notes="DIA 9 – VALKUILEN & DE BRUG NAAR DEEL 2
+- Samenvattend voor Netlify Drop:
+  1. De hoofdpagina MOET ALTIJD 'index.html' heten (kleine letters).
+  2. Sleep altijd het hele MAPJE, niet de losse bestandjes! Zo blijven alle hyperlinks tussen pagina's intact.
+  3. Afbeeldingen: bewaar ze in ditzelfde mapje.
+  4. Veiligheid: Netlify regelt automatisch HTTPS (groen slotje).
+- En dan nu de grote brug naar Deel 2 van deze les:
+- Jullie hebben zojuist gezien hoe AI binnen 15 seconden een werkend programma en zelfs een complete hypotheekcalculator kan schrijven.
+- Maar wat als AI straks zélf programma's kan testen, software kan bouwen en zelfstandig taken kan uitvoeren zónder dat jij elke klik hoeft voor te kauwen?
+- Dát zijn software-agenten — en daar duiken we na de pauze in Deel 2 volop in!">
+      <div class="header-area">
+        <div class="tag amber">💡 SAMENVATTING & BRUG NAAR DEEL 2</div>
+        <h1>De 4 Gouden Regels & De Brug naar Deel 2</h1>
+        <div class="subtitle">Zo voorkom je beginnersfoutjes, en hoe dit de opstap is naar volwaardige AI-Agenten:</div>
+      </div>
+      <div class="grid-2">
+        <div class="card border-amber">
+          <div class="card-title">⚠️ De 4 Vuistregels voor Netlify Drop</div>
+          <div class="card-body">
+            <ul>
+              <li><strong>1. Noem de hoofdpagina altijd <code>index.html</code>:</strong> Met kleine letters! Subpagina's noem je bijv. <code>berekening.html</code>.</li>
+              <li><strong>2. Sleep het héle mapje:</strong> Sleep niet het losse bestandje naar het browservenster, maar het hele mapje. Zo blijven alle links tussen pagina's werken!</li>
+              <li><strong>3. Eigen foto's gebruiken?</strong> Zet ze in ditzelfde mapje (bijv. <code>strand.jpg</code>) en laat de AI direct naar die bestandsnaam verwijzen.</li>
+              <li><strong>4. Gratis groen slotje (HTTPS):</strong> Netlify beveiligt je link automatisch met een officieel veiligheidscertificaat.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-purple">
+          <div class="card-title">🚀 De Brug naar Deel 2: Van Code naar Agenten!</div>
+          <div class="card-body">
+            <p>Je hebt nu ervaren hoe krachtig AI is in het direct opleveren van een werkende website met hyperlinks en JavaScript.</p>
+            <p style="margin-top:0.7rem;">In <strong>Deel 2 (na de pauze)</strong> gaan we nóg een stap verder:</p>
+            <ul>
+              <li>Wat als AI niet alleen tekst of code levert, maar <strong>zelfstandig handelt</strong>?</li>
+              <li>Autonome software-agenten die taken plannen, programma's beheren en reizen organiseren.</li>
+            </ul>
+            <div style="margin-top:1.1rem;">
+              <a href="presentatie_les3.html" class="btn" style="background:var(--accent-purple); color:#ffffff; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                👉 Door naar Deel 2: AI-Agenten & Assistenten (13 Dia's) →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="banner green">
+        <div class="banner-title">🎉 Gefeliciteerd!</div>
+        <div class="banner-text">Iedereen heeft nu een werkende weblink. Stuur hem via WhatsApp naar je familie of kennissen en geniet van je eigen creatie!</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="controls">
+    <button class="btn" id="btn-prev" onclick="prevSlide()" title="Vorige dia (Pijltje links / Backspace)">← Vorige</button>
+    <div class="counter" id="counter">1 / 9</div>
+    <button class="btn" id="btn-next" onclick="nextSlide()" title="Volgende dia (Pijltje rechts / Spatie)">Volgende →</button>
+    <button class="btn btn-notes" id="btn-notes" onclick="toggleNotes()" title="Sprekersnotities openen/sluiten (S)">🎙️ Notities</button>
+    <button class="btn" id="btn-fs" onclick="toggleFullScreen()" title="Volledig scherm (F)">⛶</button>
+  </div>
+
+  <!-- Speaker Notes Modal Drawer -->
+  <div class="notes-drawer" id="notes-drawer">
+    <h5>🎙️ Sprekersnotities (Jan Martin)</h5>
+    <div id="notes-content">Geen notities voor deze dia.</div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 9;
+    const counter = document.getElementById('counter');
+    const notesDrawer = document.getElementById('notes-drawer');
+    const notesContent = document.getElementById('notes-content');
+    const btnNotes = document.getElementById('btn-notes');
+
+    function showSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      const active = document.getElementById(`slide-${n}`);
+      if (active) {
+        active.classList.add('active');
+        const notes = active.getAttribute('data-notes') || 'Geen sprekersnotities beschikbaar voor deze dia.';
+        notesContent.textContent = notes;
+      }
+      counter.innerText = `${n} / ${totalSlides}`;
+      currentSlide = n;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    function toggleNotes() {
+      notesDrawer.classList.toggle('open');
+      btnNotes.classList.toggle('active');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      } else if (e.key.toLowerCase() === 's') {
+        toggleNotes();
+      } else if (e.key === 'Home') {
+        showSlide(1);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides);
+      }
+    });
+
+    // Touch swipe support (iPad / Tablets)
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) {
+        nextSlide();
+      }
+      if (touchEndX > touchStartX + 50) {
+        prevSlide();
+      }
+    }
+
+    // Initialize slide 1 notes
+    showSlide(1);
+  </script>
+</body>
+</html>

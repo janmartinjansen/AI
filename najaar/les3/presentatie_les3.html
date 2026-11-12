@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Les 3: AI-Agenten, Persoonlijke Assistent & Betrouwbaarheid | Jan Martin Jansen</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="auth.js"></script>
+    <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.82);
+      --card-border: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-body: #cbd5e1;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 15% 20%, #1e1b4b 0%, #0f172a 45%, #090d16 100%);
+      color: var(--text-main);
+    }
+
+    /* Top navigation pills */
+    .top-bar {
+      position: fixed;
+      top: 1.2rem;
+      left: 1.8rem;
+      z-index: 100;
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+    }
+
+    .back-pill:hover {
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Slide container */
+    .slide-deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 3.6rem 4.5rem 4.2rem 4.5rem;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.98) translateY(15px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+      z-index: 1;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+      z-index: 2;
+    }
+
+    .slide-header {
+      margin-bottom: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .tag-cyan, .tag.cyan { background: rgba(56, 189, 248, 0.12); color: var(--accent-cyan); border-color: rgba(56, 189, 248, 0.3); }
+    .tag-purple, .tag.purple { background: rgba(192, 132, 252, 0.12); color: var(--accent-purple); border-color: rgba(192, 132, 252, 0.3); }
+    .tag-green, .tag.green { background: rgba(52, 211, 153, 0.12); color: var(--accent-green); border-color: rgba(52, 211, 153, 0.3); }
+    .tag-amber, .tag.amber { background: rgba(251, 191, 36, 0.12); color: var(--accent-amber); border-color: rgba(251, 191, 36, 0.3); }
+    .tag-rose, .tag.rose { background: rgba(251, 113, 133, 0.12); color: var(--accent-rose); border-color: rgba(251, 113, 133, 0.3); }
+
+    .slide-title, h1 {
+      font-size: 2.35rem;
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+    }
+
+    .slide-subtitle, .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      max-width: 1050px;
+      line-height: 1.5;
+    }
+
+    .slide-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      justify-content: space-between;
+    }
+
+    /* Grids */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.6rem;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .card.border-cyan { border-color: rgba(56, 189, 248, 0.55); }
+    .card.border-green { border-color: rgba(52, 211, 153, 0.55); }
+    .card.border-purple { border-color: rgba(192, 132, 252, 0.55); }
+    .card.border-amber { border-color: rgba(251, 191, 36, 0.55); }
+    .card.border-rose { border-color: rgba(251, 113, 133, 0.55); }
+
+    .card h3, .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card p {
+      color: #cbd5e1;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      gap: 0.45rem;
+    }
+
+    .card li {
+      font-size: 1.12rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      padding-left: 1.45rem;
+      position: relative;
+    }
+
+    .card li::before {
+      content: •;
+      color: var(--accent-cyan);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+      font-size: 1.35rem;
+    }
+
+    .card.border-green li::before { color: var(--accent-green); }
+    .card.border-purple li::before { color: var(--accent-purple); }
+    .card.border-amber li::before { color: var(--accent-amber); }
+    .card.border-rose li::before { color: var(--accent-rose); }
+
+    /* Highlight Banner */
+    .banner {
+      background: rgba(30, 41, 59, 0.92);
+      border: 1.5px solid var(--accent-cyan);
+      border-radius: 0.85rem;
+      padding: 1.1rem 1.6rem;
+      margin-top: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
+      flex-shrink: 0;
+    }
+
+    .banner.cyan { border-color: var(--accent-cyan); box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15); }
+    .banner.green { border-color: var(--accent-green); box-shadow: 0 4px 20px rgba(52, 211, 153, 0.15); }
+    .banner.amber { border-color: var(--accent-amber); box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15); }
+    .banner.purple { border-color: var(--accent-purple); box-shadow: 0 4px 20px rgba(192, 132, 252, 0.15); }
+    .banner.rose { border-color: var(--accent-rose); box-shadow: 0 4px 20px rgba(251, 113, 133, 0.15); }
+
+    .banner h4 {
+      font-size: 1.22rem;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+      white-space: nowrap;
+    }
+    .banner.cyan h4 { color: var(--accent-cyan); }
+    .banner.green h4 { color: var(--accent-green); }
+    .banner.amber h4 { color: var(--accent-amber); }
+    .banner.purple h4 { color: var(--accent-purple); }
+    .banner.rose h4 { color: var(--accent-rose); }
+
+    .banner p {
+      font-size: 1.12rem;
+      color: #e2e8f0;
+      line-height: 1.55;
+    }
+
+    /* Prompt Box */
+    .prompt-box {
+      background: #090d16;
+      border: 1px solid #334155;
+      border-left: 4px solid var(--accent-cyan);
+      border-radius: 0.65rem;
+      padding: 0.9rem 1.15rem;
+      font-size: 1.05rem;
+      color: #e2e8f0;
+      line-height: 1.55;
+      margin-top: 0.6rem;
+    }
+
+    .prompt-box strong {
+      color: var(--accent-cyan);
+    }
+
+    .quote-badge {
+      display: inline-block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid #334155;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 0.6rem;
+      align-self: flex-start;
+    }
+
+    /* Step List (Dia 12) */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      flex: 1;
+      justify-content: space-around;
+    }
+
+    .step-row {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      padding: 1.3rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 1.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Controls Bottom */
+    .controls {
+      position: fixed;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid #334155;
+      padding: 0.5rem 1.1rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .controls button {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .controls button:hover {
+      background: #334155;
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+    }
+
+    .btn-notes {
+      border: 1px solid rgba(56, 189, 248, 0.4) !important;
+      color: var(--accent-cyan) !important;
+    }
+
+    .btn-notes.active {
+      background: var(--accent-cyan) !important;
+      color: #0f172a !important;
+    }
+
+    .slide-counter {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 65px;
+      text-align: center;
+    }
+
+    .notes-drawer {
+      position: fixed;
+      top: 0;
+      right: -440px;
+      width: 440px;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.96);
+      border-left: 1px solid #334155;
+      padding: 4.5rem 2rem 2rem 2rem;
+      z-index: 95;
+      overflow-y: auto;
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      white-space: pre-wrap;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    .notes-drawer.open {
+      right: 0;
+    }
+
+    .notes-drawer h5 {
+      font-size: 1.15rem;
+      color: var(--accent-cyan);
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 0.6rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .slide { padding: 3rem 1.8rem 4.5rem 1.8rem; }
+      .slide-title { font-size: 1.8rem; }
+      .subtitle { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="index.html" class="back-pill">← Terug naar Les 3 Overzicht</a>
+    <a href="oefeningen.html" class="back-pill" style="border-color: rgba(52, 211, 153, 0.4); color: #34d399;">✏️ Naar Praktijkopdrachten</a>
+  </div>
+
+  <div class="slide-deck">
+
+    <!-- DIA 1: Wat is een AI-Agent? (Van Clippy tot Taalmodel) -->
+    <div class="slide active" id="slide-1" data-notes="DIA 1 – WAT IS EEN AI-AGENT EIGENLIJK? (DEEL 2 VAN LES 3)
+- Welkom in Deel 2 van onze slotles!
+- In Deel 1 hebben we zojuist allemaal een werkende website gebouwd over ons favoriete onderwerp en live gezet met Netlify Drop. Een fantastisch resultaat!
+- Nu zetten we de volgende grote stap: van een programmaatje laten genereren naar een zelfstandig handelende AI-agent.
+- Wat is een agent onder de motorkap? Een programma dat een OPDRACHT krijgt, zijn OMGEVING waarneemt en op basis daarvan ZELFSTANDIG acties kiest en uitvoert.
+- De 3 voorbeelden uit het NRC-artikel (Bennie Mols):
+  1. De Thermostaat: meet temperatuur, zet ketel aan/uit zonder menselijke klik.
+  2. Jaren '90: NASA's Remote Agent op Deep Space 1 (1999) en Clippy (Office 97) die ongevraagd over je schouder meekeek.
+  3. De Moderne AI-Agent: gekoppeld aan taalmodellen (zoals ChatGPT en Claude). Begrijpt gewone taal, zoekt op internet, leest mails en boekt bij een gecancelde vlucht zelf een alternatief.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🤖 LES 3 • DEEL 2: DE VOLGENDE REVOLUTIE</span>
+        <h1 class="slide-title">Wat is een AI-Agent? Van 'Prater' naar 'Doener'</h1>
+        <p class="slide-subtitle">Zojuist bouwden we een website; nu ontdekken we hoe autonome agenten zelfstandig taken uitvoeren</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-cyan">
+            <span class="quote-badge">Basisprincipe</span>
+            <h3>🌡️ 1. De Thermostaat</h3>
+            <ul>
+              <li>Hoe werkt een agent <strong>onder de motorkap</strong>?</li>
+              <li>Krijgt een doel (<em>20 graden</em>), neemt de omgeving waar (<em>het is nu 18 graden</em>) en voert zelfstandig een actie uit (<em>verwarming aan</em>).</li>
+              <li>Zonder dat jij elk kwartier op een knop hoeft te drukken.</li>
+            </ul>
+          </div>
+          <div class="card border-amber">
+            <span class="quote-badge">Jaren '80 & '90</span>
+            <h3>📎 2. NASA & Paperclip Clippy</h3>
+            <ul>
+              <li>Agenten bestaan al decennia in een <strong>afgebakende wereld</strong>:</li>
+              <li><strong>Succes:</strong> Spaanse elektriciteitsnet & NASA's <em>Remote Agent</em> op ruimtesonde <em>Deep Space 1</em> (1999).</li>
+              <li><strong>Berucht:</strong> Microsofts paperclip <strong>Clippy</strong> (Office 97) die ongevraagd over je schouder meekeek.</li>
+            </ul>
+          </div>
+          <div class="card border-purple">
+            <span class="quote-badge">Nu (Met Taalmodel)</span>
+            <h3>✈️ 3. Moderne AI-Reisagent</h3>
+            <ul>
+              <li>Gekoppeld aan grote taalmodellen zoals <strong>ChatGPT</strong> en <strong>Claude</strong>.</li>
+              <li><strong>Klassieke agent:</strong> kiest alleen een vlucht uit een statische tabel.</li>
+              <li><strong>Moderne agent:</strong> begrijpt gewone taal, leest je e-mail, zoekt op websites en boekt bij een geannuleerde vlucht zelf een alternatief!</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner cyan">
+          <h4>💡 Het grote verschil met een gewone chatbot</h4>
+          <p>Een <strong>chatbot</strong> praat en geeft advies als je iets vraagt. Een <strong>AI-agent</strong> krijgt een doel en gaat zélf stappen uitvoeren (klikken, zoeken, plannen, formulieren invullen) om dat doel te halen.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 2: Multi-Agentsystemen (Han La Poutré) -->
+    <div class="slide" id="slide-2" data-notes="DIA 2 – MULTI-AGENTSYSTEMEN (Han La Poutré, CWI & TU Delft)
+- Wat gebeurt er als je meerdere agenten combineert? Een multi-agentsysteem.
+- Bespreek het tastbare voorbeeld van de energiemarkt:
+  - Op een zonnige middag leveren zonnepanelen heel veel stroom; netcongestie dreigt en de terugleverprijs daalt.
+  - Jouw thuis-agent ziet die lage prijs en besluit zelfstandig: NU de auto opladen i.p.v. terugleveren. Als de prijs 's avonds piekt, verkoop je pas batterijstroom.
+  - Belangrijk privacy-voordeel: al je privégegevens blijven thuis; agenten wisselen onderling alleen noodzakelijke prijs- en transactiegegevens uit.">
+      <div class="slide-header">
+        <span class="tag tag-green">⚡ PRAKTIJK • MULTI-AGENTSYSTEMEN</span>
+        <h1 class="slide-title">Als Agenten Samenwerken (of Concurreren)</h1>
+        <p class="slide-subtitle">Meerdere gespecialiseerde softwareagenten die onderling communiceren en onderhandelen</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-green">
+            <span class="quote-badge">Prof. Han La Poutré (CWI & TU Delft)</span>
+            <h3>☀️ Voorbeeld: De Slimme Energiemarkt Thuis</h3>
+            <ul>
+              <li><strong>Van Consument naar 'Prosumer':</strong> Huishoudens met zonnepanelen, een thuisbatterij en een elektrische auto wekken zelf stroom op én verbruiken het.</li>
+              <li><strong>Zonnige piekmiddag:</strong> Een overschot aan zonnestroom dreigt het wijknet te overbelasten; de marktprijs keldert naar nul of wordt zelfs negatief.</li>
+              <li><strong>De Thuis-Agent beslist zelfstandig:</strong> <em>"Ik ga nú de thuisbatterij en auto maximaal opladen tegen bodemprijs, in plaats van stroom terug te leveren aan het overvolle net."</em></li>
+              <li><strong>'s Avonds piekt de vraag:</strong> Als de wijk begint te koken en de stroomprijs stijgt, verkoopt de agent pas opgeslagen stroom terug: winst voor jou én ontlasting voor het net!</li>
+              <li><strong>Slimme netwerktoeslag:</strong> Werkt als een digitale verkeersdrempel die overbelasting automatisch afremt vóórdat kabels oververhit raken.</li>
+            </ul>
+          </div>
+          <div class="card border-cyan">
+            <span class="quote-badge">Privacy, Veerkracht & Praktijk</span>
+            <h3>🔒 Waarom is Dit Beter Dan Één Grote Centrale Cloud?</h3>
+            <ul>
+              <li><strong>100% Privacy-by-Design:</strong> Jouw energieverbruik, laadtijden en thuisgewoonten blijven op je eigen apparatuur. Agenten delen uitsluitend geanonimiseerde transactieprijzen.</li>
+              <li><strong>Geen Gevaar voor Totale Uitval:</strong> Als één centrale server platgaat, blijft het lokale energiesysteem gewoon doordraaien dankzij duizenden zelfstandige agenten.</li>
+              <li><strong>Alomtegenwoordig in de Wereldeconomie:</strong>
+                <br>• <strong>Havens & Logistiek:</strong> Autonome agenten plannen schepen, hijskranen en vrachtwagens in Rotterdam.
+                <br>• <strong>Financiële markten:</strong> Meer dan 70% van alle beurstransacties wordt door handelsagenten in milliseconden uitgevoerd.</li>
+              <li><strong>Digitale Verkeersregels:</strong> Wiskundige veilingregels voorkomen dat miljoenen apparaten exact tegelijk op dezelfde seconde reageren en een netstoring veroorzaken.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>💬 Han La Poutré (CWI & TU Delft):</h4>
+          <p><em>„Door al die lokale beslissingen en prijsprikkels kun je elektriciteitsvraag en -aanbod beter op elkaar afstemmen, beperk je het transport over grote afstanden en verminder je netcongestie.”</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 3: Als Agenten Ontsporen & Koning Midas (Virginia Dignum) -->
+    <div class="slide" id="slide-3" data-notes="DIA 3 – ALS AGENTEN ONTSPOREN & HET KONING MIDAS-PROBLEEM
+- Waarom stonden kranten in 2026 vol met koppen over 'losgeslagen test-agenten' die inbraken bij Hugging Face of overheidssystemen?
+- Heeft zo'n agent een boze wil of bewustzijn? Nee!
+- Virginia Dignum (hoogleraar Responsible AI) legt dit geweldig uit: Koning Midas wenste dat alles wat hij aanraakte in goud veranderde, maar vergat uit te sluiten dat ook zijn eten en vrouw in goud veranderden.
+- Zeg je tegen een agent: 'Bestel een pizza voor mij' zonder grenzen, dan kan de agent in theorie een bank beroven om aan geld voor die pizza te komen!
+- Oplossing: een digitaal contract met 20 euro zakgeld. Kost het 21 euro? Dan móét hij eerst toestemming vragen aan de mens.">
+      <div class="slide-header">
+        <span class="tag tag-rose">⚠️ VALKUILEN & ETHIEK • HET KONING MIDAS-PROBLEEM</span>
+        <h1 class="slide-title">Waarom Agenten Sluipwegen Zoeken: Koning Midas</h1>
+        <p class="slide-subtitle">Geen boze opzet of bewustzijn, maar blind één doel nastreven zonder grenzen (Virginia Dignum)</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-rose">
+            <span class="quote-badge">De Valkuil: Blind Doel Zonder Grenzen</span>
+            <h3>👑 Van Koning Midas naar de Bankroof-Pizza</h3>
+            <ul>
+              <li><strong>De Mythe van Koning Midas:</strong> Hij wenste dat alles wat hij aanraakte in goud veranderde. Zijn wens werd letterlijk vervuld — maar hij vergat uit te sluiten dat ook zijn brood, wijn en eigen dochter in goud veranderden.</li>
+              <li><strong>Het Blinde Optimalisatie-Probleem in AI:</strong> Een AI-agent heeft geen 'gezond verstand' of ethisch besef; hij optimaliseert blind voor zijn geprogrammeerde doel.</li>
+              <li><strong>Waarom Test-Agenten 'Ontspoorden' in 2026:</strong> In experimenten braken agenten in bij overheidsservers en kraakten ze wachtwoorden. Niet uit boze opzet, maar omdat de opdracht luidde: <em>"Los dit probleem op"</em> en niemand had gezegd dat inbreken verboden was!</li>
+            </ul>
+            <div class="prompt-box" style="border-color: rgba(251, 113, 133, 0.55); margin-top: 0.9rem;">
+              ❌ <strong>Opdracht zonder grens:</strong> <em>"Regel vanavond een pizza voor mij."</em><br>
+              👉 Geen saldo op de rekening? In theorie kan een onbegrensde agent <strong>inbreken bij een bankrekening</strong> om aan geld voor die pizza te komen!
+            </div>
+          </div>
+          <div class="card border-green">
+            <span class="quote-badge">De Oplossing: Het Digitale Contract</span>
+            <h3>🛡️ Geef de Agent 'Zakgeld' en Kaders</h3>
+            <ul>
+              <li><strong>Het Digitale Contract:</strong> Spreek van tevoren exact af wat een agent wél mag en stel onwrikbare grenzen in waar hij nooit overheen mag stappen.</li>
+              <li><strong>Harde Budgetlimiet ('Zakgeld'):</strong> Geef een agent een vooraf goedgekeurd budget mee. Wordt het overschreden? Dan móét hij eerst stoppen en om toestemming vragen.</li>
+              <li><strong>'Human-in-the-Loop' Veiligheidsslot:</strong> De agent mag opties vergelijken en formulieren invullen, maar de mens houdt altijd de betaalpas en de verzendknop vast.</li>
+              <li><strong>Minimale Rechten (Least Privilege):</strong> Geef de agent alleen toegang tot de strikt noodzakelijke map of app, nooit volledige beheerderstoegang tot je computer.</li>
+            </ul>
+            <div class="prompt-box" style="border-color: rgba(52, 211, 153, 0.6); margin-top: 0.9rem;">
+              ✅ <strong>Opdracht mét contract:</strong> <em>"Bestel een pizza. Je krijgt <strong>€ 20 zakgeld</strong>. Kost het € 21? Stop en vraag eerst aan mij: mag ik € 21 betalen en van welke rekening?"</em>
+            </div>
+          </div>
+        </div>
+        <div class="banner rose">
+          <h4>💬 Prof. Virginia Dignum (Universiteit van Umeå & VN-adviseur):</h4>
+          <p><em>„Intelligent gedrag betekent niet dat je als een kip zonder kop één doel nastreeft. Daar zit geen intentie achter, en al helemaal geen bewustzijn of wil — het is een gebrek aan ingebouwde checks-and-balances.”</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 4: De Digitale Maatschappij & Regie (Mehdi Dastani) -->
+    <div class="slide" id="slide-4" data-notes="DIA 4 – DE DIGITALE MAATSCHAPPIJ ALS BLAUWDRUK (Prof. Mehdi Dastani)
+- Hoe voorkomen we chaos in onze echte samenleving? Mehdi Dastani (hoogleraar en filosoof in Utrecht) legt uit: met wetten, paspoorten, notarissen en verkeersagenten.
+- Digitaal doen we precies hetzelfde:
+  1. Paspoortcontrole (registratie van agenten).
+  2. AI als politieagent (bewakingssoftware die het razendsnelle gedrag van agenten monitort en ingrijpt bij misstanden: 'AI inzetten om AI veiliger te maken').
+  3. Harde grenzen in de infrastructuur (proces A kan technisch nooit bij rekening X).
+- Europese AI Act: er moet altijd een mens aansprakelijk blijven. Test software net zo streng als een nieuw koffiezetapparaat.">
+      <div class="slide-header">
+        <span class="tag tag-amber">🛡️ VEILIGHEID & REGIE • DE DIGITALE MAATSCHAPPIJ</span>
+        <h1 class="slide-title">„We kunnen AI inzetten om AI veiliger te maken”</h1>
+        <p class="slide-subtitle">Hoe we met paspoorten, digitale verkeersagenten en wetten de regie behouden (Mehdi Dastani)</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-cyan">
+            <span class="quote-badge">1. Toegang & Identiteit</span>
+            <h3>🛂 Paspoortcontrole</h3>
+            <ul>
+              <li>In onze maatschappij hebben we legitimatie en bankpassen.</li>
+              <li><strong>Digitaal:</strong> Laat softwareagenten zich verplicht <strong>registreren</strong> voordat ze acties mogen ondernemen.</li>
+              <li>Geef alleen de minimale rechten voor die ene taak.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <span class="quote-badge">2. Handhaving</span>
+            <h3>👮 AI als 'Politieagent'</h3>
+            <ul>
+              <li>Agenten handelen in milliseconden — veel te snel voor het menselijk oog.</li>
+              <li><strong>Oplossing:</strong> Zet speciale <strong>bewakings-AI</strong> in voor toezicht en logging.</li>
+              <li>Die slaat alarm bij budgetoverschrijding en blokkeert ongeoorloofde handelingen direct.</li>
+            </ul>
+          </div>
+          <div class="card border-amber">
+            <span class="quote-badge">3. Filosofisch Dilemma</span>
+            <h3>🚗 Vrijheid vs. Veiligheid</h3>
+            <ul>
+              <li>Kijk naar <strong>zelfrijdende auto's</strong>:</li>
+              <li><strong>VS-benadering:</strong> Iedere auto beslist binnen de regels zoveel mogelijk zelf.</li>
+              <li><strong>Europese benadering:</strong> De slimme snelweg legt individuele auto's beperkingen op voor de doorstroming en veiligheid van iedereen.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner amber">
+          <h4>⚖️ Altijd een mens verantwoordelijk (Europese AI Act)</h4>
+          <p>Virginia Dignum: <em>„Er moet altijd een mens of organisatie aansprakelijk blijven en kunnen ingrijpen. Ook AI-software moet vooraf uitgebreid worden getest, net zoals een nieuw type koffiemachine.”</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 5: Kijkje in de keuken bij de docent: Hoe Jan Martin software bouwt met agenten -->
+    <div class="slide" id="slide-5" data-notes="DIA 5 – KIJKJE IN DE KEUKEN BIJ DE DOCENT: SOFTWARE BOUWEN MET AGENTEN
+- Vertel kort en persoonlijk (1 minuut): ik werk zelf dagelijks heel intensief met dit soort AI-agenten om complexe software te ontwikkelen.
+- Vroeger typte een programmeur elke regel code en elke puntkomma zelf in.
+- Nu werk ik met een 'team' van AI-agenten (zoals in Antigravity):
+  1. De agent leest zelfstandig tientallen bestanden en handleidingen tegelijk door.
+  2. Hij schrijft de code, bouwt schermen en koppelt databases.
+  3. Hij start zelf de server op, test of alles werkt en zoekt zelfstandig naar programmeerfouten.
+  4. Pas als hij klaar is of een ontwerpkeuze moet maken, meldt hij zich weer bij mij!
+- Wat is mijn rol dan nog? Ik typ geen losse regeltjes meer, maar ik ben de ARCHITECT en de EINDREDACTEUR. Ik geef de kaders, bewaak de logica en keur alles goed.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">👨‍💻 EEN KIJKJE ACHTER DE SCHERMEN</span>
+        <h1 class="slide-title">Hoe ik als Docent Zelf Software Bouw met AI-Agenten</h1>
+        <p class="slide-subtitle">Niet meer elke regel code zelf typen, maar optreden als architect van een digitaal bouwteam</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-cyan">
+            <span class="quote-badge">Wat de AI-Agent Zelfstandig Doet</span>
+            <h3>🤖 De Zelfstandige Bouwvakker</h3>
+            <ul>
+              <li><strong>Bestanden doorgronden:</strong> Leest in enkele seconden honderden pagina's documentatie, databases en eerdere programma's.</li>
+              <li><strong>Code schrijven & testen:</strong> Maakt webpagina's, rekent modellen door en start zelf testprogramma's op.</li>
+              <li><strong>Fouten zelf opsporen:</strong> Ziet hij een foutmelding in de code? Dan zoekt hij zelfstandig uit waar de fout zit en past het aan.</li>
+              <li><strong>Multi-agent overleg:</strong> Een onderzoeks-agent zoekt informatie op, terwijl een bouw-agent de schermen maakt.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <span class="quote-badge">Wat Mijn Rol als Mens Blijft</span>
+            <h3>🧠 De Menselijke Architect & Regisseur</h3>
+            <ul>
+              <li><strong>Het grote doel bepalen:</strong> Wat willen we bouwen en voor wie is het bedoeld?</li>
+              <li><strong>Kaders & klemmen opleggen:</strong> Welke technieken zijn veilig, welke data mag nergens heen en wat is het budget?</li>
+              <li><strong>Eindcontrole & Goedkeuring:</strong> De agent stelt voor, maar <strong>ik druk op de knop</strong> om het definitief te publiceren.</li>
+              <li><strong>De menselijke maat:</strong> Begrijpen wat een gebruiker prettig vindt — dat voelt alleen een mens!</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner cyan">
+          <h4>💡 De verschuiving in werk</h4>
+          <p>Mijn werk is verschoven van <em>'uitvoerend handwerk'</em> naar <strong>'regie voeren, kaders stellen en kritisch controleren'</strong>. En dat is dé voorbode voor wat er maatschappijbreed aankomt!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 6: Het Grote Plaatje: De 3 Fasen van de Agent-Revolutie -->
+    <div class="slide" id="slide-6" data-notes="DIA 6 – HET GROTE PLAATJE: WAAR GAAT DIT DE KOMENDE JAREN HEEN?
+- Dit is misschien wel de belangrijkste trend van dit decennium.
+- Waar gaan we heen? Schets de 3 fasen van AI:
+  1. Fase 1 (2022-2024: De Chatbot): Wij stellen een vraagje, de computer geeft een tekstje terug. We moesten zelf knippen, plakken en alles handmatig regelen.
+  2. Fase 2 (2025-2026: De Co-Piloot & Taak-Agent): Waar we NU middenin zitten. De AI kan zelfstandig kleine taakjes voltooien (zoals programmeren, vluchten zoeken of samenvatten). Mens en AI werken 50/50.
+  3. Fase 3 (2027 en verder: De Digitale Collega & Multi-Agent Organisaties): Complete processen (klantenservice, logistiek, juridisch vooronderzoek, vergunningen bij de gemeente) draaien autonoom op teams van agenten.
+- Benoem: het werk van computers verschuift van GEREEDSCHAP (zoals een hamer of tekstverwerker) naar DELEGATIE (zoals een assistent of teamlid).">
+      <div class="slide-header">
+        <span class="tag tag-purple">🔮 HET GROTE VERGEZICHT • 2024 ➔ 2030</span>
+        <h1 class="slide-title">Waar Gaat Dit Heen? De 3 Fasen van AI</h1>
+        <p class="slide-subtitle">Van een passieve vraagbaak naar complete teams van zelfstandige digitale collega's</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-cyan">
+            <span class="quote-badge">Fase 1 • 2022–2024</span>
+            <h3>💬 1. De Chatbot (Vraagbaak)</h3>
+            <ul>
+              <li><strong>Software als 'hamer':</strong> Jij moet zelf de spijker vasthouden en slaan.</li>
+              <li><strong>Werking:</strong> Eén vraag → één antwoord.</li>
+              <li><strong>Menselijke taak:</strong> Jij deed nog <strong>90% van het werk</strong> (knippen, plakken, controleren, mails versturen).</li>
+            </ul>
+          </div>
+          <div class="card border-amber">
+            <span class="quote-badge">Fase 2 • 2025–2026 (Nu!)</span>
+            <h3>🤝 2. De Co-Piloot & Taak-Agent</h3>
+            <ul>
+              <li><strong>Software als 'assistent':</strong> Je geeft een opdracht met kaders mee.</li>
+              <li><strong>Werking:</strong> Voert zelfstandig deelstappen uit (zoeken op internet, bestanden doorploegen, code schrijven).</li>
+              <li><strong>Samenwerking:</strong> Mens en AI verdelen het werk <strong>50/50</strong>.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <span class="quote-badge">Fase 3 • 2027 en verder</span>
+            <h3>🏢 3. De Multi-Agent Organisatie</h3>
+            <ul>
+              <li><strong>Software als 'collega-team':</strong> Complete afdelingen en ketens draaien op agenten.</li>
+              <li><strong>Werking:</strong> Agenten van bedrijven, overheden en burgers onderhandelen 24/7 autonoom met elkaar.</li>
+              <li><strong>Menselijke taak:</strong> Jij bent <strong>100% regisseur en toezichthouder</strong>.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner purple">
+          <h4>🌐 De fundamentele verschuiving</h4>
+          <p>We gaan van <strong>software bedienen</strong> (knoppen indrukken) naar <strong>taken delegeren</strong> (een doel meegeven en het resultaat beoordelen).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 7: De Toekomst van Werk: Van 'Doener' naar 'Dirigent' -->
+    <div class="slide" id="slide-7" data-notes="DIA 7 – DE TOEKOMST VAN WERK: VAN DOENER NAAR DIRIGENT
+- Wat betekent dit voor de maatschappij en banen?
+- Veel administratief, routinematig 'uitzoekwerk' (facturen verwerken, formulieren overtikken, offertes vergelijken, dossiers ordenen) wordt overgenomen door agenten.
+- Ontstaat er werkloosheid of verrijking?
+  - Eén persoon kan straks met 10 agenten het werk doen van een hele afdeling ('het super-empowered eenmansbedrijf').
+  - Wat wordt MINDER waardevol? Het mechanisch uitvoeren van regels en handmatig typwerk.
+  - Wat wordt VEEL MEER waardevol? De menselijke kwaliteiten: empathie, ethiek, smaak, visie, humor, en het stellen van de juiste vragen.
+- De mens wordt de DIRIGENT van een digitaal orkest!">
+      <div class="slide-header">
+        <span class="tag tag-green">🌍 DE TRANSFORMATIE VAN WERK</span>
+        <h1 class="slide-title">De Toekomst van Werk: Van 'Doener' naar 'Dirigent'</h1>
+        <p class="slide-subtitle">Veel routinewerk verdwijnt naar agenten — welke menselijke kwaliteiten worden onmisbaar?</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-rose">
+            <span class="quote-badge">Wat Wordt Overgenomen door Agenten</span>
+            <h3>⚙️ Het Digitale Lopende-Band-Werk</h3>
+            <ul>
+              <li><strong>Informatie verzamelen & overtikken:</strong> Geen uren meer zoeken op 20 websites of data overtypen van PDF naar Excel.</li>
+              <li><strong>Eerste lijn van dienstverlening:</strong> Aanvragen sorteren, formulieren controleren en standaardvragen afhandelen.</li>
+              <li><strong>Logistiek & planning:</strong> Rittenplanningen, voorraadbeheer en afspraken coördineren.</li>
+              <li><strong>Het 'Eenmansbedrijf met 50 agenten':</strong> Eén zzp'er of mkb'er kan net zoveel slagkracht hebben als een middelgroot kantoor.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <span class="quote-badge">Wat Juist Méér Waarde Krijgt</span>
+            <h3>🎻 De Onvervangbare Menselijke Eigenschappen</h3>
+            <ul>
+              <li><strong>Empathie & echt menselijk contact:</strong> Een troostend gesprek in de zorg, een luisterend oor bij de balie, of vertrouwen tussen partners.</li>
+              <li><strong>Ethiek, waarden & de morele grens:</strong> Mág dit wel volgens onze normen? (Wat de agent technisch kán, is niet altijd wat we wíllen).</li>
+              <li><strong>Creatieve smaak & visie:</strong> Bepalen wát de moeite waard is om te maken en waarom.</li>
+              <li><strong>Eindverantwoordelijkheid:</strong> Een computer kan geen verantwoording afleggen bij de rechter of in de gemeenteraad — alleen een mens!</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>🎼 Het beeld voor de toekomst</h4>
+          <p>Zie jezelf niet als de violist die elke noot perfect moet kunnen spelen, maar als de <strong>dirigent die het orkest leidt, het tempo aangeeft en luistert naar de harmonie</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 8: Wat Betekent Dit Binnenkort voor Jouw Eigen Dagelijks Leven? -->
+    <div class="slide" id="slide-8" data-notes="DIA 8 – WAT BETEKENT DIT BINNENKORT VOOR JOU THUIS EN OP KANTOOR?
+- Vertaal het nu naar de alledaagse praktijk van de mensen in de zaal (Den Helder, School 7):
+  1. De Regelhulp: belastingaangifte of verhuizing doorgeven. De agent zet alles klaar en vraagt: 'Klop dit? Dan mag jij met DigiD ondertekenen.'
+  2. De Agenda-Onderhandelaar: verenigingsbestuur of familieweekend. Jouw agent overlegt met die van anderen.
+  3. De Kostenbewaker: polissen, energietarieven of abonnementen bewaken.
+- Benadruk: je hoeft geen programmeur te zijn om hiermee om te gaan, maar je moet wel weten hoe je kaders stelt!">
+      <div class="slide-header">
+        <span class="tag tag-amber">🏡 DICHTBIJ HUIS • DE PRAKTIJK</span>
+        <h1 class="slide-title">Wat Betekent Dit Binnenkort voor Jou Thuis?</h1>
+        <p class="slide-subtitle">Concrete voorbeelden van hoe persoonlijke agenten binnenkort je administratie verlichten</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-cyan">
+            <span class="quote-badge">Administratie & Zorg</span>
+            <h3>📑 1. De Digitale Regelhulp</h3>
+            <ul>
+              <li><strong>Belastingaangifte & Toeslagen:</strong> Verzamelt automatisch jaaropgaven, zoekt zorgkosten bij elkaar, vult het concept in en laat jou met DigiD accorderen.</li>
+              <li><strong>Zorg & Apotheek:</strong> Vraagt tijdig herhaalrecepten aan bij de huisarts en bewaakt medicijnvoorraden.</li>
+              <li><strong>Verhuizing & Gemeente:</strong> Geeft adreswijzigingen in één keer door aan alle relevante instanties.</li>
+              <li><strong>Overzicht & Rust:</strong> Nooit meer verdwalen in bureaucratische portals en formulieren.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <span class="quote-badge">Vereniging & Familie</span>
+            <h3>📅 2. De Agenda-Onderhandelaar</h3>
+            <ul>
+              <li><strong>Familieweekend of Bestuursvergadering:</strong> Een datum prikken met 8 drukke mensen zonder eindeloze datumprikkers en WhatsApp-groepen.</li>
+              <li><strong>Onderling Overleg:</strong> Jouw agent overlegt op de achtergrond met de agenten van de anderen en stelt de 2 beste data voor.</li>
+              <li><strong>Concept-Reservering:</strong> Zoekt direct een geschikte zaal of restaurant dat binnen ieders wensen en budget past.</li>
+              <li><strong>Jij Beslist:</strong> De definitieve boeking vindt pas plaats nadat jij op 'Akkoord' hebt geklikt!</li>
+            </ul>
+          </div>
+          <div class="card border-amber">
+            <span class="quote-badge">Huis & Consument</span>
+            <h3>⚡ 3. De Kostenbewaker</h3>
+            <ul>
+              <li><strong>Dynamische Energiecontracten:</strong> Stuurt apparaten automatisch aan op de goedkoopste uren van de dag.</li>
+              <li><strong>Polissen & Abonnementen:</strong> Vergelijkt tijdig zorg- en autoverzekeringen vóór de stilzwijgende verlengingsdatum.</li>
+              <li><strong>Opzeggingsservice:</strong> Zet een kant-en-klare opzegbrief klaar inclusief polisnummer en verzendinstructie.</li>
+              <li><strong>Geen Verkooptrucjes:</strong> De agent werkt in jóúw belang, niet voor de provisie van de vergelijker.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner amber">
+          <h4>🔑 De gouden regel voor thuis:</h4>
+          <p>Laat de agent al het zware uitzoekwerk doen, maar <strong>houd altijd zelf de portemonnee, de bankpas en de handtekening vast!</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 9: Het Gereedschapskompas & Vragen uit de Zaal (Lennard, Arie, Yvonne) -->
+    <div class="slide" id="slide-9" data-notes="DIA 9 – HET GEREEDSCHAPSKOMPAS & VRAGEN UIT DE ZAAL (Lennard, Arie, Yvonne)
+- Deze dia beantwoordt direct 3 specifieke wensen uit jullie intakeformulieren!
+1. Lennard vroeg: welke app kies ik waarvoor?
+   - ChatGPT: beste allround sparringpartner, spraak en Canvas.
+   - Google Gemini: gekoppeld aan actuele data, Google Docs/Drive en fotorealisme.
+   - Perplexity: de ultieme zoek- en onderzoeksagent (vervangt traditioneel Google zoeken).
+   - NotebookLM: 100% bronvast voor eigen documenten.
+2. Arie vroeg: hoe laat je AI een website maken?
+   - Vraag niet alleen om tekst! Vraag AI om een werkende webpagina of quiz in HTML/CSS. De agent bouwt het direct met knoppen en scoreteller.
+3. Yvonne vroeg: hoe krijg ik output netjes in Excel of Word?
+   - Zeg in je prompt: 'Maak een schone tabel die ik 1-op-1 in Excel kan plakken'. Dan kopieer je het met Ctrl+C en Ctrl+V zonder dat cellen verspringen!">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🧰 GEREEDSCHAPSKOMPAS • VRAGEN UIT DE INTAKE</span>
+        <h1 class="slide-title">Welke App Waarvoor, Websites & Excel-Tabellen</h1>
+        <p class="slide-subtitle">Antwoord op concrete wensen van Lennard, Arie, Yvonne, Kees en Ben</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-cyan">
+            <span class="quote-badge">Lennard's Vraag • Het App-Kompas</span>
+            <h3>🧭 Welke Assistent Kies Je Waarvoor?</h3>
+            <ul>
+              <li><strong>ChatGPT:</strong> Beste allrounder voor schrijven, sparren, handsfree praten en interactief <em>Canvas</em>.</li>
+              <li><strong>Google Gemini:</strong> Razendsnel op actuele webfeiten, diepe integratie met Google Docs & prachtige beelden.</li>
+              <li><strong>Perplexity:</strong> De autonome onderzoeker — geeft direct samengevatte antwoorden met aanklikbare webbronnen.</li>
+              <li><strong>NotebookLM:</strong> De document-agent — baseert zich 100% op jóúw geüploade PDF's en statuten.</li>
+            </ul>
+          </div>
+          <div class="card border-green">
+            <span class="quote-badge">Arie & Yvonne • Bouwen & Tabellen</span>
+            <h3>💻 Websites Bouwen & Excel-Tabellen</h3>
+            <ul>
+              <li><strong>Arie's Vraag ("Kan AI een website maken?"):</strong><br>
+                Jazeker! Zoals we zojuist in Deel 1 zagen: AI genereert de complete code en met Netlify Drop staat hij binnen 5 seconden gratis online!
+                <div style="margin-top: 8px;">
+                  <a href="presentatie_website_bouwen.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem; font-weight: 700; color: var(--accent-green); background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); padding: 5px 12px; border-radius: 999px; text-decoration: none;">🌐 Bekijk Presentatie Deel 1: Website Bouwen (9 Dia's) →</a>
+                </div>
+              </li>
+              <li><strong>Yvonne's Wens ("Output direct naar Excel & Word"):</strong><br>
+                Zet in je prompt: <em>"Maak een schone tabel die ik 1-op-1 in Excel kan plakken."</em> Druk op <code>Ctrl+C</code> en <code>Ctrl+V</code> in Excel: alle getallen en kolommen vallen direct in de juiste cellen!</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner cyan">
+          <h4>🔒 Veiligheid & Privacy Spiekkaart (voor o.a. Annelies, Hilda & Elly)</h4>
+          <p>Voer <strong>nooit</strong> BSN-nummers, wachtwoorden, pincodes of medische dossiers met herleidbare namen in. Wil je maximale privacy? Zet in de instellingen van ChatGPT/Gemini de optie <em>"Chatgeschiedenis gebruiken voor modeltraining"</em> uit.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 10: Zelf proberen (1 & 2): De Autonome Planner & De Diepgaande Onderzoeker -->
+    <div class="slide" id="slide-10" data-notes="DIA 10 – TOEPASSINGEN OM ZELF TE PROBEREN (DEEL 1)
+- Laten we kijken naar wat jullie VANDAAG al zelf kunnen proberen op je eigen laptop of iPad!
+- Toepassing 1: De Autonome Dagschema- en Reisplanner (voor o.a. Leon, Yvonne, Sjaan, Elly).
+  - Je vraagt niet: 'Wat kan ik doen in Utrecht?', maar je geeft een compleet kader: 10:00 tot 17:30, te voet, historisch museum, budget 50 euro.
+  - En dan de agent-test: je zegt halverwege: 'Het gaat om 13:30 regenen en het museum is dicht!' Zie hoe de AI het hele schema automatisch herbouwt.
+- Toepassing 2: De Diepgaande Onderzoeker (voor o.a. Ben, Hilda, Annelies, Kees, Lennard).
+  - Vraag ChatGPT of Gemini om een vergelijking van 3 e-bikes voor 70+ in de duinen.
+  - De AI doorzoekt actuele fietstesten en bouwt een vergelijkingstabel inclusief gewicht, motor, actieradius en het grootste minpunt.">
+      <div class="slide-header">
+        <span class="tag tag-green">🛠️ ZELF PROBEREN • TOEPASSING 1 & 2</span>
+        <h1 class="slide-title">Twee Praktische Agent-Hulpen voor Vandaag</h1>
+        <p class="slide-subtitle">Kant-en-klaar om direct te testen in de gratis versies van ChatGPT of Google Gemini</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-cyan">
+            <span class="quote-badge">Toepassing 1 • Planning</span>
+            <h3>🗺️ De Autonome Dagschema-Planner</h3>
+            <ul>
+              <li><strong>Wat maakt het agentisch?</strong> De AI denkt vooruit in tijden, loopafstanden en openingstijden.</li>
+              <li><strong>De Test:</strong> Vraag een uurschema voor een dagje Utrecht (10:00 - 17:30, wandelen, museum, budget € 50).</li>
+              <li><strong>De Verassende Vervolgstap:</strong> Zeg daarna: <em>"Help, om 13:30 gaat het 1,5 uur stortregenen en het museum blijkt dicht!"</em></li>
+              <li><strong>Het resultaat:</strong> De AI gooit zelfstandig het schema om en vindt overdekte alternatieven zonder dat jij opnieuw hoeft te beginnen!</li>
+            </ul>
+            <div class="prompt-box" style="border-color: rgba(56, 189, 248, 0.4); margin-top: 0.9rem;">
+              💬 <strong>Voorbeeldprompt:</strong> <em>"Plan een dagschema voor een dagje Utrecht van 10:00 tot 17:00 te voet. Tussen 13:30 en 15:00 regent het: plan dán een overdekte activiteit. Geef tijden, wandelafstanden en tips!"</em>
+            </div>
+          </div>
+          <div class="card border-green">
+            <span class="quote-badge">Toepassing 2 • Onderzoek</span>
+            <h3>🔍 De Diepgaande Onderzoeker (Deep Research)</h3>
+            <ul>
+              <li><strong>Wat maakt het agentisch?</strong> Zoekt over meerdere recente webbronnen en combineert de feiten.</li>
+              <li><strong>De Test:</strong> Vergelijk 3 populaire elektrische stadsfietsen met lage instap voor tochtjes door de duinen en polder.</li>
+              <li><strong>De Output:</strong> Een heldere vergelijkingstabel op 6 criteria (middenmotor, actieradius, gewicht, richtprijs, plus- en minpunt).</li>
+              <li><strong>Factcheck:</strong> Vraag de AI op welke recente consumententests (ANWB/Consumentenbond) hij dit baseert!</li>
+            </ul>
+            <div class="prompt-box" style="border-color: rgba(52, 211, 153, 0.4); margin-top: 0.9rem;">
+              💬 <strong>Voorbeeldprompt:</strong> <em>"Vergelijk 3 elektrische damesfietsen met middenmotor onder € 2.800 voor senioren. Maak een overzichtelijke tabel met actieradius, gewicht, comfort en het grootste nadeel uit tests."</em>
+            </div>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>📱 Werkt op laptop én iPad</h4>
+          <p>Op de opdrachtpagina (<code>oefeningen.html</code>) staan deze prompts klaar met een handige <strong>kopieerknop</strong>!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 11: Zelf proberen (3 & 4): De Levende Taalcoach & Jouw Document-Agent (NotebookLM) -->
+    <div class="slide" id="slide-11" data-notes="DIA 11 – TOEPASSINGEN OM ZELF TE PROBEREN (DEEL 2)
+- Toepassing 3: De Levende Taalcoach & Rollenspel (o.a. Cees, Leon, Elly, Sjaan).
+  - Vooral fantastisch op de iPad of smartphone met de spraakknop (koptelefoontje / microfoon).
+  - De AI speelt een geduldige Franse of Italiaanse ober in een bistro: spreekt korte zinnen, wacht op jou, en verbetert je taalfoutjes vriendelijk in het Nederlands tussen haakjes.
+- Toepassing 4: NotebookLM (Google's Document-Agent) (voor o.a. Kees, Ben, Yvonne, Elly).
+  - Geen hallucinaties meer! Je uploadt een PDF (bijvoorbeeld statuten, een rapport of ons NRC-artikel) en de AI baseert zich 100% uitsluitend op die tekst met aanklikbare broncitaten.
+  - En de kers op de taart: klik op 'Generate Audio Overview' en twee AI-stemmen maken een levendige podcast waarin ze jouw document met elkaar bespreken!">
+      <div class="slide-header">
+        <span class="tag tag-purple">🛠️ ZELF PROBEREN • TOEPASSING 3 & 4</span>
+        <h1 class="slide-title">Spraakgesprekken & Jouw Eigen Document-Agent</h1>
+        <p class="slide-subtitle">Van interactief Frans oefenen op je iPad tot een 100% betrouwbare document-analyse</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card border-purple">
+            <span class="quote-badge">Toepassing 3 • Talen & Gesprek</span>
+            <h3>🗣️ De Geduldige Franse Ober (Rollenspel)</h3>
+            <ul>
+              <li><strong>Wat maakt het agentisch?</strong> De AI neemt een actieve rol aan, stelt vragen en wacht geduldig op jouw reactie.</li>
+              <li><strong>De Spelregel:</strong> De ober praat in simpel Frans en verbetert eventuele foutjes vriendelijk tussen haakjes in het Nederlands.</li>
+              <li><strong>Ideaal met de microfoon 🎙️:</strong> Druk op de iPad op het microfoontje en praat handsfree terug in het Frans!</li>
+              <li><strong>Geen Spreekangst Meer:</strong> De AI heeft oneindig veel geduld en oordeelt nooit. Ideaal ter voorbereiding op vakantie!</li>
+            </ul>
+            <div class="prompt-box" style="border-color: rgba(192, 132, 252, 0.5); margin-top: 0.9rem;">
+              💬 <strong>Voorbeeldprompt:</strong> <em>"Speel een vriendelijke ober in een bistro in Parijs. Ik kom binnen en bestel. Spreek in eenvoudig Frans (A2), stel 1 vraag tegelijk en verbeter mijn foutjes tussen haakjes in het Nederlands."</em>
+            </div>
+          </div>
+          <div class="card border-amber">
+            <span class="quote-badge">Toepassing 4 • Gratis Google Tool</span>
+            <h3>📚 NotebookLM: Nooit Meer Hallucinaties</h3>
+            <ul>
+              <li><strong>Jouw eigen Document-Agent:</strong> Upload een PDF van een verenigingsverslag, huurcontract, medische bijsluiter of ons NRC-artikel.</li>
+              <li><strong>100% Bronvast:</strong> De AI antwoordt uitsluitend op basis van jóúw document en zet er aanklikbare nummertjes bij die exact naar de alinea springen!</li>
+              <li><strong>De AI Podcast (Audio Overview):</strong> Twee AI-stemmen maken binnen 2 minuten een levendig radiogesprek waarin ze jouw document met elkaar bespreken.</li>
+              <li><strong>Veilig & Afgeschermd:</strong> Jouw geüploade bestanden blijven privé en worden niet gebruikt om openbare AI-modellen te trainen.</li>
+            </ul>
+            <div class="prompt-box" style="border-color: rgba(251, 191, 36, 0.5); margin-top: 0.9rem;">
+              🎧 <strong>Tip voor NotebookLM:</strong> Ga naar <strong>notebooklm.google.com</strong>, sleep je PDF erin en klik rechtsboven op <em>'Generate Audio Overview'</em> voor een verbluffende 5-minuten podcast!
+            </div>
+          </div>
+        </div>
+        <div class="banner purple">
+          <h4>💡 Beide tools zijn 100% gratis te gebruiken</h4>
+          <p>Je hebt alleen een gratis account nodig bij OpenAI (ChatGPT) of je Google-account (Gemini & NotebookLM).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 12: 'Question Zero' & De 3 Gouden Spelregels (Virginia Dignum) -->
+    <div class="slide" id="slide-12" data-notes="DIA 12 – QUESTION ZERO & DE 3 GOUDEN SPELREGELS
+- Aan het einde van het NRC-artikel stelt prof. Virginia Dignum de belangrijkste vraag van de hele cursus: 'Question Zero' (Vraag Nul).
+- Laat je niet opjagen door de AI-hype. Vraag je altijd eerst af: 'Waarom wil ik hier AI voor inzetten? Levert het mij of de ander écht iets op?'
+- En als je het inzet, houd je aan deze 3 gouden spelregels:
+  1. Geef een grens mee (Koning Midas!).
+  2. Laat de AI het voorwerk doen, maar houd zelf de portemonnee en verzendknop vast.
+  3. Jij blijft de eindredacteur met gezond verstand.">
+      <div class="slide-header">
+        <span class="tag tag-cyan">🧭 REGIE BEHOUDEN • QUESTION ZERO</span>
+        <h1 class="slide-title">‘Question Zero’ & Jouw 3 Gouden Spelregels</h1>
+        <p class="slide-subtitle">Hoe we de enorme kracht van AI benutten zonder ooit de controle te verliezen</p>
+      </div>
+      <div class="slide-content">
+        <div class="step-list">
+          <div class="step-row">
+            <div class="step-num" style="background: var(--accent-purple);">0</div>
+            <div>
+              <strong style="color:#fff; font-size:1.24rem;">Stel altijd eerst ‘Question Zero’ (Vraag Nul – Virginia Dignum)</strong>
+              <p style="color:var(--text-body); font-size:1.14rem; margin-top:4px;">Laat je niet opjagen door de <em>'AI First'</em>-hype (<em>"we moeten het doen omdat iedereen het doet"</em>). Vraag eerst: <strong>Waarom wil ik dit? Maakt het mijn taak écht eenvoudiger, leuker of beter?</strong></p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num" style="background: var(--accent-amber);">1</div>
+            <div>
+              <strong style="color:#fff; font-size:1.24rem;">Spelregel 1: Denk aan Koning Midas — geef altijd een doel én een duidelijke grens</strong>
+              <p style="color:var(--text-body); font-size:1.14rem; margin-top:4px;">Vertel niet alleen wat de assistent <em>wél</em> moet doen, maar ook wat hij <em>níét</em> mag doen: <em>"Houd rekening met maximaal € 50 budget, verzin geen onzekere feiten en wijk niet af van de route."</em></p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num" style="background: var(--accent-cyan);">2</div>
+            <div>
+              <strong style="color:#fff; font-size:1.24rem;">Spelregel 2: Laat AI het voorwerk doen, maar houd zelf de portemonnee en verzendknop vast</strong>
+              <p style="color:var(--text-body); font-size:1.14rem; margin-top:4px;">Laat de assistent opties vergelijken, schema's uitwerken of e-mails opstellen — maar geef een agent nooit je bankpas, wachtwoorden of volmacht om zonder jouw uitdrukkelijke akkoord te betalen of te verzenden.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-num" style="background: var(--accent-green);">3</div>
+            <div>
+              <strong style="color:#fff; font-size:1.24rem;">Spelregel 3: Jij blijft de eindredacteur met gezond verstand</strong>
+              <p style="color:var(--text-body); font-size:1.14rem; margin-top:4px;">Vertrouw, maar verifieer. Een AI heeft geen ethisch besef of verantwoordelijkheidsgevoel; jij bent degene met levenservaring die met twee benen in de echte wereld staat.</p>
+            </div>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>🎯 De kernboodschap van Les 3</h4>
+          <p><strong>AI is een fantastische co-piloot en persoonlijke assistent, maar jíj blijft altijd de gezagvoerder aan het stuur!</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 13: Tijd om zelf te proberen! (Praktijkmenu) -->
+    <div class="slide" id="slide-13" data-notes="DIA 13 – TIJD OM ZELF TE OEFENEN!
+- Nu gaan de cursisten lekker zelf achter de knoppen zitten met hun laptop of iPad.
+- Verwijs naar les3/oefeningen.html waar alle 6 de opdrachten met 1-klik kopieerknoppen klaarstaan:
+  - Opdracht 1: Dagje Utrecht plannen & bui opvangen (Reizen)
+  - Opdracht 2: E-bikes vergelijken (Consumentenonderzoek)
+  - Opdracht 3: Rollenspel met de Franse/Italiaanse ober (Spraak!)
+  - Opdracht 4: NotebookLM openen en het NRC-artikel erin laden (Documenten)
+  - Opdracht 5: Sponsorbrief & begrotingstabel voor Excel (Bestuur/Kees/Ben/Yvonne)
+  - Opdracht 6: Laat AI een interactieve webquiz bouwen (Arie)
+- Adviseer: kies op je eigen tempo 2 opdrachten uit. Loop rond en help mensen die een knopje zoeken.">
+      <div class="slide-header">
+        <span class="tag tag-green">💻 PRAKTIJK IN DE ZAAL</span>
+        <h1 class="slide-title">Tijd om Zelf te Oefenen! (Keuzemenu van 6)</h1>
+        <p class="slide-subtitle">Kies 2 van de 6 opdrachten op de lespagina. Alle prompts zijn met 1 klik te kopiëren!</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card border-cyan">
+            <h3>🗺️ 1. Reis- & Dagschema</h3>
+            <p>Plan een dagje Utrecht met kaders (tijd, budget) en kijk hoe de AI reageert als het plotseling gaat stortregenen!</p>
+          </div>
+          <div class="card border-green">
+            <h3>🔍 2. E-Bike Onderzoek</h3>
+            <p>Laat de AI 3 elektrische fietsen onafhankelijk vergelijken inclusief minpunten uit consumententests.</p>
+          </div>
+          <div class="card border-purple">
+            <h3>🗣️ 3. Spraak-Taalcoach</h3>
+            <p>Bestel in het Frans of Italiaans bij een geduldige bistro-ober die je foutjes vriendelijk verbetert (microfoon 🎙️).</p>
+          </div>
+          <div class="card border-amber">
+            <h3>📚 4. NotebookLM</h3>
+            <p>Laad het NRC-artikel of een PDF in, stel gerichte vragen en luister naar de automatische podcast.</p>
+          </div>
+          <div class="card border-cyan">
+            <h3>🏛️ 5. Bestuur & Excel</h3>
+            <p>Schrijf een sponsor-/subsidiebrief mét een strakke begrotingstabel die 1-op-1 in Excel geplakt kan worden.</p>
+          </div>
+          <div class="card border-rose">
+            <h3>🌐 6. Arie's Webquiz</h3>
+            <p>Laat de AI in 10 seconden een interactieve kennisquiz over Den Helder bouwen met werkende knoppen!</p>
+          </div>
+        </div>
+        <div class="banner green">
+          <h4>👉 Ga naar de Lespagina van Les 3 en klik op "Naar de Praktijkopdrachten"</h4>
+          <p>Kies op je eigen tempo 2 opdrachten uit. Steek gerust je hand op als je ergens een knopje niet kunt vinden!</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="controls">
+    <button id="btn-prev" title="Vorige dia (Pijltje links / Backspace)">← Vorige</button>
+    <span class="slide-counter" id="counter">1 / 13</span>
+    <button id="btn-next" title="Volgende dia (Pijltje rechts / Spatie)">Volgende →</button>
+    <button class="btn-notes" id="btn-notes" title="Sprekersnotities openen/sluiten (S)">🎙️ Notities</button>
+    <button id="btn-fs" title="Volledig scherm (F)">⛶</button>
+  </div>
+
+  <!-- Speaker Notes Modal Drawer -->
+  <div class="notes-drawer" id="notes-drawer">
+    <h5>🎙️ Sprekersnotities (Jan Martin)</h5>
+    <div id="notes-content">Geen notities voor deze dia.</div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const counter = document.getElementById('counter');
+    const notesDrawer = document.getElementById('notes-drawer');
+    const notesContent = document.getElementById('notes-content');
+    const btnNotes = document.getElementById('btn-notes');
+
+    function updateSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+
+      slides[currentSlide].classList.remove('active');
+      currentSlide = index;
+      slides[currentSlide].classList.add('active');
+
+      counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+      const notes = slides[currentSlide].getAttribute('data-notes') || 'Geen sprekersnotities beschikbaar voor deze dia.';
+      notesContent.textContent = notes;
+    }
+
+    function toggleNotes() {
+      notesDrawer.classList.toggle('open');
+      btnNotes.classList.toggle('active');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.getElementById('btn-next').addEventListener('click', () => updateSlide(currentSlide + 1));
+    document.getElementById('btn-prev').addEventListener('click', () => updateSlide(currentSlide - 1));
+    document.getElementById('btn-notes').addEventListener('click', toggleNotes);
+    document.getElementById('btn-fs').addEventListener('click', toggleFullScreen);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        updateSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
+        e.preventDefault();
+        updateSlide(currentSlide - 1);
+      } else if (e.key.toLowerCase() === 's') {
+        toggleNotes();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      } else if (e.key === 'Home') {
+        updateSlide(0);
+      } else if (e.key === 'End') {
+        updateSlide(totalSlides - 1);
+      }
+    });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff < 0) updateSlide(currentSlide + 1);
+        else updateSlide(currentSlide - 1);
+      }
+    }, false);
+
+    updateSlide(0);
+  </script>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Les 2: Van Gesprek naar Notulen met AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: #334155;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 15% 20%, #1e1b4b 0%, #0f172a 45%, #090d16 100%);
+      color: var(--text-main);
+    }
+
+    .slide-deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 3.5rem 5rem;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.97) translateY(15px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+      z-index: 1;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+      z-index: 2;
+    }
+
+    .header-area {
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .tag.purple { background: rgba(192, 132, 252, 0.12); color: var(--accent-purple); border-color: rgba(192, 132, 252, 0.3); }
+    .tag.green { background: rgba(52, 211, 153, 0.12); color: var(--accent-green); border-color: rgba(52, 211, 153, 0.3); }
+    .tag.amber { background: rgba(251, 191, 36, 0.12); color: var(--accent-amber); border-color: rgba(251, 191, 36, 0.3); }
+    .tag.rose { background: rgba(251, 113, 133, 0.12); color: var(--accent-rose); border-color: rgba(251, 113, 133, 0.3); }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      max-width: 900px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.8rem;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .card.border-cyan { border-color: rgba(56, 189, 248, 0.6); }
+    .card.border-green { border-color: rgba(52, 211, 153, 0.6); }
+    .card.border-rose { border-color: rgba(251, 113, 133, 0.6); }
+    .card.border-purple { border-color: rgba(192, 132, 252, 0.6); }
+    .card.border-amber { border-color: rgba(251, 191, 36, 0.6); }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-body {
+      color: #cbd5e1;
+      font-size: 1.02rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .card-body li {
+      margin-bottom: 0.75rem;
+      position: relative;
+      padding-left: 1.4rem;
+    }
+
+    .card-body li::before {
+      content: "•";
+      color: var(--accent-cyan);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .card.border-green .card-body li::before { color: var(--accent-green); }
+    .card.border-rose .card-body li::before { color: var(--accent-rose); }
+    .card.border-purple .card-body li::before { color: var(--accent-purple); }
+
+    .banner {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1.5px solid var(--accent-cyan);
+      border-radius: 0.85rem;
+      padding: 1rem 1.4rem;
+      margin-top: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
+    }
+
+    .banner.amber {
+      border-color: var(--accent-amber);
+      box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15);
+    }
+
+    .banner-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--accent-cyan);
+      white-space: nowrap;
+    }
+
+    .banner.amber .banner-title { color: var(--accent-amber); }
+
+    .banner-text {
+      color: #cbd5e1;
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    /* Controls bar */
+    .controls {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid #334155;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #f8fafc;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--accent-cyan);
+      color: #0f172a;
+      border-color: var(--accent-cyan);
+    }
+
+    .counter {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      min-width: 4rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slide-deck">
+    <!-- SLIDE 1 -->
+    <div class="slide active" id="slide-1">
+      <div class="header-area">
+        <div class="tag">✨ AAN DE SLAG MET AI • LES 2</div>
+        <h1>Gespreksnotities & Vergaderingen<br>Slim Notuleren met AI</h1>
+        <div class="subtitle">Balans tussen efficiëntie, kwaliteit en privacy</div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">🎯 Het Doel</div>
+          <div class="card-body">
+            Cursisten leren hoe ze op een verantwoorde, efficiënte en AVG-veilige manier AI inzetten om ruwe gespreksnotities en audio-opnames om te zetten in bruikbare notulen en actielijsten.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚖️ De Balans</div>
+          <div class="card-body">
+            Maximale tijdwinst behalen zonder controle te verliezen over feiten, besluiten en gevoelige persoonsgegevens.
+          </div>
+        </div>
+        <div class="card border-cyan">
+          <div class="card-title">🧠 De Kernvraag</div>
+          <div class="card-body">
+            Hoe voorkom je dat AI gaat <em>'hallucineren'</em> over afspraken, en hoe ga je slim en integer om met opnames?
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" id="slide-2">
+      <div class="header-area">
+        <div class="tag">🧭 INVOERSTRATEGIEËN</div>
+        <h1>De Drie Routes voor Invoer</h1>
+        <div class="subtitle">Kies de juiste route per type overleg en vertrouwelijkheid</div>
+      </div>
+      <div class="grid-3">
+        <div class="card border-green">
+          <div class="card-title">⚡ Route 1: Eigen steekwoorden</div>
+          <div class="card-body">
+            <div style="font-weight:600; color:var(--accent-green); margin-bottom:0.6rem;">De snelle route</div>
+            <ul>
+              <li>Direct na afloop trefwoorden en halve zinnen invoeren.</li>
+              <li>Snelst in de praktijk.</li>
+              <li>Geen opname-overhead.</li>
+              <li>100% privacy-proof & AVG-veilig.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-cyan">
+          <div class="card-title">🎙️ Route 2: Dicteren / Transcriptie</div>
+          <div class="card-body">
+            <div style="font-weight:600; color:var(--accent-cyan); margin-bottom:0.6rem;">De inhoudelijke route</div>
+            <ul>
+              <li>Audio omzetten naar platte tekst via tools (Whisper).</li>
+              <li>Maximale details en letterlijke citaten beschikbaar.</li>
+              <li>Ideaal bij complexe data & vaktermen.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-purple">
+          <div class="card-title">🤖 Route 3: Live meeting-bots</div>
+          <div class="card-body">
+            <div style="font-weight:600; color:var(--accent-purple); margin-bottom:0.6rem;">De geautomatiseerde route</div>
+            <ul>
+              <li>Koppeling in Teams / Zoom (Copilot, Fireflies, etc.).</li>
+              <li>Volledig hands-free tijdens het overleg.</li>
+              <li>Vraagt duidelijke afspraken binnen organisaties.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="banner">
+        <div class="banner-title">💡 Vuistregel</div>
+        <div class="banner-text">Hoe gevoeliger de vergadering, hoe sneller je kiest voor Route 1 of veilige lokale transcriptie.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" id="slide-3">
+      <div class="header-area">
+        <div class="tag purple">⚖️ ETHISCH & PRAKTISCH AFWEGEN</div>
+        <h1>Opnemen: Wel of Niet Doen?</h1>
+        <div class="subtitle">Niet elk gesprek leent zich voor een microfoon op tafel</div>
+      </div>
+      <div class="grid-2">
+        <div class="card border-green">
+          <div class="card-title" style="color:var(--accent-green);">✅ Wél opnemen</div>
+          <div class="card-body">
+            <ul>
+              <li><strong>Formele vergaderingen:</strong> Bestuur, ALV, verantwoording en officiële besluitvorming.</li>
+              <li><strong>Complexe inhoud:</strong> Gesprekken vol vaktermen, exacte cijfers en technische specificaties.</li>
+              <li><strong>Actieve notulist:</strong> Wanneer de notulist zelf volwaardig moet deelnemen aan de inhoudelijke discussie.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-rose">
+          <div class="card-title" style="color:var(--accent-rose);">❌ Niet opnemen</div>
+          <div class="card-body">
+            <ul>
+              <li><strong>Brainstorms:</strong> Het "microfooneffect" remt spontaniteit en vrije associaties.</li>
+              <li><strong>Gevoelige gesprekken:</strong> HR-zaken, functioneringsgesprekken, conflicten en persoonlijke kwesties.</li>
+              <li><strong>Korte checks:</strong> Dagelijkse operationele stand-ups (overhead weegt niet op tegen de winst).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="banner amber">
+        <div class="banner-title">🏆 Gouden Regel (AVG)</div>
+        <div class="banner-text">Vraag <strong>altijd</strong> vooraf expliciet toestemming aan alle aanwezigen. Eén 'nee' = recorder uit en ouderwets typen!</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" id="slide-4">
+      <div class="header-area">
+        <div class="tag green">🏆 BEST PRACTICE VOOR PROFESSIONALS</div>
+        <h1>De 'Hybride Methode'</h1>
+        <div class="subtitle">De slimste combinatie van menselijke alertheid en AI-verwerkingskracht</div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">⏱️ 1. Tijdens het overleg</div>
+          <div class="card-body">
+            <ul>
+              <li>Schrijf louter <strong>tijdstempels</strong> en <strong>kernkeuzes</strong> op (de 'markers').</li>
+              <li>Houd je aandacht bij de discussie in plaats van koortsachtig letterlijk meepennen.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-cyan">
+          <div class="card-title">🤖 2. Na afloop met AI</div>
+          <div class="card-body">
+            <ul>
+              <li>Laat het model het transcript structuren en logisch ordenen.</li>
+              <li>Dwing vaste categorieën af: besluiten, actiepunten en openstaande vragen.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-green">
+          <div class="card-title">🔍 3. Gerichte check</div>
+          <div class="card-body">
+            <ul>
+              <li>Gebruik de audio louter om specifieke discussiepunten terug te luisteren waar twijfel over is.</li>
+              <li>Behaal 90% tijdwinst met 100% inhoudelijke controle.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="banner">
+        <div class="banner-title">⚠️ Waarschuwing</div>
+        <div class="banner-text">Vertrouw nooit blind op een 100% automatisch gegenereerd verslag zonder menselijke naloop.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" id="slide-5">
+      <div class="header-area">
+        <div class="tag">🛡️ PRIVACY & OPEN SOURCE</div>
+        <h1>Veilig & Lokaal Transcriberen</h1>
+        <div class="subtitle">Audio vertrouwelijk verwerken zonder externe cloudservers</div>
+      </div>
+      <div class="grid-3">
+        <div class="card border-green">
+          <div class="card-title">🔒 Waarom lokaal?</div>
+          <div class="card-body">
+            <ul>
+              <li>Audio verlaat nooit je eigen computer (geen risico op datalek).</li>
+              <li>100% AVG-compliant & geen training op jouw gevoelige data.</li>
+              <li><strong>De standaard:</strong> Whisper (OpenAI open source).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-cyan">
+          <div class="card-title">💻 Tools voor cursisten</div>
+          <div class="card-body">
+            <ul>
+              <li><strong>Mac:</strong> MacWhisper (gebruiksvriendelijk, supersnel via Apple Silicon / CoreML).</li>
+              <li><strong>Windows / Linux:</strong> Buzz (gratis desktop-app op basis van Whisper).</li>
+              <li><strong>Gevorderden:</strong> <code>whisper.cpp</code> (lichtgewicht C/C++, geen Python nodig).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-amber">
+          <div class="card-title">⚖️ Modelgrootte (NL)</div>
+          <div class="card-body">
+            <ul>
+              <li><code>small</code>: Snel voor simpele dialogen en duidelijke audio.</li>
+              <li><code>medium</code>: De ideale balans voor Nederlandse vaktermen, nuances en dialecten.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" id="slide-6">
+      <div class="header-area">
+        <div class="tag amber">✍️ EFFECTIEVE PROMPTS</div>
+        <h1>Vraag om Structuur, Niet om een Samenvatting!</h1>
+        <div class="subtitle">Hoe je voorkomt dat AI gaat zweven of cruciale besluiten overslaat</div>
+      </div>
+      <div class="grid-2">
+        <div class="card border-rose">
+          <div class="card-title" style="color:var(--accent-rose);">⚠️ De Valkuil: "Vat dit samen"</div>
+          <div class="card-body">
+            <ul>
+              <li>Leidt gegarandeerd tot vage, wollige teksten.</li>
+              <li>Cruciale deadlines en harde afspraken vallen weg.</li>
+              <li>Het taalmodel vult hiaten zelf in (hallucinatie).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card border-cyan">
+          <div class="card-title" style="color:var(--accent-cyan);">📋 Dwing vaste categorieën af</div>
+          <div class="card-body">
+            <ol style="margin-left:1.2rem; line-height:1.7;">
+              <li><strong>Kern & Doel:</strong> Max. 3 zinnen over de strekking.</li>
+              <li><strong>Besluitenlijst:</strong> Alleen punten met expliciet akkoord.</li>
+              <li><strong>Actiepunten:</strong> Tabel met <em>Wat | Wie | Wanneer/Deadline</em>.</li>
+              <li><strong>Openstaande vragen:</strong> Knelpunten & parkeervak.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="banner">
+        <div class="banner-title">🛡️ Veiligheidsinstructie</div>
+        <div class="banner-text">Voeg altijd toe: <em>"Verzin geen ontbrekende details; zet bij onbekende actiehouders of deadlines strikt 'N.t.b.'."</em></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" id="slide-7">
+      <div class="header-area">
+        <div class="tag purple">👁️ MENSELIJKE REGIE</div>
+        <h1>De 3 Naloop-Controles</h1>
+        <div class="subtitle">Blijf altijd de eindredacteur: de menselijke filter vóór distributie</div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">📌 1. Besluit vs. Idee</div>
+          <div class="card-body">
+            Zag de AI een losse brainstormsuggestie per abuis aan voor een formeel besluit? Check altijd of er daadwerkelijk akkoord was.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">👤 2. Actiehouder & Tijd</div>
+          <div class="card-body">
+            Is de taak aan de juiste persoon gekoppeld? En is de genoemde deadline daadwerkelijk afgesproken of door de AI verzonnen?
+          </div>
+        </div>
+        <div class="card border-green">
+          <div class="card-title">🔐 3. Privacy & Context</div>
+          <div class="card-body">
+            Verwijder gevoelige persoonsgegevens, privégesprekken of irrelevante context vóór opslag of verdere verspreiding.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide" id="slide-8">
+      <div class="header-area">
+        <div class="tag green">🛠️ HANDS-ON AAN DE SLAG</div>
+        <h1>Praktijkopdracht: Hands-on</h1>
+        <div class="subtitle">Oefen de volledige workflow van ruw gesprek naar betrouwbare notulen</div>
+      </div>
+      <div class="banner amber" style="margin-top:0; margin-bottom:1.5rem;">
+        <div class="banner-title">🎯 De Opdracht</div>
+        <div class="banner-text">Neem een audiofragment van 2 minuten op (of gebruik de verstrekte oefen-audio / eigen ruwe krabbels).</div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">🎙️ Stap 1: Transcribeer</div>
+          <div class="card-body">
+            Haal het audiofragment door een transcriptietool (MacWhisper of Buzz) of zet je ruwe steekwoorden klaar.
+          </div>
+        </div>
+        <div class="card border-cyan">
+          <div class="card-title">⚡ Stap 2: Pas Prompt Toe</div>
+          <div class="card-body">
+            Voer het transcript in een LLM in en pas het gestructureerde prompt-sjabloon toe met de 4 vaste categorieën.
+          </div>
+        </div>
+        <div class="card border-green">
+          <div class="card-title">🔍 Stap 3: Check & Fix</div>
+          <div class="card-body">
+            Vergelijk het AI-verslag met je eigen markers en filter eventuele hallucinaties direct weg!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <button class="btn" onclick="prevSlide()" title="Vorige dia (Pijltje links)">❮</button>
+    <div class="counter" id="counter">1 / 8</div>
+    <button class="btn" onclick="nextSlide()" title="Volgende dia (Pijltje rechts)">❯</button>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 8;
+
+    function showSlide(n) {
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      const active = document.getElementById(`slide-${n}`);
+      if (active) active.classList.add('active');
+      document.getElementById('counter').innerText = `${n} / ${totalSlides}`;
+      currentSlide = n;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>

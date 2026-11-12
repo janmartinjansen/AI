@@ -1,0 +1,27 @@
+Slide Nummer,Titel,Ondertitel / Categorie,Kerninhoud,Toelichting / Notities
+1,Titel & Introductie,Gespreksnotities & Vergaderingen Slim Notuleren met AI,"• Doel: Verantwoord, efficiënt en AVG-proof ruwe notities & audio omzetten in bruikbare notulen en actielijsten.
+• Balans: Tijdwinst behalen zonder controleverlies over feiten en privacy.
+• Kernvraag: Hoe voorkom je hallucinaties en hoe ga je slim om met opnames?","Welkom bij Les 2 van 'Aan de slag met AI'. Vandaag behandelen we de volledige keten: invoer, opname-ethiek, lokaal transcriberen, promptstructuur en menselijke verificatie."
+2,De Drie routes voor Invoer,Invoerstrategieën,"• Route 1: Eigen steekwoorden (De snelle route) - direct na afloop trefwoorden en halve zinnen invoeren; snelst, 100% privacy-proof.
+• Route 2: Dicteren / Transcriptie (De inhoudelijke route) - audio via Whisper omzetten naar platte tekst; maximale details en citaten.
+• Route 3: Live meeting-bots (De geautomatiseerde route) - koppeling in Teams/Zoom (Copilot, Fireflies); vraagt duidelijke organisatie-afspraken.","Vuistregel: Hoe gevoeliger de vergadering, hoe sneller je kiest voor Route 1 of veilige lokale transcriptie."
+3,Opnemen: Wel of Niet Doen?,Ethisch & praktisch afwegen,"• Wél opnemen: Formele vergaderingen (bestuur, ALV), complexe inhoud vol cijfers/vaktermen, of wanneer de notulist zelf actief deelneemt.
+• Niet opnemen: Brainstorms (microfooneffect remt spontaniteit), gevoelige gesprekken (HR, conflicten), korte operationele check-ins.
+• Gouden regel: Vraag altijd vooraf expliciet toestemming (AVG). Eén 'nee' = direct stoppen en met de hand typen!","Let op het psychologische effect van de microfoon. Audio is een persoonsgegeven onder de AVG."
+4,De 'Hybride Methode',Best Practice,"• Tijdens overleg: Schrijf alleen tijdstempels en kernkeuzes op (de 'markers').
+• Na afloop: Laat het taalmodel het transcript logisch structureren.
+• De check: Luister met de markers alleen die specifieke passages terug waar twijfel over is.","Vertrouw nooit blind op een 100% automatisch gegenereerd verslag zonder menselijke naloop. Jij blijft de eindredacteur."
+5,Veilig & Lokaal Transcriberen,Privacy & Open Source,"• Waarom lokaal? Audio verlaat je computer nooit (AVG-proof, geen modeltraining, geen datalek).
+• De standaard: Whisper (OpenAI opensource).
+• Tools voor cursisten: Mac: MacWhisper (Apple Silicon/CoreML); Windows/Linux: Buzz; Gevorderden: whisper.cpp.
+• Modelgroottes (NL): 'small' (snel voor alledaagse dialogen); 'medium' (sweet spot voor Nederlands, jargon en nuances).","Met lokale tools kunnen ook medische of vertrouwelijke directiegesprekken veilig worden omgezet."
+6,Prompting: Vraag om Structuur!,Effectieve Prompts,"• Valkuil: 'Vat dit samen' leidt tot vage teksten en gemiste deadlines/afspraken.
+• Dwing vaste categorieën af: 1. Kern & Doel (max 3 zinnen), 2. Besluitenlijst (expliciet akkoord), 3. Actiepunten (Tabel: Wat | Wie | Deadline), 4. Openstaande vragen (parkeervak).
+• Veiligheidsinstructie: 'Verzin geen ontbrekende details; zet bij onbekende actiehouders N.t.b.'.","Notulen draaien om besluiten en acties. De veiligheidsinstructie voorkomt 95% van alle hallucinaties."
+7,De 3 Naloop-Controles,Menselijke Regie,"• 1. Besluit vs. Idee: Zag de AI een brainstorm-suggestie aan voor een formeel besluit?
+• 2. Actiehouder & Deadline: Is de taak aan de juiste spreker gekoppeld en klopt de deadline?
+• 3. Privacy: Verwijder namen of gevoelige context vóór opslag en verspreiding.","AI is een fantastische eerste concept-schrijver, maar een slechte eindverantwoordelijke. Blijf zelf de kapitein."
+8,Praktijkopdracht,Hands-on aan de slag,"• Opdracht: Neem een fragment van 2 minuten op (of gebruik de oefen-audio / ruwe krabbels).
+• Stap 1: Haal het door een transcriptietool (of zet krabbels klaar).
+• Stap 2: Pas het gestructureerde 4-delige prompt-sjabloon toe in een LLM.
+• Stap 3: Vergelijk het verslag met de markers en corrigeer de hallucinaties.","Tijd: ca. 20-25 minuten. Cursisten kunnen in tweetallen werken. Bespreek plenair wie een hallucinatie heeft ontdekt."

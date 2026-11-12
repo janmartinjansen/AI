@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annuïteiten Hypotheek Berekenaar</title>
+  <style>
+    :root {
+      --primary: #15803d;
+      --primary-hover: #166534;
+      --primary-light: #ecfdf5;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e5e7eb;
+      --row-alt: #f9fafb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      padding: 2.5rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      color: var(--primary-hover);
+      margin-bottom: 0.35rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+    }
+
+    /* Formulier layout */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    input {
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+    }
+
+    .btn-calc {
+      width: 100%;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-calc:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Resultaten samenvatting */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .summary-box {
+      background: var(--primary-light);
+      border: 1px solid rgba(21, 128, 61, 0.2);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      text-align: center;
+    }
+
+    .summary-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      font-weight: 500;
+    }
+
+    .summary-value {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--primary-hover);
+    }
+
+    .summary-subtext {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    /* Tabel weergave */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background-color: var(--primary);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    th:first-child, td:first-child {
+      text-align: center;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: var(--row-alt);
+    }
+
+    tbody tr:hover {
+      background-color: #f0fdf4;
+    }
+
+    .footnote {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Annuïteiten Hypotheek Berekenaar</h1>
+    <p>Bereken eenvoudig uw maandlasten en bekijk het verloop van de schuld over de looptijd.</p>
+  </header>
+
+  <!-- Invoerformulier -->
+  <section class="card">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="principal">Hypotheekbedrag (€)</label>
+        <input type="number" id="principal" value="250000" min="1000" step="1000">
+      </div>
+      <div class="form-group">
+        <label for="interest">Rentepercentage per jaar (%)</label>
+        <input type="number" id="interest" value="3.8" min="0" max="25" step="0.05">
+      </div>
+      <div class="form-group">
+        <label for="years">Looptijd (jaren)</label>
+        <input type="number" id="years" value="30" min="1" max="40" step="1">
+      </div>
+    </div>
+    <button type="button" class="btn-calc" id="btnCalculate">Bereken Lasten &amp; Aflosschema</button>
+  </section>
+
+  <!-- Samenvatting -->
+  <section class="card" id="summaryCard">
+    <div class="summary-grid">
+      <div class="summary-box">
+        <div class="summary-label">Bruto Maandlast</div>
+        <div class="summary-value" id="grossMonthly">-</div>
+        <div class="summary-subtext">Vast bedrag gedurende de looptijd</div>
+      </div>
+      <div class="summary-box">
+        <div class="summary-label">Indicatieve Netto Maandlast (mnd 1)</div>
+        <div class="summary-value" id="netMonthly">-</div>
+        <div class="summary-subtext">Uitgaande van ~37% renteaftrek</div>
+      </div>
+      <div class="summary-box">
+        <div class="summary-label">Totale betaalde rente</div>
+        <div class="summary-value" id="totalInterest">-</div>
+        <div class="summary-subtext">Over de volledige looptijd</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Aflosschema Tabel -->
+  <section class="card">
+    <h2 style="font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--text-main);">Aflosschema per Jaar</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Jaar</th>
+            <th>Jaarlijkse Rente</th>
+            <th>Jaarlijkse Aflossing</th>
+            <th>Restschuld einde jaar</th>
+          </tr>
+        </thead>
+        <tbody id="scheduleBody">
+          <!-- Dynamisch gegenereerd -->
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">
+      * <em>Let op:</em> De indicatieve netto maandlast betreft de eerste maand en houdt rekening met een hypotheekrenteaftrek van 37%. Omdat het rentebestanddeel daalt, stijgt de netto maandlast geleidelijk over de jaren. Eventueel eigenwoningforfait is hierin buiten beschouwing gelaten.
+    </p>
+  </section>
+</div>
+
+<script>
+  // Nederlandse valuta opmaak (€ 1.234,56)
+  const euroFormat = new Intl.NumberFormat('nl-NL', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+
+  function berekenHypotheek() {
+    const P = parseFloat(document.getElementById('principal').value) || 0;
+    const annualRate = parseFloat(document.getElementById('interest').value) || 0;
+    const years = parseInt(document.getElementById('years').value, 10) || 0;
+
+    if (P <= 0 || years <= 0) {
+      alert('Vul alstublieft een geldig bedrag en looptijd in.');
+      return;
+    }
+
+    const totalMonths = years * 12;
+    const r = (annualRate / 100) / 12; // Maandelijkse rentefactor
+
+    // Bereken vaste bruto maandlast (annuïteitenformule)
+    let monthlyPayment = 0;
+    if (r > 0) {
+      monthlyPayment = P * (r * Math.pow(1 + r, totalMonths)) / (Math.pow(1 + r, totalMonths) - 1);
+    } else {
+      monthlyPayment = P / totalMonths;
+    }
+
+    // Eerste maand rente & indicatief netto (37% hypotheekrenteaftrek)
+    const firstMonthInterest = P * r;
+    const taxBenefitFirstMonth = firstMonthInterest * 0.37;
+    const netFirstMonth = monthlyPayment - taxBenefitFirstMonth;
+
+    // Tabel en totalen opbouwen op maandbasis
+    const tbody = document.getElementById('scheduleBody');
+    tbody.innerHTML = '';
+
+    let balance = P;
+    let totalInterestPaid = 0;
+
+    for (let yr = 1; yr <= years; yr++) {
+      let yearlyInterest = 0;
+      let yearlyPrincipal = 0;
+
+      for (let m = 1; m <= 12; m++) {
+        const interestPart = balance * r;
+        let principalPart = monthlyPayment - interestPart;
+
+        // Correctie voor de laatste termijn om afrondingsverschillen op te vangen
+        if (balance - principalPart < 0.001 || (yr === years && m === 12)) {
+          principalPart = balance;
+        }
+
+        yearlyInterest += interestPart;
+        yearlyPrincipal += principalPart;
+        balance -= principalPart;
+
+        if (balance < 0) balance = 0;
+      }
+
+      totalInterestPaid += yearlyInterest;
+
+      // Voeg rij toe aan tabel
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><strong>${yr}</strong></td>
+        <td>${euroFormat.format(yearlyInterest)}</td>
+        <td>${euroFormat.format(yearlyPrincipal)}</td>
+        <td><strong>${euroFormat.format(balance)}</strong></td>
+      `;
+      tbody.appendChild(row);
+    }
+
+    // Samenvatting updaten
+    document.getElementById('grossMonthly').textContent = euroFormat.format(monthlyPayment);
+    document.getElementById('netMonthly').textContent = euroFormat.format(netFirstMonth);
+    document.getElementById('totalInterest').textContent = euroFormat.format(totalInterestPaid);
+  }
+
+  // Event listener koppelen en eerste berekening direct uitvoeren
+  document.getElementById('btnCalculate').addEventListener('click', berekenHypotheek);
+  window.addEventListener('DOMContentLoaded', berekenHypotheek);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Praktijkopdrachten • Keuzemenu | Les 3: Persoonlijke Assistent & AI-Agenten</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <script src="auth.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-body: #334155;
+      --accent-blue: #2563eb;
+      --accent-blue-light: #eff6ff;
+      --accent-blue-border: #bfdbfe;
+      --accent-emerald: #059669;
+      --accent-emerald-light: #ecfdf5;
+      --accent-amber: #d97706;
+      --accent-amber-light: #fffbeb;
+      --accent-purple: #7c3aed;
+      --accent-purple-light: #f5f3ff;
+      --radius: 16px;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      background-image: radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.5) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(254, 243, 199, 0.4) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding: 2.5rem 1.25rem 4rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 860px;
+      width: 100%;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      color: var(--text-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+      border-color: var(--accent-blue-border);
+      transform: translateX(-3px);
+    }
+
+    header {
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: var(--accent-blue-light);
+      border: 1px solid var(--accent-blue-border);
+      color: var(--accent-blue);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 740px;
+      margin-bottom: 1.4rem;
+      line-height: 1.5;
+    }
+
+    /* Quick How-To Card */
+    .howto-card {
+      background: #ffffff;
+      border: 2px solid var(--accent-blue-border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.8rem;
+      margin-bottom: 2.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .howto-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .howto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .howto-item {
+      background: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .howto-item strong {
+      display: block;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    /* Exercise Cards */
+    .exercise-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2rem 2.2rem;
+      margin-bottom: 2.2rem;
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .exercise-card:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: #cbd5e1;
+    }
+
+    .badge-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .badge-blue { background: var(--accent-blue-light); color: var(--accent-blue); border: 1px solid var(--accent-blue-border); }
+    .badge-emerald { background: var(--accent-emerald-light); color: var(--accent-emerald); border: 1px solid #a7f3d0; }
+    .badge-purple { background: var(--accent-purple-light); color: var(--accent-purple); border: 1px solid var(--accent-purple-border); }
+    .badge-amber { background: var(--accent-amber-light); color: var(--accent-amber); border: 1px solid #fde68a; }
+
+    .exercise-card h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .goal-text {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.4rem;
+      line-height: 1.5;
+    }
+
+    .step-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .step-box h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .step-box p {
+      font-size: 0.92rem;
+      color: var(--text-body);
+      margin-bottom: 0.8rem;
+      line-height: 1.55;
+    }
+
+    .prompt-container {
+      position: relative;
+      margin-top: 8px;
+    }
+
+    pre.prompt-code {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 14px 16px;
+      padding-top: 14px;
+      border-radius: 10px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      border: 1px solid #334155;
+      margin: 0;
+    }
+
+    .btn-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .btn-copy.copied {
+      background: #059669;
+    }
+
+    .tip-banner {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 10px 14px;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.88rem;
+      color: #1e3a8a;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 680px) {
+      h1 { font-size: 2rem; }
+      body { padding: 1.5rem 1rem 3rem 1rem; }
+      .exercise-card { padding: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Nav -->
+    <div class="top-nav">
+      <a href="index.html" class="back-btn">← Terug naar Les 3 Overzicht</a>
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">MM2704 • School 7</span>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <div class="tag">🌐 Les 3 • Praktijkopdrachten</div>
+      <h1>Aan de slag met Websites Bouwen & AI-Agenten</h1>
+      <p class="subtitle">We beginnen allemaal met de Hoofdopdracht: jouw eigen website bouwen en live zetten met Netlify Drop! Daarna kies je een verdiepende agent-opdracht.</p>
+    </header>
+
+    <!-- Snelle Spiekkaart -->
+    <div class="howto-card">
+      <h3>💡 Hoe pak je het aan tijdens deze les?</h3>
+      <div class="howto-grid">
+        <div class="howto-item">
+          <strong>1. Hoofdopdracht voor iedereen</strong>
+          We bouwen allemaal in Deel 1 een eigen website over ons <strong>favoriete onderwerp</strong> en zetten hem gratis live via <em>app.netlify.com/drop</em>.
+        </div>
+        <div class="howto-item">
+          <strong>2. Kopieer met 1 klik</strong>
+          Klik bij de gewenste opdracht op <strong>"📋 Kopieer Prompt"</strong> en plak hem (<code>Ctrl+V</code> of <code>Cmd+V</code> of even tikken op je iPad) in ChatGPT of Gemini.
+        </div>
+        <div class="howto-item">
+          <strong>3. Stuur de AI bij</strong>
+          Is het resultaat nog niet naar je zin? Typ direct een vervolgopdracht (bijv. <em>"Maak de knoppen groen"</em> of <em>"Voeg nog een tip toe"</em>)!
+        </div>
+      </div>
+    </div>
+
+    <!-- HOOFDOPDRACHT: ZELF EEN WEBSITE BOUWEN & LIVE ZETTEN MET NETLIFY DROP -->
+    <div class="exercise-card" style="border-top: 4px solid var(--accent-purple); box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);">
+      <div class="badge-bar">
+        <span class="card-badge badge-purple" style="font-size:0.85rem; padding: 4px 12px;">🌟 Hoofdopdracht (Deel 1 • Voor Iedereen)</span>
+        <span style="font-size:0.82rem; font-weight:700; color:var(--accent-purple); background:var(--accent-purple-light); padding:3px 10px; border-radius:999px; border:1px solid var(--accent-purple-border);">Binnen 5 seconden live op internet!</span>
+      </div>
+      <h2>Bouw Jouw Eigen Website over je Favoriete Onderwerp (Live met Netlify Drop)</h2>
+      <p class="goal-text">
+        <strong>Het doel:</strong> Ervaren hoe laagdrempelig het bouwen van een website tegenwoordig is. Je kiest een onderwerp dat je na aan het hart ligt, laat ChatGPT of Gemini in 15 seconden één compleet bestandje (<code>index.html</code>) genereren, en sleept dat naar <strong>Netlify Drop</strong>. Binnen 5 seconden heb je een echte weblink om via WhatsApp naar familie of vrienden te sturen!
+      </p>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap 1: Kies je Favoriete Onderwerp & Kopieer de Toverprompt</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-website', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p style="margin-bottom: 0.6rem; color: var(--text-body);">
+          Bedenk waar jouw website over mag gaan. Een paar leuke ideeën:
+        </p>
+        <ul style="margin-bottom: 0.8rem; padding-left: 1.2rem; font-size: 0.92rem; color: var(--text-body); line-height: 1.5;">
+          <li>🌸 <strong>Hobby of Passie:</strong> Vogelspotten in Den Helder, tuinieren, natuurfotografie, bridgen of schilderen.</li>
+          <li>🏖️ <strong>Vakantie & Reizen:</strong> Wandelen op Texel, herinneringen aan Toscane, fietsen in Drenthe.</li>
+          <li>🥧 <strong>Recepten & Familie:</strong> Het geheime appeltaart-recept van oma, een familiestamboom of jubileum.</li>
+          <li>⛵ <strong>Club of Vereniging:</strong> Het buurtkoor, de bridgeclub of de wandelgroep.</li>
+        </ul>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-website">Maak voor mij een moderne, sfeervolle en complete website in het Nederlands over [VERVANG DIT DOOR JOUW ONDERWERP, bijv: Vogelspotten in de Duinen van Den Helder / Mijn Vakantie op Texel / De Geheime Recepten van Oma / Mijn Tuinier-passie].
+
+Zet ALLES (structuur, vormgeving en interactieve knoppen) in één enkel bestand genaamd index.html:
+- Een uitnodigende kop met navigatiebalk.
+- Een mooie banner met een pakkende titel en een korte inleiding.
+- Drie informatieve kaartjes met leuke tips, verhalen of weetjes over dit onderwerp.
+- Een knopje om direct contact op te nemen of een reactie achter te laten.
+- Zorg voor een prachtig, rustig kleurenschema dat perfect past bij het onderwerp.
+- Zorg dat de website automatisch schaalt voor zowel computers als smartphones (responsive).
+
+Geef mij alleen de complete HTML-code in één codeblok zodat ik die direct kan kopiëren!</pre>
+        </div>
+      </div>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap 2: Opslaan op je Computer & Lokaal Bewonderen</span>
+        </h4>
+        <ol style="padding-left: 1.4rem; font-size: 0.94rem; color: var(--text-body); line-height: 1.6;">
+          <li>Klik in ChatGPT of Gemini rechtsboven in het codeblok op <strong>"Kopieer code"</strong> (Copy code).</li>
+          <li>Maak een nieuw mapje aan op je computer (bijv. op je Bureaublad of in Documenten) en noem het: <strong>mijn-website</strong>.</li>
+          <li>Open <strong>Kladblok</strong> (Windows) of <strong>Teksteditor</strong> (Mac), plak de gekopieerde code erin en sla op als: <strong>index.html</strong> <em>(Let op bij Windows: kies bij 'Opslaan als type' voor 'Alle bestanden (*.*)')</em>.</li>
+          <li>Dubbelklik op <code>index.html</code> in je mapje: je browser opent hem meteen! Werkt zelfs offline zonder internet.</li>
+        </ol>
+      </div>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap 3: Binnen 5 Seconden Gratis Live met Netlify Drop</span>
+        </h4>
+        <ol style="padding-left: 1.4rem; font-size: 0.94rem; color: var(--text-body); line-height: 1.6;">
+          <li>Surf in je browser naar: <a href="https://app.netlify.com/drop" target="_blank" style="color:var(--accent-purple); font-weight:700;">app.netlify.com/drop</a>.</li>
+          <li>Pak het mapje <strong>mijn-website</strong> vast met de muis en sleep het in het grote gestippelde vak op het scherm: <em>"Drag and drop your site folder here"</em>.</li>
+          <li>Laat los! Binnen 3 tot 5 seconden verschijnt er een groen vinkje en jouw officiële weblink (bijv. <code>https://sunny-tulip-a482b.netlify.app</code> of je eigen gekozen naam zoals <code>https://janmartinhypo.netlify.app</code>).</li>
+          <li>Klik op de link: jouw website staat nu écht live op internet! Stuur de link via WhatsApp of mail naar jezelf of je naasten.</li>
+        </ol>
+        <div class="tip-banner" style="border-left-color: var(--accent-purple); background: var(--accent-purple-light);">
+          🎉 <strong>Trots momentje:</strong> Je bent nu officieel webbouwer en hebt zojuist je eigen site gepubliceerd!
+        </div>
+      </div>
+
+      <!-- EXTRA UITDAGING A: MEERDERE PAGINA'S KOPPELEN -->
+      <div class="step-box" style="border-left: 4px solid var(--accent-blue); background: #f8fafc; margin-top: 1.2rem;">
+        <h4>
+          <span>⭐ Extra Uitdaging A: Maak er een 2-Pagina Website van!</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-multipage', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p style="font-size:0.92rem; color:var(--text-body); margin-bottom: 0.6rem;">
+          Wil je een echte website met meerdere pagina's? Laat AI twee gekoppelde pagina's maken (<code>index.html</code> en <code>rekenaar.html</code>) die in hetzelfde mapje staan en via knoppen over en weer linken:
+        </p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-multipage">Ik wil een kleine website maken van 2 pagina's in hetzelfde mapje:
+
+1. index.html: de startpagina over [vul hier je onderwerp in] met een warme introductie, 2 fotokaarten en een duidelijke knop naar de tweede pagina: <a href="rekenaar.html">Naar de Rekentool →</a>.
+2. rekenaar.html: de tweede pagina met een handig interactief hulpmiddel en een duidelijke knop terug: <a href="index.html">← Terug naar Home</a>.
+
+Zorg voor een rustige moderne opmaak met CSS. Schrijf voor beide pagina's de complete code in twee aparte codeblokken zodat ik ze als losse bestandjes in hetzelfde mapje kan opslaan!</pre>
+        </div>
+      </div>
+
+      <!-- EXTRA UITDAGING B: JAVASCRIPT HYPOTHEEK BEREKENAAR -->
+      <div class="step-box" style="border-left: 4px solid var(--accent-emerald); background: #f8fafc; margin-top: 1.2rem;">
+        <h4>
+          <span>⚡ Extra Uitdaging B: JavaScript Annuïteiten Hypotheek Berekenaar</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-hypotheek', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p style="font-size:0.92rem; color:var(--text-body); margin-bottom: 0.6rem;">
+          Ervaar de rekenkracht van JavaScript zónder server! Deze interactieve tool berekent op basis van een leenbedrag en rentepercentage direct de maandlasten én bouwt een <strong>dynamische aflostabel voor jaar 1 t/m 30</strong>:
+        </p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-hypotheek">Maak voor mij in één enkel HTML-bestand (met ingesloten CSS en JavaScript) een moderne en overzichtelijke Annuïteiten Hypotheek Berekenaar in het Nederlands:
+
+1. Invoervelden:
+   - Hypotheekbedrag in euro's (bijv. standaard ingevuld € 250.000).
+   - Rentepercentage per jaar (bijv. standaard ingevuld 3.8%).
+   - Looptijd in jaren (standaard 30 jaar).
+
+2. Knoppen & Resultaat:
+   - Een duidelijke knop 'Bereken Lasten & Aflosschema'.
+   - Een samenvatting bovenaan met de bruto maandlast en een indicatieve netto maandlast.
+
+3. Dynamische Tabel (Jaar 1 t/m 30):
+   - Toon een tabel met voor elk van de 30 jaren: Jaar, Jaarlijkse Rente, Jaarlijkse Aflossing en Resterende Restschuld aan het eind van het jaar.
+   - Zorg voor mooie styling (groene accenten, afwisselende rijkleuren, nette valuta-opmaak met € en komma's).
+
+Zet alles in één enkel compleet codeblok zodat ik het direct kan opslaan als rekenaar.html of index.html!</pre>
+        </div>
+        <div class="tip-banner" style="border-left-color: var(--accent-emerald); background: var(--accent-emerald-light);">
+          💡 <strong>Tip voor Netlify:</strong> Sla dit bestandje op als <code>rekenaar.html</code> in hetzelfde mapje als je <code>index.html</code>. Sleep het hele mapje naar Netlify Drop: beide pagina's en de rekentool werken direct live op internet!
+          <div style="margin-top: 8px;">
+            <a href="https://janmartinhypo.netlify.app" target="_blank" style="display:inline-flex; align-items:center; gap:6px; font-size:0.88rem; font-weight:700; color:#059669; text-decoration:none;">🌐 Bekijk de live website van de docent (janmartinhypo.netlify.app) →</a>
+          </div>
+        </div>
+
+        <!-- DIFFERENTIATIE: 3 BONUS UITBREIDINGEN VOOR SNELLE CURSISTEN -->
+        <div style="margin-top: 1.4rem; padding: 1.2rem; background: #ffffff; border: 2px dashed #cbd5e1; border-radius: 12px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 8px;">
+            <h4 style="margin:0; font-size: 1.05rem; color: #0f172a; display:flex; align-items:center; gap: 8px;">
+              <span>🚀 Al snel klaar? 3 Leuke Bonus Uitbreidingen voor je Hypotheektool!</span>
+            </h4>
+            <span style="font-size: 0.78rem; font-weight: 700; background: #ecfdf5; color: #059669; padding: 3px 10px; border-radius: 999px; border: 1px solid #a7f3d0;">Voor snelle cursisten</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-body); margin-bottom: 1.1rem; line-height: 1.5;">
+            Je hoeft <strong>niet opnieuw te beginnen</strong>! Plak een van deze vervolgprompts gewoon in hetzelfde chatgesprek met ChatGPT of Gemini. AI bouwt de functie direct in je bestaande code in:
+          </p>
+
+          <!-- Bonus 1: Grafiekje -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem; flex-wrap:wrap; gap:6px;">
+              <strong style="color: #0f172a; font-size: 0.95rem;">📊 1. Grafiekje toevoegen (Gestapelde Staaf per Jaar)</strong>
+              <button class="btn-copy" onclick="copyPrompt('prompt-hypo-grafiek', this)">📋 Kopieer Vervolgprompt</button>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-body); margin-bottom: 0.6rem;">
+              Laat per jaar een visuele balk zien waarin je direct ziet hoe het aandeel rente (oranje) krimpt en het aandeel aflossing (groen) groeit.
+            </p>
+            <div class="prompt-container">
+              <pre class="prompt-code" id="prompt-hypo-grafiek">Pas mijn hypotheekcalculator aan en voeg een visueel staafgrafiekje toe:
+- Voeg in de tabel voor elk van de 30 jaren een extra kolom toe: 'Verhouding Rente / Aflossing'.
+- Toon in die kolom een mooie gestapelde horizontale balk (HTML/CSS balk):
+  * Het linker deel (oranje) stelt het rente-aandeel van dat jaar voor.
+  * Het rechter deel (groen) stelt het aflossingsdeel voor.
+- Zorg dat direct opvalt hoe de balk over 30 jaar verschuift van vooral rente naar vrijwel puur aflossing!
+Geef de volledige aangepaste HTML/CSS/JS code in één blok.</pre>
+            </div>
+          </div>
+
+          <!-- Bonus 2: Extra Aflossen -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem; flex-wrap:wrap; gap:6px;">
+              <strong style="color: #0f172a; font-size: 0.95rem;">💰 2. Extra Aflossen & Looptijdverkorting Berekenen</strong>
+              <button class="btn-copy" onclick="copyPrompt('prompt-hypo-extra-aflossen', this)">📋 Kopieer Vervolgprompt</button>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-body); margin-bottom: 0.6rem;">
+              Voeg een invoerveldje toe voor een extra aflossing en bereken direct hoeveel maanden eerder de hypotheek is afgelost én hoeveel rente bespaard wordt!
+            </p>
+            <div class="prompt-container">
+              <pre class="prompt-code" id="prompt-hypo-extra-aflossen">Breid mijn hypotheekcalculator uit met de mogelijkheid tot extra aflossen:
+1. Voeg een extra invoerveld toe: 'Jaarlijkse extra aflossing (€)' (standaard bijv. € 1.200 of € 0).
+2. Bereken en toon direct bovenaan:
+   - Hoeveel jaar en maanden de totale looptijd korter wordt (bijv. 'Hypotheek 4 jaar en 3 maanden eerder afgelost!').
+   - De totale rentebesparing in euro's (in een opvallend groen blokje).
+3. Laat de tabel dynamisch stoppen zodra de restschuld € 0 bereikt.
+Geef de volledige aangepaste code in één codeblok.</pre>
+            </div>
+          </div>
+
+          <!-- Bonus 3: Toggle Maand/Jaar -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem; flex-wrap:wrap; gap:6px;">
+              <strong style="color: #0f172a; font-size: 0.95rem;">📅 3. Toggle Maand- / Jaar-weergave (Switch)</strong>
+              <button class="btn-copy" onclick="copyPrompt('prompt-hypo-toggle', this)">📋 Kopieer Vervolgprompt</button>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-body); margin-bottom: 0.6rem;">
+              Voeg twee tabknoppen toe waarmee cursisten soepel kunnen schakelen tussen het compacte jaaroverzicht en een gedetailleerde 360-maandtabel.
+            </p>
+            <div class="prompt-container">
+              <pre class="prompt-code" id="prompt-hypo-toggle">Voeg boven de tabel van mijn hypotheekcalculator een schakelaar (toggle-knoppen) toe:
+- Knop 1: [📅 Jaaroverzicht (30 rijen)] (standaard geselecteerd).
+- Knop 2: [📆 Maandoverzicht (360 rijen)].
+- Als de bezoeker op Maandoverzicht klikt, toont JavaScript direct alle 360 maanden met maandnummer, maandrente, maandaflossing en restschuld.
+- Als er op Jaaroverzicht wordt geklikt, schakelt de tabel direct terug naar de jaartotalen.
+- Zorg voor een soepele wissel zonder de pagina te herladen.
+Geef de volledige aangepaste code in één codeblok.</pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 1 -->
+    <div class="exercise-card" style="border-top: 4px solid var(--accent-blue);">
+      <div class="badge-bar">
+        <span class="card-badge badge-blue">🗺️ Opdracht 1 • Reizen & Planning</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Voor o.a. Leon, Yvonne, Sjaan, Elly & Cees</span>
+      </div>
+      <h2>De Autonome Dagschema- & Reisplanner</h2>
+      <p class="goal-text">
+        <strong>Het doel:</strong> Ervaren hoe een AI-assistent niet zomaar een lijstje tips geeft, maar een realistisch tijdschema opbouwt inclusief afstanden, budget en openingstijden — én het complete schema direct omgooit als er plotseling een bui valt!
+      </p>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap A: De Opstartprompt (Doel + Grenzen)</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-1a', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p>Plak deze prompt in ChatGPT of Gemini:</p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-1a">Je bent mijn persoonlijke reisassistent. Ik wil een ontspannen dagje uit plannen naar Utrecht met mijn partner. 
+Houd rekening met de volgende wensen en kaders:
+- We komen om 10:00 uur aan op Utrecht Centraal en vertrekken weer om 17:30 uur.
+- We verplaatsen ons uitsluitend te voet vanaf het station.
+- We houden van historische monumenten, rustige hofjes en een leuk museum (bijv. Museum Catharijneconvent of Speelklok).
+- We willen tussen de middag een gezellige, betaalbare lunchplek (geen fastfood).
+- Ons totale budget voor de lunch en drankjes is maximaal € 50 samen.
+
+Maak een overzichtelijk uurschema (van 10:00 tot 17:30 uur) met wandeltijden, bezienswaardigheden en tips. 
+Stel mij eerst nog maximaal 2 korte verduidelijkende vragen als je nog iets wilt weten, of geef direct je beste voorstel!</pre>
+        </div>
+      </div>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap B: De Dynamische Bijsturing (Als het weer omslaat)</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-1b', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p>Typ in hetzelfde venster direct deze reactie:</p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-1b">Help, we kijken net op de buienradar: om 13:30 uur gaat het hevig regenen voor minstens anderhalf uur! 
+Bovendien blijkt één museum gesloten wegens een verbouwing. 
+Pas het uurschema direct aan: zorg dat we tijdens de regenbui overdekt binnen zijn en stel een leuk overdekt alternatief voor, zonder dat het schema in de soep loopt.</pre>
+        </div>
+        <div class="tip-banner">
+          💡 <strong>Let op:</strong> Kijk hoe slim de AI het schema herbouwt zónder dat jij alles opnieuw hoeft in te voeren!
+        </div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 2 -->
+    <div class="exercise-card" style="border-top: 4px solid var(--accent-emerald);">
+      <div class="badge-bar">
+        <span class="card-badge badge-emerald">🔍 Opdracht 2 • Onderzoek & Consumenten</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Voor o.a. Ben, Hilda, Annelies, Kees & Lennard</span>
+      </div>
+      <h2>De Diepgaande Onderzoeker (Deep Research & Testen)</h2>
+      <p class="goal-text">
+        <strong>Het doel:</strong> De AI niet één snelle vraag stellen, maar zelfstandig meerdere actuele bronnen laten doorzoeken, specificaties laten vergelijken en een overzichtelijke keuzetabel laten bouwen.
+      </p>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap A: De Consumentenvergelijking</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-2a', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p>Plak deze prompt in ChatGPT of Google Gemini:</p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-2a">Je bent een onafhankelijke consumentenonderzoeker. Ik oriënteer mij op de aankoop van een elektrische stadsfiets (lage instap) voor dagelijks gebruik en tochtjes door de duinen en polder (Noord-Holland).
+Vergelijk voor mij 3 populaire, goed verkrijgbare modellen van bekende merken (zoals Gazelle, Batavus of Sparta).
+
+Maak een duidelijke vergelijkingstabel met daarin:
+1. Merk en model
+2. Type motor (middenmotor) en motorkracht (Nm)
+3. Accucapaciteit en realistische actieradius
+4. Gewicht van de fiets
+5. Richtprijs (inclusief standaard accu)
+6. Het grootste voordeel én het belangrijkste minpunt volgens recente fietstesten (zoals ANWB of Consumentenbond)
+
+Sluit af met een kort en eerlijk koopadvies: welk model past het beste bij iemand die comfort en stabiliteit belangrijker vindt dan topsnelheid?</pre>
+        </div>
+      </div>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap B: De Factcheck & Kopen bij de Lokale Vakman</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-2b', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p>Vraag daarna om bronvermelding en praktische checkpunten:</p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-2b">Op welke bronnen of recente tests heb je deze minpunten en prijzen gebaseerd? Geef 3 concrete tips waar ik bij de proefrit bij de lokale fietsenmaker zelf met mijn eigen ogen op moet letten.</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 3 -->
+    <div class="exercise-card" style="border-top: 4px solid var(--accent-purple);">
+      <div class="badge-bar">
+        <span class="card-badge badge-purple">🗣️ Opdracht 3 • Talen & Gesprek</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Ideaal met de microfoon op iPad of laptop!</span>
+      </div>
+      <h2>De Interactieve Taalcoach & Rollenspel-Partner</h2>
+      <p class="goal-text">
+        <strong>Het doel:</strong> Ervaren hoe een AI-agent in een actieve rol stapt, geduldig reageert, je uitdaagt en vriendelijk verbetert — ideaal ter voorbereiding op vakantie of een lastig gesprek.
+      </p>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap A: Het Rollenspel met de Franse Ober</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-3a', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p>Plak deze prompt in ChatGPT of Google Gemini (vervang gerust door Spaans of Italiaans als je wilt):</p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-3a">Je bent een vriendelijke, geduldige ober in een gezellige bistro in Frankrijk. Ik ben een Nederlandse toerist en wil in het Frans een tafeltje voor twee vragen, een drankje bestellen en vragen naar de dagschotel.
+
+Spelregels voor ons rollenspel:
+1. Reageer steeds in eenvoudig, alledaags Frans met maximaal 2 korte zinnen tegelijk.
+2. Wacht na elke zin op mijn reactie.
+3. Als ik een taalfout maak, verbeter mij dan heel vriendelijk en kort tussen haakjes in het Nederlands [zoals dit], en speel daarna direct weer verder als de ober.
+4. Begin nu: heet mij welkom in je restaurant en vraag waarmee je me van dienst kunt zijn!</pre>
+        </div>
+        <div class="tip-banner">
+          🎙️ <strong>iPad / Tablet Tip:</strong> Tik op de microfoonknop op je schermtoetsenbord en spreek je antwoord in het Frans in. Zo oefen je handsfree je uitspraak!
+        </div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 4 -->
+    <div class="exercise-card" style="border-top: 4px solid var(--accent-amber);">
+      <div class="badge-bar">
+        <span class="card-badge badge-amber">📚 Opdracht 4 • Document-Agent</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Voor o.a. Kees, Ben, Yvonne & Elly</span>
+      </div>
+      <h2>NotebookLM: Jouw Eigen Document-Agent</h2>
+      <p class="goal-text">
+        <strong>Het doel:</strong> Ontdekken hoe je een AI-agent 100% vastpint op je eigen documenten (zonder dat hij fantaseert!), en luisteren naar een levendige tweestemmige AI Audio-podcast van je eigen tekst.
+      </p>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap A: Open NotebookLM & Voeg een bron toe</span>
+        </h4>
+        <p>
+          1. Ga naar <a href="https://notebooklm.google.com" target="_blank" style="color:var(--accent-blue); font-weight:700;">notebooklm.google.com</a> en log in met je gratis Google-account.<br>
+          2. Klik op <strong>"Nieuw notitieblok"</strong> (New Notebook).<br>
+          3. Upload een PDF van jezelf, óf gebruik ons NRC-bronartikel door de tekst uit <a href="../md_viewer.html?file=les3/Bron_NRC_Softwareagenten_2026.md" target="_blank" style="color:var(--accent-blue); font-weight:700;">Bron_NRC_Softwareagenten_2026.md</a> te kopiëren.
+        </p>
+      </div>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap B: Vragen stellen zonder hallucinaties</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-4b', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p>Typ in het chatvakje onderin NotebookLM:</p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-4b">Wat zijn volgens de hoogleraren in deze tekst de 3 grootste risico's van losgeslagen softwareagenten, en welke concrete oplossing stelt Virginia Dignum voor met haar pizza-voorbeeld?</pre>
+        </div>
+        <div class="tip-banner">
+          🎧 <strong>Bonus-magie:</strong> Klik rechtsboven in NotebookLM bij <em>Audio Overview</em> op <strong>"Generate"</strong>. Twee AI-stemmen maken binnen twee minuten een complete 'podcast' over jouw document!
+        </div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 5: BESTUUR & EXCEL -->
+    <div class="exercise-card" style="border-top: 4px solid #0284c7;">
+      <div class="badge-bar">
+        <span class="card-badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd;">🏛️ Opdracht 5 • Bestuur & Tabellen</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Voor Kees, Ben & Yvonne (1-op-1 naar Excel!)</span>
+      </div>
+      <h2>De Verenigings-Agent: Sponsorbrief & Begroting</h2>
+      <p class="goal-text">
+        <strong>Het doel:</strong> AI inzetten voor een formele bestuursaanvraag met strakke financiële kaders, én direct een tabel genereren die <strong>met één klik foutloos in Microsoft Excel of Google Sheets</strong> geplakt kan worden.
+      </p>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap A: De Aanvraagbrief mét Excel-Tabel</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-5a', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p>Plak deze prompt in ChatGPT of Google Gemini:</p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-5a">Je bent een ervaren fondsenwerver en adviseur voor verenigingen. Onze lokale vereniging in Noord-Holland bestaat binnenkort 50 jaar en wij willen een duurzaam jubileumproject organiseren (bijv. zonnepanelen op het clubgebouw of een opknapbeurt van het buitenterras met nieuw meubilair).
+
+Schrijf voor ons:
+1. Een overtuigende, professionele en warme aanvraagbrief (maximaal 1 A4) gericht aan een lokaal fonds of sponsor.
+2. Een overzichtelijke begrotingstabel in Markdown-formaat met 4 kolommen: 
+   - Post / Omschrijving
+   - Aantal / Eenheid
+   - Geschatte kosten (€ incl. btw)
+   - Toelichting / Prioriteit
+Zorg dat de totale begroting uitkomt op exact € 4.500 en sluit af met een totaalrij.
+
+BELANGRIJK: Maak de tabel zo schoon en strak opgemaakt dat ik deze direct kan selecteren en 1-op-1 kan plakken in Microsoft Excel of Google Sheets.</pre>
+        </div>
+        <div class="tip-banner">
+          📊 <strong>Excel-Tip:</strong> Selecteer straks de tabel in het antwoord, druk op <code>Ctrl+C</code> en plak hem in Excel met <code>Ctrl+V</code>. De kolommen en getallen vallen meteen netjes in aparte cellen!
+        </div>
+      </div>
+    </div>
+
+    <!-- OPDRACHT 6: ARIE'S VRAAG - INTERACTIEVE WEBPAGINA -->
+    <div class="exercise-card" style="border-top: 4px solid #ea580c;">
+      <div class="badge-bar">
+        <span class="card-badge" style="background:#ffedd5; color:#ea580c; border:1px solid #fed7aa;">🌐 Opdracht 6 • Arie's Vraag</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Voor Arie, Lennard & nieuwsgierigen</span>
+      </div>
+      <h2>Laat AI een Interactieve Webquiz Bouwen!</h2>
+      <p class="goal-text">
+        <strong>Het doel:</strong> Ontdekken hoe een AI-agent in 10 seconden niet alleen een tekstje schrijft, maar een <strong>compleet werkend interactief programmaatje met knopjes en een scoreteller</strong> voor je in elkaar zet.
+      </p>
+
+      <div class="step-box">
+        <h4>
+          <span>Stap A: De Webquiz-prompt</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-6a', this)">📋 Kopieer Prompt</button>
+        </h4>
+        <p>Plak deze prompt in ChatGPT of Google Gemini:</p>
+        <div class="prompt-container">
+          <pre class="prompt-code" id="prompt-6a">Je bent een interactieve webbouwer. Maak voor mij een leuke, vrolijke 'Noordkop & Den Helder Kennisquiz' van 3 multiplechoicevragen (over bijv. De Lange Jaap, Willemsoord en Texel).
+
+Bouw dit als een complete, zelfstandige interactieve webpagina in HTML en CSS:
+- Mooie grote knoppen waar je op kunt klikken.
+- Direct feedback als je op een antwoord klikt (groen voor goed, rood voor fout).
+- Een automatische scoreteller ("Je hebt 3 van de 3 vragen goed!").
+- Een knop "Opnieuw spelen".
+
+Zet alle code in één enkel blok zodat ik het direct kan kopiëren en in een browser kan bekijken!</pre>
+        </div>
+        <div class="tip-banner">
+          ✨ <strong>Magie:</strong> In ChatGPT kun je direct op <em>"Preview"</em> of <em>"Uitvoeren"</em> klikken om de quiz meteen live in je chatscherm te spelen!
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Jan Martin Jansen • Praktijkcursus "Aan de slag met AI" (MM2704) • School 7, Den Helder</p>
+    </footer>
+
+  </div>
+
+  <script>
+    function copyPrompt(elementId, button) {
+      const code = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = button.innerHTML;
+        button.innerHTML = "Gekopieerd! ✔️";
+        button.classList.add("copied");
+        setTimeout(() => {
+          button.innerHTML = originalText;
+          button.classList.remove("copied");
+        }, 2200);
+      }).catch(err => {
+        alert("Kopiëren mislukt. Selecteer de tekst handmatig.");
+      });
+    }
+  </script>
+
+</body>
+</html>

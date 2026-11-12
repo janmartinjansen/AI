@@ -525,19 +525,24 @@
       </div>
 
       <!-- Les 3 -->
-      <div class="lesson-card">
+      <div class="lesson-card active-lesson" onclick="checkAccessAndNavigate(event, 'les3/index.html')">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <div class="lesson-badge">Les 3</div>
-          <span style="font-size: 0.75rem; font-weight: 700; background: #f1f5f9; color: #64748b; padding: 3px 10px; border-radius: 999px;">In voorbereiding</span>
+          <span style="font-size: 0.75rem; font-weight: 700; background: #dbeafe; color: #1e40af; padding: 3px 10px; border-radius: 999px;">Nu beschikbaar</span>
         </div>
-        <h3>🤖 Persoonlijke Assistent, Agenten & Betrouwbaarheid</h3>
-        <p>Van slimme assistent tot zelfstandige AI-agent: ontdek hoe je AI veilig voor je laat plannen en werken.</p>
+        <h3>🌐 Zelf een Website Bouwen & 🤖 AI-Agenten</h3>
+        <p>Maak in enkele minuten je eigen interactieve website en ontdek hoe zelfstandige AI-agenten veilig voor je kunnen werken.</p>
         <ul>
-          <li>Wat zijn AI-agenten? (Van <em>Clippy</em> tot reisagent)</li>
-          <li>Het <em>Koning Midas</em>-probleem & digitale contracten</li>
-          <li>AI als persoonlijke planner en denk-assistent</li>
-          <li>Veiligheid, regie & <em>Question Zero</em></li>
+          <li><strong>Zelf een website bouwen:</strong> HTML, CSS, JavaScript (o.a. live hypotheekcalculator)</li>
+          <li><strong>Binnen 5 seconden live:</strong> Zonder gedoe online zetten met Netlify Drop</li>
+          <li><strong>Wat zijn AI-agenten?</strong> Van meedenkende assistent tot autonome reisplanner</li>
+          <li><strong>Veiligheid &amp; Regie:</strong> Het <em>Koning Midas</em>-probleem &amp; de 4 gouden regels</li>
         </ul>
+        <div class="btn-lesson-nav">
+          <button type="button" class="btn-lesson-primary" onclick="checkAccessAndNavigate(event, 'les3/index.html')">
+            Naar Les 3 (Presentatie & Opdrachten) →
+          </button>
+        </div>
       </div>
     </div>
 
@@ -588,7 +593,7 @@
         </div>
         <div class="modal-actions">
           <button type="button" class="btn-modal-secondary" onclick="closeAccessModal()">Annuleren</button>
-          <button type="submit" class="btn-modal-primary">Ontgrendelen & Naar Les 1 →</button>
+          <button type="submit" class="btn-modal-primary">Ontgrendelen & Doorgaan →</button>
         </div>
       </form>
 
