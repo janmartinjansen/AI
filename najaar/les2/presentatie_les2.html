@@ -84,12 +84,13 @@
       position: absolute;
       width: 95%;
       max-width: 1300px;
-      height: 88%;
-      max-height: 820px;
+      height: calc(88% - 25px);
+      max-height: 800px;
+      margin-bottom: 25px;
       display: none;
       flex-direction: column;
       justify-content: flex-start;
-      padding: 2rem 2.6rem;
+      padding: 2rem 2.6rem 5.5rem 2.6rem;
       background: rgba(15, 23, 42, 0.88);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
@@ -97,6 +98,14 @@
       backdrop-filter: blur(20px);
       animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       overflow-y: auto;
+    }
+
+    .slide::after {
+      content: "";
+      display: block;
+      min-height: 1.5rem;
+      width: 100%;
+      flex-shrink: 0;
     }
 
     .slide.active {
@@ -318,7 +327,7 @@
     /* Bottom Controls */
     .controls {
       position: fixed;
-      bottom: 18px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -403,7 +412,7 @@
 
     @media (max-width: 900px) {
       .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
-      .slide { padding: 1.5rem; }
+      .slide { padding: 1.5rem 1.5rem 5.5rem 1.5rem; }
       .slide-title { font-size: 1.6rem; }
     }
   </style>

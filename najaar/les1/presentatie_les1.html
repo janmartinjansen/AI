@@ -56,12 +56,13 @@
       position: absolute;
       width: 94%;
       max-width: 1240px;
-      height: 88%;
-      max-height: 760px;
+      height: calc(88% - 25px);
+      max-height: 740px;
+      margin-bottom: 25px;
       display: none;
       flex-direction: column;
       justify-content: flex-start;
-      padding: 2.5rem 3rem;
+      padding: 2.2rem 3rem 5.5rem 3rem;
       background: rgba(15, 23, 42, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
@@ -69,6 +70,14 @@
       backdrop-filter: blur(20px);
       animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       overflow-y: auto;
+    }
+
+    .slide::after {
+      content: "";
+      display: block;
+      min-height: 1.5rem;
+      width: 100%;
+      flex-shrink: 0;
     }
 
     .slide.active {
@@ -296,7 +305,7 @@
     /* Bottom Controls */
     .controls {
       position: fixed;
-      bottom: 20px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -382,7 +391,7 @@
     }
 
     @media (max-width: 900px) {
-      .slide { padding: 1.5rem; height: 92%; }
+      .slide { padding: 1.5rem 1.5rem 5.5rem 1.5rem; height: calc(92% - 20px); margin-bottom: 20px; }
       .slide-title { font-size: 1.6rem; }
       .grid-split, .grid-3, .grid-4 { grid-template-columns: 1fr; }
       .media-card img { max-height: 240px; }
